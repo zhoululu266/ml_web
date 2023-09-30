@@ -1,0 +1,110 @@
+.gl-box {
+  font-family: Source Han Sans CN;
+  font-size: 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+
+  .gl-title {
+    color: #fff;
+  }
+  .gl-block {
+    margin-top: 4%;
+    > .gl-title {
+      margin-bottom: 3%;
+      margin-left: 6%;
+      font-size: 13px;
+      font-family: PingFang SC;
+      font-weight: bold;
+      color: #ffffff;
+    }
+  }
+  .gl-box-con {
+    display: inline-block;
+    height: 74px;
+    text-align: center;
+    box-sizing: border-box;
+    background: #5dc7ff0c;
+ 
+
+    &:nth-child(2n + 1) {
+      width: 54%;
+    }
+    &:nth-child(2n) {
+      width: 46%;
+    }
+    .gl-title {
+      font-size: 16px;
+      font-weight: 400;
+      color: #bee1ff;
+    }
+  }
+
+  :last-child {
+    margin-right: 0;
+  }
+
+  .gl-box-con {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .gl-img-p {
+    height: 74px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .gl-img {
+      width: 84px;
+      margin-right: 9px;
+      height: 72px;
+      margin-top: -10px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+       .gl-img-1{
+      background: url("@/assets/images/gl-img-1.png") center no-repeat;
+    background-size: 100% 100%;
+    }
+    .gl-img-2,.gl-img-4{
+      background: url("@/assets/images/gl-img-2.png") center no-repeat;
+    background-size: 100% 100%;
+    }
+     .gl-img-3{
+      background: url("@/assets/images/gl-img-3.png") center no-repeat;
+    background-size: 100% 100%;
+    }
+
+
+    .gl-content {
+      display: flex;
+      flex-direction: column;
+
+      .gl-title {
+        font-size: 16px;
+        margin: 2px 0;
+        font-weight: 400;
+        color: #50bcff;
+        padding: 3px;
+        border-radius: 2px;
+        // background: linear-gradient(to right,
+        //     rgb(16, 157, 255, 0.2),
+        //     rgb(16 157 255 / 10%),
+        //     transparent);
+        text-align: left;
+      }
+
+      .gl-text {
+        font-size: 20px;
+        margin: 2px 0;
+        padding: 3px;
+        font-weight: 500;
+        color: #ffffff;
+        text-align: left;
+      }
+    }
+  }
+}
