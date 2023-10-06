@@ -1,36 +1,11 @@
-// let pieColors = ["#FFEA59", "#258CFF", "#01E4FF", "#FFEA59", "#FFEA59"];
-let pieColors = ["#FFEA59", "#258CFF", "#01E4FF", , "#96F159", "#96F159"];
-let richColor = {};
-let legendRich = {};
-pieColors.forEach((item, idx) => {
-  richColor[`color${idx}`] = { fontSize: 20, fontWeight: "bold", color: item };
-  legendRich[`color${idx}`] = { fontSize: 20, color: item, align: "center" };
-});
-export function getRich(pieColors, size) {
-  let result = {};
-  pieColors.forEach((_, i) => {
-    result[`a${i}`] = {
-      color: pieColors[i + 1],
-      fontSize: size,
-      fontFamily: "Source Han Sans CN",
-      fontWeight: 400,
-    };
-    result[`b${i}`] = {
-      color: pieColors[i + 1],
-      fontSize: size,
-      fontFamily: "Source Han Sans CN",
-      fontWeight: 400,
-      padding: [4, 0, 0, 0],
-    };
-  });
-  return result;
-}
+let pieColors = ["#FFEA59", "#258CFF", "#01E4FF", "#96F159"];
+
 export const option = {
   color: pieColors,
   grid: {
     left: 0,
     top: 0,
-    bottom: 10,
+    bottom: -10,
     right: 0,
     containLabel: true,
   },
@@ -83,7 +58,7 @@ export const option = {
     {
       name: "",
       type: "pie",
-      radius: ["10%", "11%"],
+      radius: ["9%", "10%"],
       center: ["50%", "50%"],
       roseType: "radius",
       label: {
@@ -118,7 +93,7 @@ export const option = {
           shape: {
             cx: api.getWidth() / 2,
             cy: api.getHeight() / 2,
-            r: (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.6,
+            r: (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.52,
           },
           style: {
             stroke: "rgba(0, 174, 255,0.5)",
@@ -140,7 +115,7 @@ export const option = {
           shape: {
             cx: api.getWidth() / 2,
             cy: api.getHeight() / 2,
-            r: (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.68,
+            r: (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.58,
           },
           style: {
             stroke: "rgba(0, 174, 255,0.8)",
@@ -162,7 +137,7 @@ export const option = {
           shape: {
             cx: api.getWidth() / 2,
             cy: api.getHeight() / 2,
-            r: (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.5,
+            r: (Math.min(api.getWidth(), api.getHeight()) / 2) * 0.46,
           },
           style: {
             stroke: "rgba(0, 174, 255,0.28)",
@@ -183,21 +158,17 @@ export const option = {
       zlevel: 10,
       label: {
         show: true,
-        fontSize: 10,
         align: "center",
         interval: 0,
-        formatter: function (params: any) {
-          const name = params.name;
-          const percent = params.value;
-          const index = params.dataIndex || 0;
-          return [`{a${index}|${name}}\n{b${index}|${percent}}`];
-        },
-        rich: getRich(pieColors, 10),
+        color: "#ffffff",
+        fontSize: 14,
+        fontFamily: "Source Han Sans CN",
+        fontWeight: 400,
       },
       data: [],
       labelLine: {
-        length: 24,
-        length2: 14,
+        length: 26,
+        length2: 16,
         lineStyle: {
           angle: 0, // 设置线的角度为 45 度
         },

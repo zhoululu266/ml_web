@@ -81,31 +81,37 @@ const getList = (code?: string) => {
   // });
 };
 
+const drawChart = () => {
+  if (document.getElementById("ajlxEchart")) {
+    setTimeout(() => {
+      const chartDom = document.getElementById("ajlxEchart")!;
+      myChart = echarts.init(chartDom);
+      myChart.setOption(option);
+      getList();
+      window.onresize = function () {
+        console.log("yjqkBox.value1", yjqkBox.value);
+
+        if (yjqkBox.value) {
+          chartHeight.value = `${yjqkBox.value!.offsetHeight}px`;
+        }
+        myChart.resize();
+      };
+      window.addEventListener("resize", () => {
+        console.log("yjqkBox.value", yjqkBox.value);
+        if (yjqkBox.value)
+          chartHeight.value = `${yjqkBox.value!.offsetHeight}px`;
+        if (myChart) {
+          myChart.resize();
+        }
+      });
+    }, 1000);
+  }
+};
 onMounted(() => {
-  // drawChart();
+  drawChart();
   // getYjListData();
   chartHeight.value = `${yjqkBox.value!.offsetHeight - 10}px`;
   console.log(" chartHeight.value ", chartHeight.value);
-
-  setTimeout(() => {
-    const chartDom = document.getElementById("ajlxEchart")!;
-    myChart = echarts.init(chartDom);
-    // // 图例点击方法 点击哪个显示哪个 其他隐藏
-    // myChart.on("legendselectchanged", (params: any) => {
-    //   const option: any = myChart.getOption();
-    //   const select_key = Object.keys(params.selected);
-
-    //   select_key.forEach((res) => {
-    //     option.legend[0].selected[res] = !params.selected[res];
-    //   });
-
-    //   option.series[0].data = chartObj.value[params.name];
-
-    //   myChart.setOption(option);
-    // });
-    myChart.setOption(option);
-    getList();
-  }, 1000);
 });
 </script>
 

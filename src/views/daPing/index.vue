@@ -2,10 +2,7 @@
   <div class="jwts">
     <div class="header">
       <!-- 穆棱市人民法院诉源治理数据平台 -->
-      <div class="time-box" @click="changeShow">
-        <div class="time">{{ nowTime }}</div>
-        <div class="day">{{ nowDate }}</div>
-      </div>
+      <TimeBox />
     </div>
     <div class="container" v-if="sy">
       <div class="mainItem"><Sleft /></div>
@@ -28,6 +25,7 @@ import Center from "./center.vue";
 import Sleft from "./Sleft.vue";
 import Sright from "./Sright.vue";
 import Scenter from "./Scenter.vue";
+import TimeBox from "@/components/timeBox.vue";
 
 const nowDate = ref<string>(moment().format("YYYY:MM:DD")); // 年月日
 const nowTime = ref<string>(moment().format("HH:mm:ss")); // 时分秒
