@@ -31,7 +31,7 @@
         align="left"
       >
         <template #default="scope">
-          {{ (scope.$index + 1).toString().padStart(2, "0") }}
+          {{ transNum(scope.$index + 1) }}
         </template>
       </el-table-column>
       <el-table-column
@@ -42,14 +42,33 @@
         :class="item.class"
         :show-overflow-tooltip="true"
       >
+        <template v-if="item.label == '负责地区'" #default="scope">
+          <!-- {{ LevelList[scope.row.dutyType] }} -->
+          {{ getArea(scope.row.area) }}
+        </template>
       </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { array } from "js-md5";
 import { ref, onMounted, watch } from "vue";
-
+const getArea = (data) => {
+  let dd;
+  if (typeof data === "string") {
+    dd = data;
+  } else {
+    const array = [];
+    data &&
+      data?.length > 0 &&
+      data.forEach((item) => {
+        array.push(item.parent_area.name);
+      });
+    dd = array.toString();
+  }
+  return dd;
+};
 interface Row {
   [key: string]: unknown;
 }
@@ -73,7 +92,13 @@ interface Props {
   indexSet: any;
   trHeight?: number;
 }
-
+const transNum = (num: number) => {
+  if (num > flagArr.value?.length) {
+    return (num - flagArr.value?.length).toString().padStart(2, "0");
+  } else {
+    return num.toString().padStart(2, "0");
+  }
+};
 const props = withDefaults(defineProps<Props>(), {
   tableData: () => {
     return [];
@@ -92,7 +117,6 @@ watch(
   (newVal: any) => {
     clearInterval(t.value);
     tableDataRef.value = [];
-    console.log(newVal.length * props.trHeight > height.value - props.trHeight);
 
     if (newVal.length * props.trHeight > height.value - props.trHeight) {
       tableDataRef.value = [...newVal, ...newVal];
@@ -108,11 +132,11 @@ watch(
 watch(
   () => props.tableData,
   (v: any) => {
+    clearInterval(t.value);
     flagArr.value = v;
   }
 );
 onMounted(() => {
-  console.log("onMounted--", props.indexSet);
 
   height.value = flexBottom.value.getBoundingClientRect().height;
   flagArr.value = props.tableData;
@@ -135,7 +159,7 @@ function infinitScroll() {
     t.value = setInterval(() => {
       // 元素自增距离顶部1像素
       a += 1;
-      table.value.setScrollTop(a);
+      if (table.value) table.value!.setScrollTop(a);
       // 判断元素是否滚动到底部(可视高度+距离顶部=整个高度)
       if (ss.clientHeight + ss.scrollTop == ss.scrollHeight) {
         // 重置table距离顶部距离

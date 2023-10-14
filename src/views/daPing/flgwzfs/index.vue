@@ -12,11 +12,11 @@
     <div class="pt-box">
       <div>
         <div class="tj"></div>
-        <p>人民调解平台</p>
+        <p>人民调解平台链接</p>
       </div>
       <div>
         <div class="yzs"></div>
-        <p>一站式平台</p>
+        <p>一站式平台链接</p>
       </div>
     </div>
   </div>
@@ -29,6 +29,20 @@ import * as echarts from "echarts";
 import moment from "moment";
 import { axiosPost } from "@/utils";
 import { noDataOption } from "../components/noDataOption";
+import { useMain } from "@/store";
+
+const mainStore = useMain();
+
+// 监听数据变化
+mainStore.$subscribe(
+  (_, state) => {
+    console.log("走访数量-------", state.pageList?.zfs);
+
+    const zfs = state.pageList?.zfs;
+    getList(zfs);
+  },
+  { detached: false }
+);
 
 interface listType {
   [key: string]: number[];
@@ -98,7 +112,7 @@ onMounted(() => {
       myChart.setOption(option);
     });
 
-    getList();
+    getList(mainStore.getPageList()?.zfs);
   }, 1000);
 });
 
@@ -106,7 +120,7 @@ onMounted(() => {
  * 获取警情趋势
  * @param code 组织机构code
  */
-const getList = (code?: string) => {
+const getList = (zfs) => {
   //   const url = `${$config.patrolApi}/statisticsManage/jqOverview`;
   //   const params = {
   //     orgCode: code,
@@ -119,68 +133,7 @@ const getList = (code?: string) => {
   //     .then((result2) => {
   const result2 = {
     code: 200,
-    data: [
-      {
-        name: "八面通镇",
-        zfs: "0",
-      },
-      {
-        name: "下城子镇",
-        zfs: "60",
-      },
-      {
-        name: "马桥河镇",
-        zfs: "60",
-      },
-      {
-        name: "兴源镇",
-        zfs: "70",
-      },
-      {
-        name: "穆棱镇",
-        zfs: "50",
-      },
-      {
-        name: "共和乡",
-        zfs: "60",
-      },
-      {
-        name: "河西镇",
-        zfs: "60",
-      },
-      {
-        name: "福禄乡",
-        zfs: "70",
-      },
-      {
-        name: "和平社区",
-        zfs: "50",
-      },
-      {
-        name: "曙光社区",
-        zfs: "60",
-      },
-      {
-        name: "头雁社区",
-        zfs: "50",
-      },
-      {
-        name: "红旗社区",
-        zfs: "60",
-      },
-      {
-        name: "沿河社区",
-        zfs: "60",
-      },
-      {
-        name: "民主社区",
-        zfs: "50",
-      },
-      {
-        name: "富家社区",
-        zfs: "60",
-      },
-    ],
+    data: zfs,
   };
   if (result2.code === 200) {
     const names: any = []; // X轴坐标名称
@@ -188,10 +141,12 @@ const getList = (code?: string) => {
 
     totalCount.value = [];
     // eslint-disable-next-line array-callback-return
-    result2.data.map((item: chartListType) => {
-      names.push(item.name);
-      zajq.push(item.zfs);
-    });
+    result2.data &&
+      result2.data?.length > 0 &&
+      result2.data.map((item: chartListType) => {
+        names.push(item.name);
+        zajq.push(item.case_number);
+      });
 
     chartObj.value = {
       法律顾问走访数: zajq,

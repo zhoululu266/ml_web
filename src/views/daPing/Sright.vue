@@ -42,16 +42,6 @@ const rsBox = ref<ComponentPublicInstance<HTMLDivElement>>();
  * @param code 组织机构code
  */
 const getList = (code?: string) => {
-  //   const url = `${$config.patrolApi}/statisticsManage/jqOverview`;
-  //   const params = {
-  //     orgCode: code,
-  //     // startTime: "2022-01-01 00:00:00",
-  //     // endTime: "2022-12-30 23:59:59",
-  //     startTime: `${times.startTime} 00:00:00`,
-  //     endTime: `${times.endTime} 23:59:59`,
-  //   };
-  //   axiosPost(url, params)
-  //     .then((result2) => {
   const result2 = {
     code: 200,
     data: [
@@ -71,24 +61,19 @@ const getList = (code?: string) => {
     });
 
     // option.angleAxis.data = names;
-    console.log("option.series", dotOption.series);
 
     dotOption.series[0].data = result2.data;
 
     if (myChart) myChart.setOption(dotOption, true);
     if (myChart1) myChart1.setOption(dotOption, true);
   } else if (myChart) myChart.setOption(noDataOption, true);
-  // })
-  // .catch(() => {
-  //   if (myChart) myChart.setOption(noDataOption, true);
-  // });
 };
 
 onMounted(() => {
   // drawChart();
   // getYjListData();
   chartHeight.value = `${rsBox.value!.offsetHeight - 10}px`;
-  console.log(" chartHeight.value ", chartHeight.value);
+  //console.log(" chartHeight.value ", chartHeight.value);
 
   setTimeout(() => {
     const chartDom = document.getElementById("rsEchart")!;

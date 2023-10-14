@@ -4,9 +4,15 @@
       <ModelTitle model-title="智慧党建" />
       <div class="aj-box-content">
         <div class="aj-box-left">
-          <div>党员总人数：<span>78人</span></div>
-          <div>储备党员：<span>15人</span></div>
-          <div>入党积极分子：<span>10人</span></div>
+          <div>
+            党员总人数：<span>{{ form.dyzrs }}人</span>
+          </div>
+          <div>
+            储备党员：<span>{{ form.cbdy }}人</span>
+          </div>
+          <div>
+            入党积极分子：<span>{{ form.rdjjfz }}人</span>
+          </div>
         </div>
         <div
           id="ajlxEchart"
@@ -30,7 +36,28 @@ import { option } from "./components/pieChart";
 import Center from "./center.vue";
 import Zhsp from "./leftChart/zhsp.vue";
 import Zhzx from "./leftChart/zhzx.vue";
+import { useMain } from "@/store";
 
+const mainStore = useMain();
+
+// // 监听数据变化
+// mainStore.$subscribe(
+//   (_, state) => {
+//     console.log("state", state.pageList);
+
+//     const zhdj = state.pageList?.zhdj;
+//     getList(zhdj);
+//     form.value = { dyzrs: zhdj.dyzrs, cbdy: zhdj.cbdy, rdjjfz: zhdj.rdjjfz };
+//   },
+//   { detached: false }
+// );
+
+const zhdjData = mainStore.setPageList?.zhdj;
+const form = ref({
+  dyzrs: 78 || zhdjData?.dyzrs,
+  cbdy: 15 || zhdjData?.cbdy,
+  rdjjfz: 10 || zhdjData?.zhdjData,
+});
 const yjqkBox = ref<ComponentPublicInstance<HTMLDivElement>>();
 const chartHeight = ref<string>();
 let myChart: echarts.ECharts;
@@ -39,23 +66,13 @@ let myChart: echarts.ECharts;
  * 获取警情趋势
  * @param code 组织机构code
  */
-const getList = (code?: string) => {
-  //   const url = `${$config.patrolApi}/statisticsManage/jqOverview`;
-  //   const params = {
-  //     orgCode: code,
-  //     // startTime: "2022-01-01 00:00:00",
-  //     // endTime: "2022-12-30 23:59:59",
-  //     startTime: `${times.startTime} 00:00:00`,
-  //     endTime: `${times.endTime} 23:59:59`,
-  //   };
-  //   axiosPost(url, params)
-  //     .then((result2) => {
+const getList = (zhdj: any) => {
   const result2 = {
     code: 200,
     data: [
-      { value: 4, name: "法庭党支部" },
-      { value: 6, name: "法警党支部" },
-      { value: 10, name: "机关党支部" },
+      { value: 4 || zhdj?.ftdzb || 0, name: "法庭党支部" },
+      { value: 6 || zhdj?.fjdzb || 0, name: "法警党支部" },
+      { value: 10 || zhdj?.jgdzb || 0, name: "机关党支部" },
     ],
   };
   if (result2.code === 200) {
@@ -69,16 +86,11 @@ const getList = (code?: string) => {
     });
 
     // option.angleAxis.data = names;
-    console.log("option.series", option.series);
 
     option.series[4].data = result2.data;
 
     if (myChart) myChart.setOption(option, true);
   } else if (myChart) myChart.setOption(noDataOption, true);
-  // })
-  // .catch(() => {
-  //   if (myChart) myChart.setOption(noDataOption, true);
-  // });
 };
 
 const drawChart = () => {
@@ -87,17 +99,14 @@ const drawChart = () => {
       const chartDom = document.getElementById("ajlxEchart")!;
       myChart = echarts.init(chartDom);
       myChart.setOption(option);
-      getList();
+      getList(mainStore.getPageList()?.zhdj);
       window.onresize = function () {
-        console.log("yjqkBox.value1", yjqkBox.value);
-
         if (yjqkBox.value) {
           chartHeight.value = `${yjqkBox.value!.offsetHeight}px`;
         }
         myChart.resize();
       };
       window.addEventListener("resize", () => {
-        console.log("yjqkBox.value", yjqkBox.value);
         if (yjqkBox.value)
           chartHeight.value = `${yjqkBox.value!.offsetHeight}px`;
         if (myChart) {
@@ -109,9 +118,8 @@ const drawChart = () => {
 };
 onMounted(() => {
   drawChart();
-  // getYjListData();
+
   chartHeight.value = `${yjqkBox.value!.offsetHeight - 10}px`;
-  console.log(" chartHeight.value ", chartHeight.value);
 });
 </script>
 

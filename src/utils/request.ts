@@ -10,14 +10,13 @@ const instance: AxiosInstance = axios.create({
 
 instance.interceptors.request.use(
   (request) => {
-    const token = sessionStorage.getItem("token");
-    if (token&&request.headers) {
-      request.headers.Authorization = token;
-    }
-     if (request.headers)request.headers["Content-Type"] = "application/json";
+    const token = "GNVDKar7VfmDPejiXmpOnQerxUmlpQJMS5rZk=";
+    request.headers.Authorization = token;
+    request.headers.token = token;
+    request.headers["Content-Type"] = "multipart/form-data";
     return request;
   },
-  (error) => Promise.reject(error),
+  (error) => Promise.reject(error)
 );
 
 instance.interceptors.response.use(
@@ -79,7 +78,7 @@ instance.interceptors.response.use(
 
       return Promise.reject(errorText);
     }
-  },
+  }
 );
 
 interface IFCadeMessage {
@@ -139,7 +138,10 @@ export const request = (url: string, options = {}) => {
  * @param {string} url - 请求的接口
  * @param {Object} params - 请求的参数
  */
-export const axiosGet = <T = any>(url: string, params = {}): Promise<IFAxiosResponse<T>> => {
+export const axiosGet = <T = any>(
+  url: string,
+  params = {}
+): Promise<IFAxiosResponse<T>> => {
   return new Promise((resolve, reject) => {
     instance
       .get(url, {
@@ -163,7 +165,7 @@ export const axiosGet = <T = any>(url: string, params = {}): Promise<IFAxiosResp
 export const axiosPost = <T = any>(
   url: string,
   params?: any,
-  options = {},
+  options = {}
 ): Promise<IFAxiosResponse<T>> => {
   return new Promise((resolve, reject) => {
     instance
@@ -186,11 +188,17 @@ export const axiosPost = <T = any>(
 export const axiosFormData = (url: string, params: FormData) => {
   return new Promise((resolve, reject) => {
     instance
-      .post(url, params, {
-        headers: {
-          "Content-Type": "multipart/form-data",
+      .post(
+        url,
+        {
+          token: "GNVDKar7VfmDPejiXmpOnQerxUmlpQJMS5rZk=",
         },
-      })
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
       .then((res) => {
         resolve(res);
       })

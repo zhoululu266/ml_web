@@ -88,28 +88,16 @@ const getList = (code?: string) => {
     });
 
     // option.angleAxis.data = names;
-    console.log("option.series", option.series);
+   
 
     option.series[4].data = result2.data;
 
     if (myChart) myChart.setOption(option, true);
   } else if (myChart) myChart.setOption(noDataOption, true);
-  // })
-  // .catch(() => {
-  //   if (myChart) myChart.setOption(noDataOption, true);
-  // });
+
 };
 const getBarList = (code?: string) => {
-  //   const url = `${$config.patrolApi}/statisticsManage/jqOverview`;
-  //   const params = {
-  //     orgCode: code,
-  //     // startTime: "2022-01-01 00:00:00",
-  //     // endTime: "2022-12-30 23:59:59",
-  //     startTime: `${times.startTime} 00:00:00`,
-  //     endTime: `${times.endTime} 23:59:59`,
-  //   };
-  //   axiosPost(url, params)
-  //     .then((result2) => {
+
   const result2 = {
     code: 200,
     data: [
@@ -138,22 +126,16 @@ const getBarList = (code?: string) => {
     const max = new Array(3).fill(total); 
      const maxdd = new Array(3).fill(total*0.998); 
     
-    console.log('max',max,total);
 
     barOption.yAxis[0].data = names;
-    console.log("option.series", barOption.series);
 
     barOption.series[0].data = zajq;
     barOption.series[1].data = maxdd;
     barOption.series[2].data = max;
-    console.log('barOption',barOption);
 
     if (myBarChart) myBarChart.setOption(barOption, true);
   } else if (myBarChart) myBarChart.setOption(noDataOption, true);
-  // })
-  // .catch(() => {
-  //   if (myChart) myChart.setOption(noDataOption, true);
-  // });
+
 };
 const drawChart = () => {
   if (document.getElementById("dyLeftEchart")) {
@@ -163,7 +145,6 @@ const drawChart = () => {
       myChart.setOption(option);
       getList();
       window.onresize = function () {
-        console.log("dyLeftBox.value1", dyLeftBox.value);
 
         if (dyLeftBox.value) {
           chartHeight.value = `${dyLeftBox.value!.offsetHeight}px`;
@@ -171,7 +152,7 @@ const drawChart = () => {
         myChart.resize();
       };
       window.addEventListener("resize", () => {
-        console.log("dyLeftBox.value", dyLeftBox.value);
+        
         if (dyLeftBox.value)
           chartHeight.value = `${dyLeftBox.value!.offsetHeight}px`;
         if (myChart) {
@@ -187,7 +168,6 @@ const drawChart = () => {
       myBarChart.setOption(barOption);
       getBarList();
       window.onresize = function () {
-        console.log("dyLeftBox.value1", dyLeftBarBox.value);
 
         if (dyLeftBarBox.value) {
           chartBarHeight.value = `${dyLeftBarBox.value!.offsetHeight}px`;
@@ -195,7 +175,7 @@ const drawChart = () => {
         myBarChart.resize();
       };
       window.addEventListener("resize", () => {
-        console.log("dyLeftBox.value", dyLeftBarBox.value);
+        
         if (dyLeftBox.value)
           chartBarHeight.value = `${dyLeftBarBox.value!.offsetHeight}px`;
         if (myBarChart) {
@@ -207,9 +187,8 @@ const drawChart = () => {
 };
 onMounted(() => {
   drawChart();
-  // getYjListData();
   chartHeight.value = `${dyLeftBox.value!.offsetHeight - 10}px`;
-  console.log(" chartHeight.value ", chartHeight.value);
+ 
 });
 </script>
 

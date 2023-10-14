@@ -25,7 +25,7 @@ interface Props {
 }
 let formatNumber = function (num: number) {
   let reg = /(?=(\B)(\d{3})+$)/g;
-  return num.toString().replace(reg, ",");
+  return num ? num.toString().replace(reg, ",") : 0;
 };
 const config = computed(() => [
   {

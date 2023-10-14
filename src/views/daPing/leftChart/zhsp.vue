@@ -29,6 +29,9 @@ import * as echarts from "echarts";
 import { noDataOption } from "../components/noDataOption";
 import upImg from "@/assets/images/up-icon.png";
 import downImg from "@/assets/images/down-icon.png";
+import { useMain } from "@/store";
+
+const mainStore = useMain();
 //智慧审批
 const chartHeight1 = ref<string>("297px");
 const jqysBox = ref<ComponentPublicInstance<HTMLDivElement>>();
@@ -48,7 +51,7 @@ const qwycOption = {
       let text = "";
       // eslint-disable-next-line @typescript-eslint/no-shadow
       let title = "";
-      console.log("val", val);
+
       let flag = val.name == "总收案数" || val.name == "收案数 ";
       if (flag) {
         let arr = [];
@@ -181,13 +184,13 @@ const seriesPieSet = {
   },
   data: [],
 };
-const getYjListData = () => {
+const getYjListData = (zhsp: any) => {
   const data = [
-    { name: "收案数", value: 30, up: true, num: 1.2 },
-    { name: "结案数", value: 70, up: true, num: 2.4 },
-    { name: "总收案数", value: 80, up: false, num: 2.1 },
-    { name: "总结案数", value: 100, up: true, num: 2.3 },
-    { name: "综合结案率", value: 190, up: false, num: 0.6 },
+    { name: "收案数", value: 30 || zhsp?.sal || 0, up: true, num: 1.2 },
+    { name: "结案数", value: 70 || zhsp?.jal || 0, up: true, num: 2.4 },
+    { name: "总收案数", value: 80 || zhsp?.zsal || 0, up: false, num: 2.1 },
+    { name: "总结案数", value: 100 || zhsp?.zjal || 0, up: true, num: 2.3 },
+    { name: "综合结案率", value: 190 || zhsp?.zhjal || 0, up: false, num: 0.6 },
   ];
   let total = 0;
   data.forEach((item) => {
@@ -203,8 +206,6 @@ const getYjListData = () => {
   ];
   const newArr = [];
   data.forEach((item, index) => {
-    console.log("baifenbi", item.value, (item.value / total) * 100);
-
     data[index].bfb = `${new Number((item.value / total) * 100).toFixed(0)}%`;
     newArr.push({
       ...seriesPieSet,
@@ -248,7 +249,7 @@ const getYjListData = () => {
     });
   });
   bfbArr.value = data.reverse();
-  console.log("bfbArr", bfbArr.value);
+
   optionData.value = data;
   qwycOption.series = newArr;
   if (myChart1) myChart1.setOption(qwycOption, true);
@@ -261,20 +262,14 @@ const drawChart = () => {
       myChart1 = echarts.init(chartDom);
       // qwycOption.xAxis[0].data = sevenDay.value;
       myChart1.setOption(qwycOption, true);
-      myChart1.on("legendselectchanged", (params) => {
-        // 监听图例选择变化事件
-        console.log("legendselectchanged", params); // params 中包含选中的图例信息
-      });
+      myChart1.on("legendselectchanged", (params) => {});
       window.onresize = function () {
-        console.log("jqysBox.value1", jqysBox.value);
-
         if (jqysBox.value) {
           chartHeight1.value = `${jqysBox.value!.offsetHeight / 3 - 90}px`;
         }
         myChart1.resize();
       };
       window.addEventListener("resize", () => {
-        console.log("jqysBox.value", jqysBox.value);
         if (jqysBox.value)
           chartHeight1.value = `${jqysBox.value!.offsetHeight / 3 - 90}px`;
         if (myChart1) {
@@ -284,9 +279,16 @@ const drawChart = () => {
     }, 1000);
   }
 };
+// 监听数据变化
+mainStore.$subscribe(
+  (_, state) => {
+    getYjListData(state.pageList?.zhsp);
+  },
+  { detached: false }
+);
 onMounted(() => {
   drawChart();
-  getYjListData();
+  getYjListData(mainStore.setPageList?.zhsp);
 });
 </script>
 

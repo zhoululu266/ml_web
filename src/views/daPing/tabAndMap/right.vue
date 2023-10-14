@@ -70,7 +70,6 @@ const color = [
 let data = [];
 let legendDate = [];
 let total = dataList.reduce((a, b) => {
-  console.log(a, b);
   return a + b.value * 1;
 }, 0);
 // 循环添加数据

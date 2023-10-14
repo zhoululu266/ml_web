@@ -1,11 +1,19 @@
 <!-- 地图 -->
 <template>
   <div class="jgmap">
+    <div
+      v-if="flag == 'center'"
+      class="back-btn"
+      @click="() => changeShowFun(false)"
+    >
+      返 回
+    </div>
     <div class="echars">
       <div class="time-box">
         <div class="time">{{}}</div>
         <div class="day">{{}}</div>
       </div>
+
       <div ref="container" class="map-container">
         <div id="mapEchartImg" class="map-chart"></div>
         <div id="mapEchart" class="map-chart"></div>
@@ -22,6 +30,7 @@
           <div>共享法庭</div>
         </div>
       </div>
+
       <div
         v-for="(item, i) in flagArr"
         :key="i"
@@ -52,10 +61,66 @@ import GreenIcon from "@/assets/images/green-bg.png";
 import BlueIcon from "@/assets/images/blue-bg.png";
 import StartIcon from "@/assets/images/start.png";
 import BigFlag from "@/assets/images/big-flag.png";
-const emit = defineEmits(["changeShowFun"]);
-const changeShowFun = () => {
-  emit("changeShowFun");
+import { useMain } from "@/store";
+import moment from "moment";
+
+const nowTime = ref<number>(); // 时分秒
+
+const updateTime = () => {
+  nowTime.value = moment().valueOf(); // 时分秒
 };
+
+const timer = setInterval(updateTime, 1000);
+
+const mainStore = useMain();
+const emit = defineEmits(["changeShowFun"]);
+const changeShowFun = (v) => {
+  emit("changeShowFun", v);
+};
+
+// 监听数据变化
+mainStore.$subscribe(
+  (_, state) => {
+    console.log("map-state", state.pageList.dtsj, {
+      a1: flagArr.value[0].name,
+      a2: flagArr.value[0].time,
+      a3: flagArr.value[0].light,
+      b1: flagArr.value[1].name,
+      b2: flagArr.value[1].time,
+      b3: flagArr.value[1].light,
+    });
+    if (state.pageList.dtsj.data) {
+      state.pageList.dtsj.data.forEach((item) => {
+        flagArr.value.forEach((falg) => {
+          if (falg.name == item) {
+            falg.time = state.pageList.dtsj.time;
+            falg.light = true;
+          }
+        });
+      });
+      setTimeout(() => {
+        console.log("setTimeout----");
+
+        const arr = flagArr.value;
+        arr.forEach((item: any) => {
+          if (item.time && nowTime.value - item.time >= 20000)
+            item.light = false;
+        });
+        console.log("arr", {
+          a1: arr[0].name,
+          a2: arr[0].time,
+          a3: arr[0].light,
+          b1: arr[1].name,
+          b2: arr[1].time,
+          b3: arr[1].light,
+        });
+        flagArr.value = arr;
+      }, 20000);
+    }
+  },
+  { detached: false }
+);
+
 const mapInterval = ref<string | number | undefined>();
 const container = ref<ComponentPublicInstance<HTMLDivElement>>(); // 容器Ref
 
@@ -63,16 +128,16 @@ const flagArr = ref([
   {
     top: 122,
     left: 378,
-    light: true,
+    light: false,
     value: 1,
-    name: "河西",
+    name: "河西乡",
   },
   {
     top: 153,
     left: 490,
     light: false,
     value: 5,
-    name: "八面通",
+    name: "八面通镇",
   },
   {
     top: 176,
@@ -86,35 +151,35 @@ const flagArr = ref([
     left: 531,
     light: false,
     value: 5,
-    name: "马桥河",
+    name: "马桥河镇",
   },
   {
     top: 225,
     left: 444,
     light: false,
     value: 5,
-    name: "下城子",
+    name: "下城子镇",
   },
   {
     top: 278,
     left: 404,
     light: false,
     value: 5,
-    name: "兴源",
+    name: "兴源镇",
   },
   {
     top: 390,
     left: 356,
     light: false,
     value: 5,
-    name: "穆棱",
+    name: "穆棱镇",
   },
   {
     top: 484,
     left: 391,
     light: false,
     value: 5,
-    name: "共和",
+    name: "共和乡",
   },
 ]);
 let myChart;
@@ -577,7 +642,7 @@ const mapData = (data: Record<string, unknown> | undefined) => {
   return axiosPost(api, data);
 };
 const getData = async (level?: string) => {
-  console.log("getData");
+  //console.log("getData");
 
   try {
     // const res = await mapData({ orgCode });
@@ -648,12 +713,19 @@ const getData = async (level?: string) => {
     console.error(error);
   }
 };
+interface Props {
+  flag: string;
+}
+
+const props = defineProps<{
+  flag: "";
+}>();
 /**
  * 请求组织机构
  */
 onMounted(async () => {
   await nextTick();
-
+  updateTime();
   const chartDom = document.getElementById("mapEchart")!;
 
   myChart = echarts.init(chartDom);
@@ -662,8 +734,8 @@ onMounted(async () => {
   myChart.setOption(option, true);
   myChart.off("click"); // 防止点击触发两次
   myChart.on("click", (param: { name: string }) => {
-    console.log("click-----", param);
-    changeShowFun();
+    //console.log("click-----", param);
+    if (props.flag === "Scenter") changeShowFun(true);
   });
   myChart.on("mouseover", () => {
     myChart.dispatchAction({
@@ -678,17 +750,16 @@ onMounted(async () => {
   });
   getData();
   mapInterval.value = setInterval(scroll, 60000);
-  setTimeout(() => {
-    const arr = flagArr.value;
-    arr.forEach((item: any) => (item.light = false));
-    console.log("arr", arr);
-    flagArr.value = arr;
-  }, 20000);
 });
+
 const scroll = () => {
   getData();
 };
-onUnmounted(() => clearInterval(mapInterval.value));
+
+onUnmounted(() => {
+  clearInterval(timer);
+  clearInterval(mapInterval.value);
+});
 </script>
 <style lang="scss">
 .jgmap {
@@ -763,6 +834,23 @@ onUnmounted(() => clearInterval(mapInterval.value));
     right: 12%;
     bottom: -7%;
     text-align: center;
+  }
+  .back-btn {
+    position: absolute;
+    top: 12%;
+    z-index: 999;
+    right: 10%;
+    color: #ffffff;
+    height: 36px;
+    line-height: 36px;
+    cursor: pointer;
+    text-align: center;
+    width: 80px;
+    font-weight: 500;
+    background-image: url("@/assets/images/map-card-bg.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
   }
   .card {
     position: absolute;

@@ -11,30 +11,6 @@
       <div class="year">
         <div>{{ nowYear }}年</div>
       </div>
-      <!-- <div class="quick">
-        <div>
-          <span
-            v-for="item in shortcuts.slice(0, 3)"
-            :key="item"
-            class="quickItem"
-            :class="{ yearActiveBg: yearActive === item }"
-            @click="quickClick(item)"
-            >{{ item }}</span
-          >
-        </div>
-
-        <div>
-          <span
-            v-for="item in shortcuts.slice(3, 7)"
-            :key="item"
-            class="quickItem"
-            :class="{ yearActiveBg: yearActive === item }"
-            @click="quickClick(item)"
-            >{{ item }}</span
-          >
-        </div>
-      </div>
-      <div class="line"></div> -->
       <div class="mount">
         <div
           v-for="item in 12"
@@ -81,106 +57,17 @@ const showDate = () => {
   // checkYear.value = parseInt(moment().format("YYYY"), 10);
 };
 
-// 切换年
-// const handleYear = (type: string) => {
-//   if (type === "next") {
-//     if (checkYear.value === nowYear.value) {
-//       return;
-//     } else {
-//       checkYear.value += 1;
-//       quickClick(yearActive.value, 1);
-//     }
-//   } else {
-//     checkYear.value -= 1;
-//     quickClick(yearActive.value, 1);
-//   }
-//   console.log(checkYear.value);
-// };
-
-// 测试用
-// const cTime = computed(() => {
-//   return checkYear.value;
-// });
-
 // 点击月份
 const handleMonth = (data: string) => {
   if (parseInt(data, 10) > nowmonth.value) {
     return;
   }
   month.value = parseInt(data, 10);
-  // yearActive.value = "";
-  // Object.assign(dateObj, {
-  //   startTime: moment(moment().year(nowYear.value))
-  //     .month(month.value - 1)
-  //     .startOf("month")
-  //     .valueOf(),
-  //   endTime: moment(moment().year(nowYear.value))
-  //     .month(month.value - 1)
-  //     .endOf("month")
-  //     .valueOf(),
-  // });
+
   close();
   useTab.jxkpDate = data;
 };
 
-// 快捷选择格式化日期
-// const quickClick = (item: string, type?: number) => {
-//   yearActive.value = item;
-//   console.log(item);
-//   month.value = 0;
-//   switch (item) {
-//     case "年度":
-//       Object.assign(dateObj, {
-//         startTime: moment().year(checkYear.value).startOf("year").valueOf(),
-//         endTime: moment().year(checkYear.value).endOf("year").valueOf(),
-//       });
-//       break;
-//     case "上半年":
-//       Object.assign(dateObj, {
-//         startTime: moment(moment().year(checkYear.value)).month(0).startOf("month").valueOf(),
-//         endTime: moment(moment().year(checkYear.value)).month(5).endOf("month").valueOf(),
-//       });
-//       break;
-//     case "下半年":
-//       Object.assign(dateObj, {
-//         startTime: moment(moment().year(checkYear.value)).month(6).startOf("month").valueOf(),
-//         endTime: moment(moment().year(checkYear.value)).month(11).endOf("month").valueOf(),
-//       });
-//       break;
-//     case "第一季度":
-//       Object.assign(dateObj, {
-//         startTime: moment(moment().year(checkYear.value)).month(0).startOf("month").valueOf(),
-//         endTime: moment(moment().year(checkYear.value)).month(2).endOf("month").valueOf(),
-//       });
-//       break;
-//     case "第二季度":
-//       Object.assign(dateObj, {
-//         startTime: moment(moment().year(checkYear.value)).month(3).startOf("month").valueOf(),
-//         endTime: moment(moment().year(checkYear.value)).month(5).endOf("month").valueOf(),
-//       });
-//       break;
-//     case "第三季度":
-//       Object.assign(dateObj, {
-//         startTime: moment(moment().year(checkYear.value)).month(6).startOf("month").valueOf(),
-//         endTime: moment(moment().year(checkYear.value)).month(8).endOf("month").valueOf(),
-//       });
-//       break;
-//     case "第四季度":
-//       Object.assign(dateObj, {
-//         startTime: moment(moment().year(checkYear.value)).month(9).startOf("month").valueOf(),
-//         endTime: moment(moment().year(checkYear.value)).month(11).endOf("month").valueOf(),
-//       });
-//       break;
-//     default:
-//       return "";
-//   }
-//   console.log(dateObj);
-//   if (type !== 1) {
-//     close();
-//   }
-// };
-
-// 关闭窗口
 const close = () => {
   isShowDate.value = false;
 };

@@ -26,15 +26,276 @@ import Sleft from "./Sleft.vue";
 import Sright from "./Sright.vue";
 import Scenter from "./Scenter.vue";
 import TimeBox from "@/components/timeBox.vue";
+import { axiosPost, axiosFormData } from "@/utils";
 
+import { useMain } from "@/store";
+import { getMap } from "echarts";
+const mainStore = useMain();
+const pageInterval = ref<string | number | NodeJS.Timeout | undefined>();
+const mapInterval = ref<string | number | NodeJS.Timeout | undefined>();
 const nowDate = ref<string>(moment().format("YYYY:MM:DD")); // 年月日
 const nowTime = ref<string>(moment().format("HH:mm:ss")); // 时分秒
 const sy = ref(true);
+const mainStoreData = mainStore.getPageList();
+
 const changeShow = () => {
-  console.log("changeShow", changeShow);
+  //console.log("changeShow", changeShow);
 
   sy.value = !sy.value;
 };
+const url = `${$config.api}`;
+const mapData = (data: Record<string, unknown> | undefined) => {
+  const api = `${url}/homePage/case/list`;
+  return axiosPost(api, data);
+};
+const pageData = ref();
+
+const baseFun = (url, key) => {
+  try {
+    axiosFormData(url).then((res: any) => {
+      mainStore.setPageList({ ...mainStoreData, [key]: res.data });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 【首页】执前案件和解数
+const getZxqhjsData = async () => {
+  const api = `${url}/homePage/case/执前案件和解数`;
+  // baseFun(api, "syzl");
+  try {
+    axiosFormData(api).then((res: any) => {
+      mainStore.setPageList({ ...mainStoreData, zxqhjs: res.number });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+//【首页】诉调对接分流率
+const getSsdjflData = async () => {
+  const api = `${url}/homePage/case/诉调对接分流率`;
+  // baseFun(api, "syzl");
+  try {
+    axiosFormData(api).then((res: any) => {
+      mainStore.setPageList({ ...mainStoreData, ssdjfl: res.number });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+//【首页】诉调对接数
+const getSsdjslData = async () => {
+  const api = `${url}/homePage/case/judge/field/number`;
+  // baseFun(api, "syzl");
+  try {
+    axiosFormData(api).then((res: any) => {
+      mainStore.setPageList({ ...mainStoreData, ssdjs: res.number });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+//【首页】溯源治理案件数量
+const getSyzlData = async () => {
+  const api = `${url}/homePage/case/number`;
+  // baseFun(api, "syzl");
+  try {
+    axiosFormData(api).then((res: any) => {
+      mainStore.setPageList({ ...mainStoreData, syzl: res.number });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+//【首页】法官/调解员成功案件数以及PV
+const getFgtjData = async () => {
+  const api = `${url}/homePage/case/successNumber`;
+  baseFun(api, "fgtj");
+  // try {
+  //   axiosFormData(api).then((res: any) => {
+  //     mainStore.setPageList({ ...mainStoreData, fgtj: res.data });
+  //   });
+  // } catch (error) {
+  //   console.error(error);
+  // }
+};
+//【首页】法官地区走访数量
+const getFgzfsData = async () => {
+  try {
+    const api = `${url}/homePage/judge/area/number`;
+    axiosFormData(api).then((res: any) => {
+      mainStore.setPageList({ ...mainStoreData, zfs: res.data });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+//【首页】案件类型以及数量
+const getAjlxyjslData = async () => {
+  try {
+    const api = `${url}/homePage/caseType/number`;
+    axiosFormData(api).then((res: any) => {
+      mainStore.setPageList({ ...mainStoreData, ajlxyjsl: res });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+//【首页】调解员
+const getTjyData = async () => {
+  try {
+    const api = `${url}/homePage/mediators/list`;
+    axiosFormData(api, {
+      token: "GNVDKar7VfmDPejiXmpOnQerxUmlpQJMS5rZk=",
+    }).then((res: any) => {
+      mainStore.setPageList({ ...mainStoreData, tjy: res });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+//【首页】调解案件列表
+const getSqtjyData = async () => {
+  try {
+    const api = `${url}/homePage/case/list`;
+    axiosFormData(api, {
+      token: "GNVDKar7VfmDPejiXmpOnQerxUmlpQJMS5rZk=",
+    }).then((res: any) => {
+      mainStore.setPageList({ ...mainStoreData, sqajxx: res });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+//【首页】法律顾问列表
+const getFlgwData = async () => {
+  try {
+    const api = `${url}/homePage/judge/list`;
+    axiosFormData(api, {
+      token: "GNVDKar7VfmDPejiXmpOnQerxUmlpQJMS5rZk=",
+    }).then((res: any) => {
+      mainStore.setPageList({ ...mainStoreData, flgw: res.data });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+const ddd = ref([]);
+
+// setTimeout(() => {
+//   ddd.value = [];
+// }, 1100);
+//【首页】地图书记
+const getMapData = async () => {
+  try {
+    const api = `${url}/newCaseNotice`;
+    axiosFormData(api).then((res: any) => {
+      const timestamp = new Date().getTime();
+
+      const timestamp1 = moment().valueOf();
+      console.log("setPageList", ddd.value, timestamp, timestamp1);
+
+      mainStore.setPageList({
+        ...mainStoreData,
+        dtsj: {
+          data: res.data,
+          time: moment().valueOf(),
+        },
+      });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+const getData = async (level?: string) => {
+  try {
+    const api = `${url}/newCaseNotice`;
+    axiosFormData(api, {
+      token: "GNVDKar7VfmDPejiXmpOnQerxUmlpQJMS5rZk=",
+    }).then((res: any) => {
+      const num = Math.floor(Math.random() * 90);
+      // 假数据返回
+      // pageData.value = {
+      //   ...mainStoreData,
+      //   zhjd: {
+      //     zb: num,
+      //     ajs: 100 - num,
+      //     nbry: num,
+      //     wbry: num,
+      //     jcjw: num,
+      //   },
+      //   //申请案件信息
+      //   // sqajxx: new Array(Math.floor(Math.random() * 12)).fill({
+      //   //   sqrxm: "张玲立" + num,
+      //   //   ajlx: "刑事案件",
+      //   //   sqsj: "2023-06-30 14:20",
+      //   //   sqnr: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      //   // }),
+      //   //智慧党建
+      //   zhdj: {
+      //     dyzrs: num,
+      //     cbdy: num,
+      //     rdjjfz: num,
+      //     jgdzb: num,
+      //     ftdzb: 100 - num / 2,
+      //     fjdzb: 100 - num / 2,
+      //   },
+      //   // 智慧审判
+      //   zhsp: {
+      //     sal: Math.floor(Math.random() * 90),
+      //     jal: Math.floor(Math.random() * 90),
+      //     zsal: Math.floor(Math.random() * 90),
+      //     zjal: Math.floor(Math.random() * 90),
+      //     zhjal: Math.floor(Math.random() * 90),
+      //   },
+      //   // 智慧执行
+      //   zhzx: {
+      //     sas: Array.from({ length: 4 }, () => Math.floor(Math.random() * 100)),
+      //     jas: Array.from({ length: 4 }, () => Math.floor(Math.random() * 100)),
+      //     jsl: Array.from({ length: 4 }, () => Math.floor(Math.random() * 100)),
+      //     zxwbl: Math.floor(Math.random() * 90),
+      //     szajzbl: Math.floor(Math.random() * 90),
+      //     zxdwl: Math.floor(Math.random() * 90),
+      //   },
+      // };
+      // mainStore.setPageList(pageData.value);
+      console.log("getData-index----", pageData.value);
+    });
+    // 接口报错
+  } catch (error) {
+    console.error(error);
+  }
+};
+const desFun = () => {
+  getData();
+
+  getSqtjyData();
+  getFlgwData();
+  getTjyData();
+  getAjlxyjslData();
+  getFgzfsData();
+  getFgtjData();
+  getZxqhjsData();
+  getSsdjflData();
+  getSsdjslData();
+  getSyzlData();
+};
+onMounted(() => {
+  // setTimeout(() => {
+  desFun();
+  getMapData();
+  // }, 6000);
+
+  pageInterval.value = setInterval(desFun, 60000);
+  mapInterval.value = setInterval(getMapData, 10000);
+});
+onUnmounted(() => {
+  clearInterval(mapInterval.value);
+  clearInterval(pageInterval.value);
+});
 </script>
 <style lang="scss" scoped>
 .time-box {

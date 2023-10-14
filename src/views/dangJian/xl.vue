@@ -16,16 +16,6 @@ let xlBarChart: echarts.ECharts;
 const xlOption = _.clone(option);
 // option.grid.left = "-10%";
 const getXlList = (code?: string) => {
-  //   const url = `${$config.patrolApi}/statisticsManage/jqOverview`;
-  //   const params = {
-  //     orgCode: code,
-  //     // startTime: "2022-01-01 00:00:00",
-  //     // endTime: "2022-12-30 23:59:59",
-  //     startTime: `${times.startTime} 00:00:00`,
-  //     endTime: `${times.endTime} 23:59:59`,
-  //   };
-  //   axiosPost(url, params)
-  //     .then((result2) => {
   const result = {
     code: 200,
     data: [
@@ -43,17 +33,11 @@ const getXlList = (code?: string) => {
     });
 
     xlOption.angleAxis.data = names;
-    console.log("option.series", xlOption.series);
 
-    console.log("xlOption----getXlList----", xlOption, xlBarChart);
     xlOption.series[4].data = result.data;
 
     if (xlBarChart) xlBarChart.setOption(xlOption, true);
   } else if (xlBarChart) xlBarChart.setOption(noDataOption, true);
-  // })
-  // .catch(() => {
-  //   if (myChart) myChart.setOption(noDataOption, true);
-  // });
 };
 
 const drawXlChart = () => {
@@ -64,15 +48,12 @@ const drawXlChart = () => {
       xlBarChart.setOption(xlOption);
       getXlList();
       window.onresize = function () {
-        console.log("dyXlBox.value1", dyXlBox.value);
-
         if (dyXlBox.value) {
           xlChartHeight.value = `${dyXlBox.value!.offsetHeight}px`;
         }
         xlBarChart.resize();
       };
       window.addEventListener("resize", () => {
-        console.log("dyXlBox.value", dyXlBox.value);
         if (dyXlBox.value)
           xlChartHeight.value = `${dyXlBox.value!.offsetHeight}px`;
         if (xlBarChart) {

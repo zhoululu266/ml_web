@@ -1,4 +1,4 @@
-import mitt from 'mitt';
+import mitt from "mitt";
 
 //外部参数定义
 interface ExternalConfig {
@@ -15,7 +15,7 @@ interface ExternalConfig {
 
 declare const $config: ExternalConfig;
 const emitter = mitt();
-// console.log('emitter',$config)
+
 export function useContext() {
   const url = $config;
   return { url, emitter };

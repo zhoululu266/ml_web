@@ -6,6 +6,7 @@
         @showSelectTitle="showSelectTitle"
         @selectData="getSelectData"
         @changeShowFun="changeShowFun"
+        flag="Scenter"
       />
     </div>
     <div class="mainItemor">
@@ -24,6 +25,9 @@ import jgmap from "./tabAndMap/jgmap.vue";
 import ScrollTable from "./components/scrollTable.vue";
 import moment from "moment";
 import ModelTitle from "./components/modelTitle.vue";
+import { useMain } from "@/store";
+
+const mainStore = useMain();
 
 const emit = defineEmits(["changeShow"]);
 const changeShowFun = () => {
@@ -43,20 +47,30 @@ const tabRef = ref();
 const showTab = ref<boolean>(true);
 
 const columns = ref([
-  { prop: "sqrxm", label: "申请人姓名", width: "200" },
-  { prop: "ajlx", label: "案件类型", width: "200" },
-  { prop: "sqsj", label: "申请时间", class: "yichang", width: "200" },
-  { prop: "sqnr", label: "申请内容" },
+  { prop: "case_number", label: "案件号", width: "140" },
+  { prop: "client_name", label: "申请人姓名", width: "80" },
+  { prop: "area_name", label: "纠纷发生地", class: "yichang", width: "180" },
+  { prop: "case_type", label: "案件类型", width: "200" },
+
+  { prop: "content", label: "申请内容" },
 ]);
 const tableData = ref(
   new Array(11).fill({
-    sqrxm: "张玲立",
-    ajlx: "刑事案件",
-    sqsj: "2023-06-30 14:20",
-    sqnr: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    case_number: "张玲立",
+    case_type: "刑事案件",
+    area_name: "2023-06-30 14:20",
+    content: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   })
 );
-
+// 监听数据变化
+mainStore.$subscribe(
+  (_, state) => {
+    if (tableData.value != state.pageList?.sqajxx) {
+      tableData.value = state.pageList?.sqajxx;
+    }
+  },
+  { detached: false }
+);
 const getTitle = (data: string) => {
   title.value = data;
   selectTitle.value = data;

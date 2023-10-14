@@ -17,16 +17,6 @@ let xlBarChart: echarts.ECharts;
 const xlOption = _.clone(lineOption);
 // option.grid.left = "-10%";
 const getDyrsList = (code?: string) => {
-  //   const url = `${$config.patrolApi}/statisticsManage/jqOverview`;
-  //   const params = {
-  //     orgCode: code,
-  //     // startTime: "2022-01-01 00:00:00",
-  //     // endTime: "2022-12-30 23:59:59",
-  //     startTime: `${times.startTime} 00:00:00`,
-  //     endTime: `${times.endTime} 23:59:59`,
-  //   };
-  //   axiosPost(url, params)
-  //     .then((result2) => {
   const result = {
     code: 200,
     data: [
@@ -52,10 +42,6 @@ const getDyrsList = (code?: string) => {
 
     if (xlBarChart) xlBarChart.setOption(xlOption, true);
   } else if (xlBarChart) xlBarChart.setOption(noDataOption, true);
-  // })
-  // .catch(() => {
-  //   if (myChart) myChart.setOption(noDataOption, true);
-  // });
 };
 
 const drawDyrsChart = () => {
@@ -66,15 +52,12 @@ const drawDyrsChart = () => {
       xlBarChart.setOption(xlOption);
       getDyrsList();
       window.onresize = function () {
-        console.log("dyDyrsBox.value1", dyDyrsBox.value);
-
         if (dyDyrsBox.value) {
           xlChartHeight.value = `${dyDyrsBox.value!.offsetHeight}px`;
         }
         xlBarChart.resize();
       };
       window.addEventListener("resize", () => {
-        console.log("dyDyrsBox.value", dyDyrsBox.value);
         if (dyDyrsBox.value)
           xlChartHeight.value = `${dyDyrsBox.value!.offsetHeight}px`;
         if (xlBarChart) {

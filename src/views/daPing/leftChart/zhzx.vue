@@ -25,24 +25,60 @@ import { ComponentPublicInstance } from "vue";
 import ModelTitle from "../components/modelTitle.vue";
 import * as echarts from "echarts";
 import { noDataOption } from "../components/noDataOption";
+import { useMain } from "@/store";
+
+const mainStore = useMain();
+const zhzx = mainStore.getPageList()?.zhzx;
+
+// 监听数据变化
+mainStore.$subscribe(
+  (_, state) => {
+    const zhzx = state.pageList?.zhzx;
+    tableData.value = zhzx;
+
+    xAxisData.value = [
+      {
+        name: "执行完毕率",
+        value: zhzx?.zxwbl || 0,
+      },
+      {
+        name: "首执案件终本率",
+        value: zhzx?.szajzbl || 0,
+      },
+      {
+        name: "执行的到位率",
+        value: zhzx?.zxdwl || 0,
+      },
+    ];
+    getYjListData([zhzx?.sas, zhzx?.jas, zhzx?.jsl]);
+  },
+  { detached: false }
+);
+
 const chartHeight1 = ref<string>("250px");
 const jqysBox = ref<ComponentPublicInstance<HTMLDivElement>>();
 let myChart1: echarts.ECharts;
 let myChart2: echarts.ECharts;
 let myChart: echarts.ECharts;
 const bfbArr = ref([]);
+
+const tableData = ref({
+  sas: zhzx?.sas || [],
+  jas: zhzx?.jas || [],
+  jsl: zhzx?.jsl || [],
+});
 const xAxisData = ref([
   {
     name: "执行完毕率",
-    value: 0,
+    value: zhzx?.zxwbl || 0,
   },
   {
     name: "首执案件终本率",
-    value: 0,
+    value: zhzx?.szajzbl || 0,
   },
   {
     name: "执行的到位率",
-    value: 0,
+    value: zhzx?.zxdwl || 0,
   },
 ]);
 let option = {
@@ -130,7 +166,7 @@ let option = {
       type: "bar",
       barWidth: "9",
       color: "#258CFF",
-      data: [3000, 2000, 1500, 2500],
+      data: [3000, 2000, 1500, 2500] || tableData.value.sal,
     },
 
     {
@@ -138,7 +174,7 @@ let option = {
       type: "bar",
       barWidth: "9",
       color: "#FFEA59",
-      data: [4000, 3800, 4200, 3800],
+      data: [4000, 3800, 4200, 3800] || tableData.value.jas,
     },
 
     {
@@ -146,41 +182,45 @@ let option = {
       type: "bar",
       barWidth: "9",
       color: "#59E2CB",
-      data: [2200, 2800, 3800, 2900],
+      data: [2200, 2800, 3800, 2900] || tableData.value.jal,
     },
   ],
 };
 const getYjListData = () => {
+  // console.log("getYjListData", data);
+
   const data = [
     [61, 61, 61, 61],
     [83, 83, 83, 83],
     [58, 58, 58, 58],
   ];
   let arr = [];
-  const newSeries = option.series;
+  if (data && data?.length > 0) {
+    const newSeries = option.series;
 
-  const total = data.reduce(
-    (acc, curr) => acc + curr.reduce((a, b) => a + b, 0),
-    0
-  );
-
-  // xAxisData
-  const xAxisDataNew = xAxisData.value;
-  data.forEach((item, i) => {
-    newSeries[i].data = item;
-    arr = new Array(item.length).fill("智慧执行");
-    const sum = item.reduce(
-      (accumulator, currentValue) => accumulator + currentValue,
+    const total = data.reduce(
+      (acc, curr) => acc + curr.reduce((a, b) => a + b, 0),
       0
     );
 
-    xAxisDataNew[i].value = ((sum / total) * 100).toFixed(2);
-  });
-  console.log("item", xAxisDataNew);
-  xAxisData.value = xAxisDataNew;
-  option.series = newSeries;
-  option.xAxis.data = arr;
-  if (myChart1) myChart1.setOption(option, true);
+    // xAxisData
+    const xAxisDataNew = xAxisData.value;
+    data.forEach((item, i) => {
+      newSeries[i].data = item;
+      arr = new Array(item.length).fill("智慧执行");
+      const sum = item.reduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+        0
+      );
+
+      xAxisDataNew[i].value = ((sum / total) * 100).toFixed(2);
+    });
+    //console.log("item", xAxisDataNew);
+    xAxisData.value = xAxisDataNew;
+    option.series = newSeries;
+    option.xAxis.data = arr;
+    if (myChart1) myChart1.setOption(option, true);
+  }
 };
 
 const drawChart = () => {
@@ -192,17 +232,17 @@ const drawChart = () => {
       myChart1.setOption(option, true);
       myChart1.on("legendselectchanged", (params) => {
         // 监听图例选择变化事件
-        console.log("legendselectchanged", params); // params 中包含选中的图例信息
+        //console.log("legendselectchanged", params); // params 中包含选中的图例信息
       });
       window.onresize = function () {
-        console.log("jqysBox.value1", jqysBox.value);
+        //console.log("jqysBox.value1", jqysBox.value);
 
         if (jqysBox.value)
           chartHeight1.value = `${jqysBox.value!.offsetHeight / 3 - 90}px`;
         myChart1.resize();
       };
       window.addEventListener("resize", () => {
-        console.log("jqysBox.value", jqysBox.value);
+        //console.log("jqysBox.value", jqysBox.value);
         if (jqysBox.value)
           chartHeight1.value = `${jqysBox.value!.offsetHeight / 3 - 90}px`;
         if (myChart1) {
@@ -214,7 +254,7 @@ const drawChart = () => {
 };
 onMounted(() => {
   drawChart();
-  getYjListData();
+  getYjListData(zhzx ? [zhzx?.sas, zhzx?.jas, zhzx?.jsl] : []);
 });
 </script>
 

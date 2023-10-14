@@ -8,7 +8,7 @@
       >
         <div class="herter_box">
           <!-- <div class="img_box"> -->
-          
+
           <!-- </div> -->
           <div class="title">穆棱</div>
           <div class="segmentation"></div>
@@ -152,7 +152,7 @@ function doUserMenuOpen() {
 }
 
 const handleMeneChange = (value: any) => {
-  console.log(value);
+  //console.log(value);
 };
 
 const doLogout = () => {
@@ -205,7 +205,7 @@ watch(
   () => router.currentRoute.value.fullPath,
   (newValue: any) => {
     const Route = router.currentRoute.value.fullPath.split("/")[1];
-    console.log("newValue", newValue, Route, route.query);
+    //console.log("newValue", newValue, Route, route.query);
     if (Route !== "home") {
       DefaultRoute.value = Route;
     } else {

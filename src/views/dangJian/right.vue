@@ -25,16 +25,6 @@ const chartHeight = ref<string>();
 let myChart: echarts.ECharts;
 
 const getList = (code?: string) => {
-  //   const url = `${$config.patrolApi}/statisticsManage/jqOverview`;
-  //   const params = {
-  //     orgCode: code,
-  //     // startTime: "2022-01-01 00:00:00",
-  //     // endTime: "2022-12-30 23:59:59",
-  //     startTime: `${times.startTime} 00:00:00`,
-  //     endTime: `${times.endTime} 23:59:59`,
-  //   };
-  //   axiosPost(url, params)
-  //     .then((result2) => {
   const result2 = {
     code: 200,
     data: [
@@ -54,16 +44,11 @@ const getList = (code?: string) => {
     });
 
     // option.angleAxis.data = names;
-    console.log("option.series", option.series);
 
     option.series[4].data = result2.data;
 
     if (myChart) myChart.setOption(option, true);
   } else if (myChart) myChart.setOption(noDataOption, true);
-  // })
-  // .catch(() => {
-  //   if (myChart) myChart.setOption(noDataOption, true);
-  // });
 };
 const drawChart = () => {
   if (document.getElementById("pieEchart")) {
@@ -73,15 +58,12 @@ const drawChart = () => {
       myChart.setOption(option);
       getList();
       window.onresize = function () {
-        console.log("pieRightBox.value1", pieRightBox.value);
-
         if (pieRightBox.value) {
           chartHeight.value = `${pieRightBox.value!.offsetHeight}px`;
         }
         myChart.resize();
       };
       window.addEventListener("resize", () => {
-        console.log("pieRightBox.value", pieRightBox.value);
         if (pieRightBox.value)
           chartHeight.value = `${pieRightBox.value!.offsetHeight}px`;
         if (myChart) {
@@ -93,10 +75,7 @@ const drawChart = () => {
 };
 onMounted(() => {
   drawChart();
-  // getYjListData();
   chartHeight.value = `${pieRightBox.value!.offsetHeight - 10}px`;
-
-  console.log(" chartHeight.value ", chartHeight.value);
 });
 </script>
 

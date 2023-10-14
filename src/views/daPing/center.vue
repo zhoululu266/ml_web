@@ -6,6 +6,7 @@
         @showSelectTitle="showSelectTitle"
         @selectData="getSelectData"
         @changeShowFun="changeShowFun"
+        flag="center"
       />
     </div>
     <div class="mainItemor">
@@ -19,8 +20,8 @@ import jgmap from "./tabAndMap/jgmap.vue";
 import Flgwzfs from "./flgwzfs/index.vue";
 import moment from "moment";
 const emit = defineEmits(["changeShow"]);
-const changeShowFun = () => {
-  emit("changeShow");
+const changeShowFun = (v) => {
+  emit("changeShow", v);
 };
 
 interface timeType {

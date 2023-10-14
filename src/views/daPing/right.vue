@@ -20,6 +20,46 @@
 <script setup lang="ts">
 import Tjajtj from "./tjajtj/index.vue";
 import ModelTitle from "./components/modelTitle.vue";
+import { useMain } from "@/store";
+
+const mainStore = useMain();
+
+// 监听数据变化
+mainStore.$subscribe(
+  (_, state) => {
+    const list = state.pageList;
+
+    listData.value = [
+      {
+        name: "诉源治理案件数",
+        key: "",
+        val: list?.["syzl"] || 0,
+      },
+      {
+        name: "诉调对接数",
+        key: "",
+        val: list?.["ssdjs"] || 0,
+      },
+      {
+        name: "诉调对接分流率",
+        key: "",
+        val: list?.["ssdjfl"] || 0,
+        dw: "%",
+      },
+      {
+        name: "执前案件和解数",
+        key: "",
+        val: list?.["zxqhjs"] || 0,
+      },
+      {
+        name: "法官面对面总数",
+        key: "",
+        val: "0",
+      },
+    ];
+  },
+  { detached: false }
+);
 
 const listData = ref([
   {
@@ -28,25 +68,25 @@ const listData = ref([
     val: "97259",
   },
   {
-    name: "源头化解纠纷数",
+    name: "诉调对接数",
     key: "",
     val: "858999",
   },
   {
-    name: "源头化解分流率",
+    name: "诉调对接分流率",
     key: "",
     val: "84",
     dw: "%",
   },
   {
-    name: "执前和解数",
+    name: "执前案件和解数",
     key: "",
     val: "84598",
   },
   {
     name: "法官面对面总数",
     key: "",
-    val: "84598",
+    val: "0",
   },
 ]);
 </script>

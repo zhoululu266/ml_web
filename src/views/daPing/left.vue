@@ -12,8 +12,8 @@
     <div class="table-box">
       <ModelTitle model-title="调解员" type="square" />
       <ScrollTable
-        :columns="columns"
-        :tableData="tableData"
+        :columns="columns1"
+        :tableData="tableDataTjy"
         :trHeight="36"
         :indexSet="{ label: '序号', width: '60px' }"
       />
@@ -21,7 +21,7 @@
     <div class="aj-box" ref="yjqkBox">
       <ModelTitle model-title="案件类型统计" type="square"
         ><div class="right">
-          案件类型总数<span>{{ 6000 }}</span>
+          案件类型总数<span>{{ total }}</span>
         </div></ModelTitle
       >
 
@@ -41,22 +41,65 @@ import * as echarts from "echarts";
 import { noDataOption } from "./components/noDataOption";
 import ScrollTable from "./components/scrollTable.vue";
 import { option, getRich } from "./components/pieChart";
+import { useMain } from "@/store";
+
+const mainStore = useMain();
+const mainStoreData = mainStore.getPageList();
+const total = ref();
 const columns = ref([
-  { prop: "xm", label: "姓名" },
-  { prop: "bm", label: "部门" },
-  { prop: "fzdq", label: "负责地区" },
-  { prop: "tjs", label: "调解数", class: "ttjs" },
+  { prop: "name", label: "姓名" },
+  { prop: "department", label: "部门" },
+  { prop: "area", label: "负责地区" },
+  { prop: "department", label: "调解数", class: "ttjs" },
 ]);
-const tableData = new Array(11).fill({
-  xm: "张琳描",
-  bm: "反腐一社",
-  fzdq: ["穆棱镇", "磨刀石镇"],
-  tjs: "2587",
-});
+const columns1 = ref([
+  { prop: "name", label: "姓名" },
+  { prop: "area", label: "负责地区" },
+  { prop: "case_number", label: "调解数", class: "ttjs" },
+]);
+const tableData = ref([]);
+const tableDataTjy = ref([]);
+const tableDataAjlx = ref([]);
+//   new Array(11).fill({
+//   xm: "张琳描",
+//   bm: "反腐一社",
+//   fzdq: ["穆棱镇", "磨刀石镇"],
+//   tjs: "2587",
+// });
+// 监听数据变化
+mainStore.$subscribe(
+  (_, state) => {
+    // console.log("法律顾问------------");
+    if (tableData.value != state.pageList?.flgw) {
+      tableData.value = state.pageList?.flgw;
+    }
+    if (tableDataTjy.value != state.pageList?.tjy) {
+      tableDataTjy.value = state.pageList?.tjy;
+    }
+    if (tableDataAjlx.value != state.pageList?.ajlxyjsl) {
+      tableDataAjlx.value = state.pageList?.ajlxyjsl;
+      getList(tableDataAjlx.value);
+    }
+  },
+  { detached: false }
+);
+
 const yjqkBox = ref<ComponentPublicInstance<HTMLDivElement>>();
 const chartHeight = ref<string>("300px");
 let myChart: echarts.ECharts;
-let pieColors = ["#FFEA59", "#258CFF", "#01E4FF", "#96F159", "#FFEA59"];
+let pieColors = [
+  "#FFEA59",
+  "#258CFF",
+  "#01E4FF",
+  "#96F159",
+  "#8ae308",
+  "#fb9a55",
+  "#ee3e3e",
+  "#FF7B00",
+  "#5FA7A4",
+  "#FFDC7B",
+  "#E37C3E",
+];
 let richColor = {};
 let legendRich = {};
 pieColors.forEach((item, idx) => {
@@ -65,8 +108,8 @@ pieColors.forEach((item, idx) => {
 });
 option.color = pieColors;
 option.series[4].labelLine = {
-  length: 40,
-  length2: 50,
+  length: 20,
+  length2: 20,
   lineStyle: {
     angle: 0, // 设置线的角度为 45 度
   },
@@ -76,14 +119,14 @@ option.series[4].labelLine = {
 };
 option.series[4].label = {
   ...option.series[4].label,
-  fontSize: 14,
-  rich: getRich(["#96F159", "#FFEA59", "#258CFF", "#01E4FF", "#96F159"], 14),
+  fontSize: 12,
+  rich: getRich(["#E37C3E", ...pieColors], 14),
 };
 /**
  * 获取警情趋势
  * @param code 组织机构code
  */
-const getList = (code?: string) => {
+const getList = (data) => {
   //   const url = `${$config.patrolApi}/statisticsManage/jqOverview`;
   //   const params = {
   //     orgCode: code,
@@ -94,27 +137,76 @@ const getList = (code?: string) => {
   //   };
   //   axiosPost(url, params)
   //     .then((result2) => {
+  let tt = 0;
+  data.forEach((item) => {
+    item.value = item.case_number;
+    tt += item.case_number || 0;
+  });
+  total.value = tt;
   const result2 = {
     code: 200,
-    data: [
-      {
-        value: 100,
-        name: "民事案件",
-      },
-      {
-        value: 70,
-        name: "行政案件",
-      },
+    // data: [
+    //   {
+    //     name: "家事纠纷",
+    //     case_number: 9,
+    //   },
+    //   {
+    //     name: "物业服务合同纠纷",
+    //     case_number: 2,
+    //   },
+    //   {
+    //     name: "合同纠纷",
+    //     case_number: 2,
+    //   },
+    //   {
+    //     name: "侵权纠纷",
+    //     case_number: 2,
+    //   },
+    //   {
+    //     name: "土地和相邻关系纠纷",
+    //     case_number: 0,
+    //   },
+    //   {
+    //     name: "劳动争议纠纷",
+    //     case_number: 0,
+    //   },
+    //   {
+    //     name: "涉企纠纷",
+    //     case_number: 0,
+    //   },
+    //   {
+    //     name: "涉未成年人校园纠纷",
+    //     case_number: 0,
+    //   },
+    //   {
+    //     name: "消费者权益保护纠纷",
+    //     case_number: 0,
+    //   },
+    //   {
+    //     name: "其他适宜前置调解的民商事纠纷",
+    //     case_number: 0,
+    //   },
+    // ],
+    data,
+    // [
+    //   {
+    //     value: 100,
+    //     name: "民事案件",
+    //   },
+    //   {
+    //     value: 70,
+    //     name: "行政案件",
+    //   },
 
-      {
-        value: 150,
-        name: "经济案件",
-      },
-      {
-        value: 50,
-        name: "刑事案件",
-      },
-    ],
+    //   {
+    //     value: 150,
+    //     name: "经济案件",
+    //   },
+    //   {
+    //     value: 50,
+    //     name: "刑事案件",
+    //   },
+    // ],
   };
   if (result2.code === 200) {
     const names: any = []; // X轴坐标名称
@@ -123,11 +215,12 @@ const getList = (code?: string) => {
     // eslint-disable-next-line array-callback-return
     result2.data.map((item: chartListType) => {
       names.push(item.name);
-      zajq.push(item.value);
+      zajq.push(item.case_number);
     });
+    // console.log("option---------", names, option);
 
-    // option.angleAxis.data = names;
-    console.log("option.series", option.series);
+    option.angleAxis.data = names;
+    //  //console.log("option.series", option.series);
 
     option.series[4].data = result2.data;
 
@@ -139,8 +232,8 @@ const getList = (code?: string) => {
   // });
 };
 onMounted(() => {
-  chartHeight.value = `${yjqkBox.value!.offsetHeight - 0}px`;
-  console.log(" chartHeight.value ", chartHeight.value);
+  chartHeight.value = `${yjqkBox.value!.offsetHeight - 40}px`;
+  //console.log(" chartHeight.value ", chartHeight.value);
 
   setTimeout(() => {
     const chartDom = document.getElementById("ajlxEchart")!;
@@ -159,7 +252,7 @@ onMounted(() => {
     //   myChart.setOption(option);
     // });
     myChart.setOption(option);
-    getList();
+    getList(mainStoreData?.ajlxyjsl);
   }, 1000);
 });
 </script>

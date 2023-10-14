@@ -33,10 +33,11 @@ defineProps({
   }
   .no-text {
     text-align: center;
-    color: #1ae8ff;
-    font-size: 18px;
-    position: absolute;
-    bottom: 62px;
+    color: #ffffff;
+
+    font-size: 16px;
+    // position: absolute;
+    bottom: 40%;
   }
 }
 </style>

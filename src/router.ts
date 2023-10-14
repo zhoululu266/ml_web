@@ -25,11 +25,7 @@ router.beforeEach(
     _from: any,
     next: (arg0?: string | undefined) => void
   ) => {
-    // if (to.path === "/login" ||to.path ==='/login/zhuce'||to.path ==='/login/wjmm') return next();
-    // const tokenStr = window.sessionStorage.getItem("token");
-    // if(!tokenStr) return next('/login')
     next();
-    // next();
   }
 );
 export default router;

@@ -14,6 +14,20 @@ import * as echarts from "echarts";
 import moment from "moment";
 import { axiosPost } from "@/utils";
 import { noDataOption } from "../components/noDataOption";
+import { useMain } from "@/store";
+
+const mainStore = useMain();
+
+// 监听数据变化
+// mainStore.$subscribe(
+//   (_, state) => {
+//     console.log("走访数量-------", state.pageList?.zfs);
+
+//     const zfs = state.pageList?.zfs;
+//     getList(zfs);
+//   },
+//   { detached: false }
+// );
 
 interface listType {
   [key: string]: number[];
@@ -25,7 +39,7 @@ interface timeType {
 
 interface chartListType {
   name: string;
-  zfs: number | string;
+  case_number: number | string;
 }
 
 const jdDfBox = ref<ComponentPublicInstance<HTMLDivElement>>();
@@ -68,7 +82,7 @@ onMounted(() => {
       myChart.setOption(option);
     });
 
-    getList();
+    getList(mainStore.getPageList()?.zfs);
   }, 1000);
 });
 
@@ -76,17 +90,7 @@ onMounted(() => {
  * 获取警情趋势
  * @param code 组织机构code
  */
-const getList = (code?: string) => {
-  //   const url = `${$config.patrolApi}/statisticsManage/jqOverview`;
-  //   const params = {
-  //     orgCode: code,
-  //     // startTime: "2022-01-01 00:00:00",
-  //     // endTime: "2022-12-30 23:59:59",
-  //     startTime: `${times.startTime} 00:00:00`,
-  //     endTime: `${times.endTime} 23:59:59`,
-  //   };
-  //   axiosPost(url, params)
-  //     .then((result2) => {
+const getList = (zfs) => {
   const result2 = {
     code: 200,
 
@@ -160,11 +164,12 @@ const getList = (code?: string) => {
 
     totalCount.value = [];
     // eslint-disable-next-line array-callback-return
-    result2.data.map((item: chartListType) => {
-      names.push(item.name);
-      zajq.push(item.zfs);
-      zajq1.push(item.zfs1);
-    });
+    result2.data?.length > 0 &&
+      result2.data.map((item: chartListType) => {
+        names.push(item.name);
+        zajq.push(item.zfs);
+        zajq1.push(item.zfs1);
+      });
 
     chartObj.value = {
       法律顾问走访数: zajq,
@@ -176,10 +181,6 @@ const getList = (code?: string) => {
     yjqkOption.series[1].data = zajq1;
     if (myChart) myChart.setOption(yjqkOption, true);
   } else if (myChart) myChart.setOption(noDataOption, true);
-  // })
-  // .catch(() => {
-  //   if (myChart) myChart.setOption(noDataOption, true);
-  // });
 };
 
 const yjqkOption = {

@@ -41,7 +41,6 @@ let data = [];
 let legendDate = [];
 export const changeDotDate = () => {};
 let total = dataList.reduce((a, b) => {
-  console.log(a, b);
   return a + b.value * 1;
 }, 0);
 // 循环添加数据

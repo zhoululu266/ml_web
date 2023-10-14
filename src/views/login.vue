@@ -138,7 +138,7 @@ const onLogin = async () => {
       confirmPassword: loginFrom.value.confirmPassword,
     })
     .then((res) => {
-      console.log("res", res);
+      //console.log("res", res);
       if (res.data.code !== 200) {
         ElMessage({
           type: "error",
@@ -182,7 +182,7 @@ const onGetVerificationCode = async () => {
       phone: loginFrom.value.phone,
     })
     .then((res) => {
-      console.log(res);
+      //console.log(res);
       if (res.data.code !== 200) {
         ElMessage({
           type: "error",
@@ -202,7 +202,7 @@ const onGetVerificationCode = async () => {
     });
 };
 const onSignIn = () => {
-  console.log("router", router.push);
+  //console.log("router", router.push);
 
   router.push({
     path: "/zhuce",

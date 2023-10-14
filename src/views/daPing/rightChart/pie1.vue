@@ -10,6 +10,18 @@
 import { noDataOption } from "../components/noDataOption";
 import * as echarts from "echarts";
 import { option } from "../components/pieChart";
+import { useMain } from "@/store";
+
+const mainStore = useMain();
+
+// 监听数据变化
+// mainStore.$subscribe(
+//   (_, state) => {
+//     console.log("state", state.pageList);
+//     getList(state.pageList?.zhjd);
+//   },
+//   { detached: false }
+// );
 const chartHeight = ref<string>("154px");
 let myChart: echarts.ECharts;
 
@@ -17,22 +29,12 @@ let myChart: echarts.ECharts;
  * 获取警情趋势
  * @param code 组织机构code
  */
-const getList = (code?: string) => {
-  //   const url = `${$config.patrolApi}/statisticsManage/jqOverview`;
-  //   const params = {
-  //     orgCode: code,
-  //     // startTime: "2022-01-01 00:00:00",
-  //     // endTime: "2022-12-30 23:59:59",
-  //     startTime: `${times.startTime} 00:00:00`,
-  //     endTime: `${times.endTime} 23:59:59`,
-  //   };
-  //   axiosPost(url, params)
-  //     .then((result2) => {
+const getList = (zhjd: any) => {
   const result2 = {
     code: 200,
     data: [
-      { value: 120, name: "案件数" },
-      { value: 40, name: "占比" },
+      { value: 120 || zhjd?.ajs || 0, name: "案件数" },
+      { value: 40 || zhjd?.zb || 0, name: "占比" },
       // { value: 16, name: "机关党支部" },
     ],
   };
@@ -47,42 +49,23 @@ const getList = (code?: string) => {
     });
 
     // option.angleAxis.data = names;
-    console.log("option.series", option.series);
 
     option.series[4].data = result2.data;
 
     if (myChart) myChart.setOption(option, true);
   } else if (myChart) myChart.setOption(noDataOption, true);
-  // })
-  // .catch(() => {
-  //   if (myChart) myChart.setOption(noDataOption, true);
-  // });
 };
 
 onMounted(() => {
   // drawChart();
   // getYjListData();
   //   chartHeight.value = `${yjqkBox.value!.offsetHeight - 40}px`;
-  console.log(" chartHeight.value ", chartHeight.value);
 
   setTimeout(() => {
     const chartDom = document.getElementById("pieEchart1")!;
     myChart = echarts.init(chartDom);
-    // // 图例点击方法 点击哪个显示哪个 其他隐藏
-    // myChart.on("legendselectchanged", (params: any) => {
-    //   const option: any = myChart.getOption();
-    //   const select_key = Object.keys(params.selected);
-
-    //   select_key.forEach((res) => {
-    //     option.legend[0].selected[res] = !params.selected[res];
-    //   });
-
-    //   option.series[0].data = chartObj.value[params.name];
-
-    //   myChart.setOption(option);
-    // });
     myChart.setOption(option);
-    getList();
+    getList(mainStore.getPageList()!.zhjd || {});
   }, 1000);
 });
 </script>
