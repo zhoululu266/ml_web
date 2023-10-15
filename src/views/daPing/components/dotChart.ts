@@ -76,7 +76,7 @@ for (let i = 0; i < dataList.length; i++) {
 export const dotOption = {
   color: color3,
   tooltip: {
-    trigger: "item",
+    trigger: "axis",
   },
   title: [
     {
@@ -96,13 +96,16 @@ export const dotOption = {
   ],
   series: [
     {
-      name: "Access From",
+      name: "占比2",
       type: "pie",
       radius: ["30%", "48%"],
       avoidLabelOverlap: false,
       itemStyle: {
-        borderColor: "#fff",
-        borderWidth: 0,
+        backgroundColor: "rgba(187,230,245,0.19)",
+        borderColor: "#7BC9FF",
+        textStyle: {
+          color: "#DFEEFF",
+        },
       },
       labelLine: {
         normal: {

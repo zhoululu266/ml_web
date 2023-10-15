@@ -102,13 +102,13 @@ const drawChart = () => {
       getList(mainStore.getPageList()?.zhdj);
       window.onresize = function () {
         if (yjqkBox.value) {
-          chartHeight.value = `${yjqkBox.value!.offsetHeight}px`;
+          chartHeight.value = `${yjqkBox.value!.offsetHeight - 30}px`;
         }
         myChart.resize();
       };
       window.addEventListener("resize", () => {
         if (yjqkBox.value)
-          chartHeight.value = `${yjqkBox.value!.offsetHeight}px`;
+          chartHeight.value = `${yjqkBox.value!.offsetHeight - 30}px`;
         if (myChart) {
           myChart.resize();
         }
@@ -119,7 +119,7 @@ const drawChart = () => {
 onMounted(() => {
   drawChart();
 
-  chartHeight.value = `${yjqkBox.value!.offsetHeight - 10}px`;
+  chartHeight.value = `${yjqkBox.value!.offsetHeight - 30}px`;
 });
 </script>
 
@@ -177,7 +177,7 @@ onMounted(() => {
     }
     .yjqk-chart {
       width: 100%;
-      // margin-left: 100px;
+      margin-left: 10px;
       margin-top: -50px;
       position: absolute;
       left: 78px;

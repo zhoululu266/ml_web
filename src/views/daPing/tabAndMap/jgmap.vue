@@ -1,40 +1,57 @@
 <!-- 地图 -->
 <template>
-  <div class="jgmap">
-    <div
-      v-if="flag == 'center'"
-      class="back-btn"
-      @click="() => changeShowFun(false)"
-    ></div>
-    <div class="echars">
-      <div class="time-box">
-        <div class="time">{{}}</div>
-        <div class="day">{{}}</div>
-      </div>
-
-      <div ref="container" class="map-container">
-        <div id="mapEchartImg" class="map-chart"></div>
-        <div id="mapEchart" class="map-chart"></div>
-      </div>
-      <div class="min-map"></div>
-      <div class="min-map-title">八面通镇</div>
-      <div class="card">
-        <div>
-          <div class="flag-icon"></div>
-          <div>党员天平工作站</div>
+  <div class="center-page">
+    <div class="jgmap">
+      <div
+        v-if="flag == 'center'"
+        class="back-btn"
+        @click="() => changeShowFun(false)"
+      ></div>
+      <div class="echars">
+        <div class="time-box">
+          <div class="time">{{}}</div>
+          <div class="day">{{}}</div>
         </div>
-        <div>
-          <div class="start"></div>
-          <div>共享法庭</div>
+
+        <div ref="container" class="map-container">
+          <div id="mapEchartImg" class="map-chart"></div>
+          <div id="mapEchart" class="map-chart"></div>
+        </div>
+        <div class="min-map"></div>
+        <div class="min-map-title">八面通镇</div>
+        <div class="card">
+          <div
+            @mouseover="showTooltip = true"
+            @mouseleave="showTooltip = false"
+          >
+            <div class="flag-icon"></div>
+            <div>党员天平工作站</div>
+            <div v-if="showTooltip" class="tooltip">
+              <p>党员天平工作站</p>
+            </div>
+          </div>
+
+          <div
+            @mouseover="showTooltipFt = true"
+            @mouseleave="showTooltipFt = false"
+          >
+            <div class="start"></div>
+            <div>共享法庭</div>
+            <div v-if="showTooltipFt" class="tooltip tooltip-ft">
+              <p>共享法庭</p>
+            </div>
+          </div>
         </div>
       </div>
-
+    </div>
+    <div class="flag-box">
       <div
         v-for="(item, i) in flagArr"
         :key="i"
         class="flag"
         :class="[{ 'light-flag': item.light }]"
         :style="{ top: item.top + 'px', left: item.left + 'px' }"
+        @click="() => item.light && flagClickFun(item)"
       >
         <template v-if="item.light">
           <!-- <span class="num">{{ item.value }}</span> -->
@@ -42,12 +59,18 @@
       </div>
     </div>
   </div>
+  <InfoModal
+    v-if="isShowModal"
+    :show="isShowModal"
+    :info-data="infoData"
+    @closeModal="closeModal"
+  />
 </template>
 <script lang="ts" setup>
 import { onMounted, ref, ComponentPublicInstance, onUnmounted } from "vue";
 import * as echarts from "echarts";
 import { axiosPost } from "@/utils";
-
+import InfoModal from "./info-modal.vue";
 import mapJson from "./mapJson.json";
 import jtImg from "@/assets/images/gjtb.png";
 import ptjtImg from "@/assets/images/tstb.png";
@@ -61,9 +84,10 @@ import StartIcon from "@/assets/images/start.png";
 import BigFlag from "@/assets/images/big-flag.png";
 import { useMain } from "@/store";
 import moment from "moment";
-
+const showTooltip = ref<boolean>(false);
+const showTooltipFt = ref<boolean>(false);
 const nowTime = ref<number>(); // 时分秒
-
+const infoData = ref({});
 const updateTime = () => {
   nowTime.value = moment().valueOf(); // 时分秒
 };
@@ -87,12 +111,15 @@ mainStore.$subscribe(
     //   b2: flagArr.value[1].time,
     //   b3: flagArr.value[1].light,
     // });
+    // console.log("state.pageList?.dtsj.info", state.pageList?.dtsj.info);
+
     if (state.pageList?.dtsj?.data) {
       state.pageList.dtsj.data.forEach((item) => {
-        flagArr.value.forEach((falg) => {
+        flagArr.value.forEach((falg, i) => {
           if (falg.name == item) {
             falg.time = state.pageList.dtsj.time;
             falg.light = true;
+            falg.info = state.pageList?.dtsj.info[i];
           }
         });
       });
@@ -101,7 +128,8 @@ mainStore.$subscribe(
 
         const arr = flagArr.value;
         arr.forEach((item: any) => {
-          if (item.time && nowTime.value - item.time >= 20000)
+          //10分钟
+          if (item.time && nowTime.value - item.time >= 600000)
             item.light = false;
         });
         // console.log("arr", {
@@ -121,7 +149,7 @@ mainStore.$subscribe(
 
 const mapInterval = ref<string | number | undefined>();
 const container = ref<ComponentPublicInstance<HTMLDivElement>>(); // 容器Ref
-
+// 红旗默认设置
 const flagArr = ref([
   {
     top: 122,
@@ -146,7 +174,7 @@ const flagArr = ref([
   },
   {
     top: 238,
-    left: 531,
+    left: 511,
     light: false,
     value: 5,
     name: "马桥河镇",
@@ -182,6 +210,7 @@ const flagArr = ref([
 ]);
 let myChart;
 import { nextTick } from "vue";
+import { info } from "console";
 const data = [
   {
     name: "下城子镇",
@@ -711,6 +740,16 @@ const getData = async (level?: string) => {
     console.error(error);
   }
 };
+const isShowModal = ref<boolean>(false);
+const flagClickFun = (item: any) => {
+  infoData.value = item;
+  isShowModal.value = true;
+  console.log("flagClickFun----------", item);
+};
+const closeModal = () => {
+  isShowModal.value = false;
+  // infoData.value = {};
+};
 interface Props {
   flag: string;
 }
@@ -760,10 +799,80 @@ onUnmounted(() => {
 });
 </script>
 <style lang="scss">
-.jgmap {
+.center-page {
   width: 100%;
   height: calc(100% - 10px);
   position: relative;
+  .tooltip {
+    position: absolute;
+    top: 0; // 调整距离顶部的位置
+    left: 100%;
+    z-index: 100;
+    font-size: 18px;
+    font-family: Source Han Sans CN;
+    font-weight: 400;
+    padding: 12px 24px;
+    color: #ffffff;
+    width: 246px;
+    margin-left: 24px;
+    height: 152px;
+    background: #194574eb;
+    border: 1px solid #0196ff;
+    border-radius: 8px;
+  }
+  .tooltip-ft {
+    top: 42px; // 调整距离顶部的位置
+  }
+}
+.flag-box {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  .flag {
+    background-image: url("@/assets/images/qi.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    width: 24px;
+    height: 30px;
+    position: absolute;
+    z-index: 99;
+  }
+  .light-flag {
+    width: 40px;
+    height: 50px;
+    z-index: 99;
+    position: absolute;
+    background-image: url("@/assets/images/big-qi.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    cursor: pointer;
+    -webkit-animation-name: scaleDraw; /*关键帧名称*/
+    -webkit-animation-timing-function: ease-in-out; /*动画的速度曲线*/
+    -webkit-animation-iteration-count: infinite; /*动画播放的次数*/
+    -webkit-animation-duration: 5s; /*动画所花费的时间*/
+    .num {
+      color: #ffffff;
+      font-size: 7px;
+      font-weight: 500;
+      margin-top: 7px;
+      margin-left: 6px;
+      border-radius: 8px;
+      text-align: center;
+      display: block;
+      width: 18px;
+      height: 18px;
+      line-height: 16px;
+    }
+  }
+}
+.jgmap {
+  width: 100%;
+  // height: calc(100% - 10px);
+  height: 100%;
+  // position: relative;
   margin-top: -26px;
   #mapEchartImg {
     background-image: url("@/assets/images/big-map.png");
@@ -854,8 +963,10 @@ onUnmounted(() => {
     position: absolute;
     top: 13%;
     left: 7%;
+    z-index: 999;
 
     > div {
+      cursor: pointer;
       background-image: url("@/assets/images/map-card-bg.png");
       background-position: center;
       background-repeat: no-repeat;
@@ -914,16 +1025,6 @@ onUnmounted(() => {
       }
     }
   }
-  .flag {
-    background-image: url("@/assets/images/qi.png");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    width: 24px;
-    height: 30px;
-    position: absolute;
-    z-index: 99;
-  }
 
   /*css部分*/
   @keyframes scaleDraw {
@@ -939,33 +1040,6 @@ onUnmounted(() => {
     }
     75% {
       transform: scale(1.2);
-    }
-  }
-  .light-flag {
-    width: 40px;
-
-    height: 50px;
-    position: absolute;
-    background-image: url("@/assets/images/big-qi.png");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    -webkit-animation-name: scaleDraw; /*关键帧名称*/
-    -webkit-animation-timing-function: ease-in-out; /*动画的速度曲线*/
-    -webkit-animation-iteration-count: infinite; /*动画播放的次数*/
-    -webkit-animation-duration: 5s; /*动画所花费的时间*/
-    .num {
-      color: #ffffff;
-      font-size: 7px;
-      font-weight: 500;
-      margin-top: 7px;
-      margin-left: 6px;
-      border-radius: 8px;
-      text-align: center;
-      display: block;
-      width: 18px;
-      height: 18px;
-      line-height: 16px;
     }
   }
 

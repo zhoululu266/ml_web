@@ -40,9 +40,11 @@ import ModelTitle from "./components/modelTitle.vue";
 import * as echarts from "echarts";
 import { noDataOption } from "./components/noDataOption";
 import ScrollTable from "./components/scrollTable.vue";
-import { option, getRich } from "./components/pieChart";
+import { option } from "./components/pieChartLeft";
 import { useMain } from "@/store";
+import _ from "lodash";
 
+const optionSet = _.clone(option);
 const mainStore = useMain();
 const mainStoreData = mainStore.getPageList();
 const total = ref();
@@ -87,41 +89,7 @@ mainStore.$subscribe(
 const yjqkBox = ref<ComponentPublicInstance<HTMLDivElement>>();
 const chartHeight = ref<string>("300px");
 let myChart: echarts.ECharts;
-let pieColors = [
-  "#FFEA59",
-  "#258CFF",
-  "#01E4FF",
-  "#96F159",
-  "#8ae308",
-  "#fb9a55",
-  "#ee3e3e",
-  "#FF7B00",
-  "#5FA7A4",
-  "#FFDC7B",
-  "#E37C3E",
-];
-let richColor = {};
-let legendRich = {};
-pieColors.forEach((item, idx) => {
-  richColor[`color${idx}`] = { fontSize: 20, fontWeight: "bold", color: item };
-  legendRich[`color${idx}`] = { fontSize: 20, color: item, align: "center" };
-});
-option.color = pieColors;
-option.series[4].labelLine = {
-  length: 20,
-  length2: 20,
-  lineStyle: {
-    angle: 0, // 设置线的角度为 45 度
-  },
-  emphasis: {
-    show: true,
-  },
-};
-option.series[4].label = {
-  ...option.series[4].label,
-  fontSize: 12,
-  rich: getRich(["#E37C3E", ...pieColors], 14),
-};
+
 /**
  * 获取警情趋势
  * @param code 组织机构code
@@ -222,10 +190,10 @@ const getList = (data) => {
       });
     // console.log("option---------", names, option);
 
-    option.angleAxis.data = names;
-    //  //console.log("option.series", option.series);
+    optionSet.angleAxis.data = names;
+    //  //console.log("optionSet.series", optionSet.series);
 
-    option.series[4].data = result2.data;
+    optionSet.series[4].data = result2.data;
 
     if (myChart) myChart.setOption(option, true);
   } else if (myChart) myChart.setOption(noDataOption, true);
@@ -253,10 +221,10 @@ onMounted(() => {
     //   const select_key = Object.keys(params.selected);
 
     //   select_key.forEach((res) => {
-    //     option.legend[0].selected[res] = !params.selected[res];
+    //     optionSet.legend[0].selected[res] = !params.selected[res];
     //   });
 
-    //   option.series[0].data = chartObj.value[params.name];
+    //   optionSet.series[0].data = chartObj.value[params.name];
 
     //   myChart.setOption(option);
     // });

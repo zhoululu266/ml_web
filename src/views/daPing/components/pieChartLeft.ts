@@ -1,5 +1,17 @@
 // let pieColors = ["#FFEA59", "#258CFF", "#01E4FF", "#FFEA59", "#FFEA59"];
-let pieColors = ["#FFEA59", "#258CFF", "#01E4FF", "#96F159", "#FFEA59"];
+let pieColors = [
+  "#FFEA59",
+  "#258CFF",
+  "#01E4FF",
+  "#96F159",
+  "#8ae308",
+  "#fb9a55",
+  "#ee3e3e",
+  "#FF7B00",
+  "#5FA7A4",
+  "#FFDC7B",
+  "#E37C3E",
+];
 let richColor = {};
 let legendRich = {};
 pieColors.forEach((item, idx) => {
@@ -183,7 +195,7 @@ export const option = {
       zlevel: 10,
       label: {
         show: true,
-        fontSize: 10,
+        fontSize: 12,
         align: "center",
         interval: 0,
         formatter: function (params: any) {
@@ -192,12 +204,12 @@ export const option = {
           const index = params.dataIndex || 0;
           return [`{a${index}|${name}}\n{b${index}|${percent}}`];
         },
-        rich: getRich(pieColors, 10),
+        rich: getRich(pieColors, 14),
       },
       data: [],
       labelLine: {
-        length: 24,
-        length2: 14,
+        length: 20,
+        length2: 20,
         lineStyle: {
           angle: 0, // 设置线的角度为 45 度
         },

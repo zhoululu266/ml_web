@@ -60,8 +60,6 @@ const getList = (code?: string) => {
       zajq.push(item.value);
     });
 
-    // option.angleAxis.data = names;
-
     dotOption.series[0].data = result2.data;
 
     if (myChart) myChart.setOption(dotOption, true);
@@ -107,7 +105,7 @@ onMounted(() => {
   height: 100%;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  /* overflow: hidden; */
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;

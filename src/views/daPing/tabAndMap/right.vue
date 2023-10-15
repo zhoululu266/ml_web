@@ -126,7 +126,7 @@ const option = {
   ],
   series: [
     {
-      name: "Access From",
+      name: "占比1",
       type: "pie",
       radius: ["50%", "70%"],
       avoidLabelOverlap: false,

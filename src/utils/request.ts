@@ -185,14 +185,12 @@ export const axiosPost = <T = any>(
  * @param {string} url - 请求的接口
  * @param {Object} params - 参数为FormData
  */
-export const axiosFormData = (url: string, params: FormData) => {
+export const axiosFormData = (url: string, params?: FormData) => {
   return new Promise((resolve, reject) => {
     instance
       .post(
         url,
-        {
-          token: "GNVDKar7VfmDPejiXmpOnQerxUmlpQJMS5rZk=",
-        },
+        { ...params, token: "GNVDKar7VfmDPejiXmpOnQerxUmlpQJMS5rZk=" },
         {
           headers: {
             "Content-Type": "multipart/form-data",

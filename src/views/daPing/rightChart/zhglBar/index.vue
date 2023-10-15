@@ -87,106 +87,103 @@ onMounted(() => {
     myChart2 = echarts.init(chartDom2);
     myChart3 = echarts.init(chartDom3);
     // 图例点击方法 点击哪个显示哪个 其他隐藏
-    myChart.on("legendselectchanged", (params: any) => {
-      const option: any = myChart.getOption();
-      const select_key = Object.keys(params.selected);
-      if (!params.selected[params.name]) {
-        select_key.forEach((res) => {
-          option.legend[0].selected[res] = !params.selected[res];
-        });
+    // myChart.on("legendselectchanged", (params: any) => {
+    //   const option: any = myChart.getOption();
+    //   const select_key = Object.keys(params.selected);
+    //   if (!params.selected[params.name]) {
+    //     select_key.forEach((res) => {
+    //       option.legend[0].selected[res] = !params.selected[res];
+    //     });
 
-        option.series[0].data = chartObj.value[params.name];
-      } else {
-        // eslint-disable-next-line array-callback-return
-        select_key.forEach((res) => {
-          option.legend[0].selected[res] = false;
-        });
-        option.legend[0].selected[params.name] = true;
+    //     option.series[0].data = chartObj.value[params.name];
+    //   } else {
+    //     // eslint-disable-next-line array-callback-return
+    //     select_key.forEach((res) => {
+    //       option.legend[0].selected[res] = false;
+    //     });
+    //     option.legend[0].selected[params.name] = true;
 
-        option.series[0].data = chartObj.value[params.name];
-      }
-      myChart.setOption(option);
-    });
-    myChart1.on("legendselectchanged", (params: any) => {
-      const option: any = myChart1.getOption();
-      const select_key = Object.keys(params.selected);
-      if (!params.selected[params.name]) {
-        select_key.forEach((res) => {
-          option.legend[0].selected[res] = !params.selected[res];
-        });
+    //     option.series[0].data = chartObj.value[params.name];
+    //   }
+    //   myChart.setOption(option);
+    // });
+    // myChart1.on("legendselectchanged", (params: any) => {
+    //   const option: any = myChart1.getOption();
+    //   const select_key = Object.keys(params.selected);
+    //   if (!params.selected[params.name]) {
+    //     select_key.forEach((res) => {
+    //       option.legend[0].selected[res] = !params.selected[res];
+    //     });
 
-        option.series[0].data = chartObj.value[params.name];
-      } else {
-        // eslint-disable-next-line array-callback-return
-        select_key.forEach((res) => {
-          option.legend[0].selected[res] = false;
-        });
-        option.legend[0].selected[params.name] = true;
+    //     option.series[0].data = chartObj.value[params.name];
+    //   } else {
+    //     // eslint-disable-next-line array-callback-return
+    //     select_key.forEach((res) => {
+    //       option.legend[0].selected[res] = false;
+    //     });
+    //     option.legend[0].selected[params.name] = true;
 
-        option.series[0].data = chartObj.value[params.name];
-      }
-      myChart1.setOption(option);
-    });
-    myChart2.on("legendselectchanged", (params: any) => {
-      const option: any = myChart2.getOption();
-      const select_key = Object.keys(params.selected);
-      if (!params.selected[params.name]) {
-        select_key.forEach((res) => {
-          option.legend[0].selected[res] = !params.selected[res];
-        });
+    //     option.series[0].data = chartObj.value[params.name];
+    //   }
+    //   myChart1.setOption(option);
+    // });
+    // myChart2.on("legendselectchanged", (params: any) => {
+    //   const option: any = myChart2.getOption();
+    //   const select_key = Object.keys(params.selected);
+    //   if (!params.selected[params.name]) {
+    //     select_key.forEach((res) => {
+    //       option.legend[0].selected[res] = !params.selected[res];
+    //     });
 
-        option.series[0].data = chartObj.value[params.name];
-      } else {
-        // eslint-disable-next-line array-callback-return
-        select_key.forEach((res) => {
-          option.legend[0].selected[res] = false;
-        });
-        option.legend[0].selected[params.name] = true;
+    //     option.series[0].data = chartObj.value[params.name];
+    //   } else {
+    //     // eslint-disable-next-line array-callback-return
+    //     select_key.forEach((res) => {
+    //       option.legend[0].selected[res] = false;
+    //     });
+    //     option.legend[0].selected[params.name] = true;
 
-        option.series[0].data = chartObj.value[params.name];
-      }
-      myChart2.setOption(option);
-    });
-    myChart3.on("legendselectchanged", (params: any) => {
-      const option: any = myChart3.getOption();
-      const select_key = Object.keys(params.selected);
-      if (!params.selected[params.name]) {
-        select_key.forEach((res) => {
-          option.legend[0].selected[res] = !params.selected[res];
-        });
+    //     option.series[0].data = chartObj.value[params.name];
+    //   }
+    //   myChart2.setOption(option);
+    // });
+    // myChart3.on("legendselectchanged", (params: any) => {
+    //   const option: any = myChart3.getOption();
+    //   const select_key = Object.keys(params.selected);
+    //   if (!params.selected[params.name]) {
+    //     select_key.forEach((res) => {
+    //       option.legend[0].selected[res] = !params.selected[res];
+    //     });
 
-        option.series[0].data = chartObj.value[params.name];
-      } else {
-        // eslint-disable-next-line array-callback-return
-        select_key.forEach((res) => {
-          option.legend[0].selected[res] = false;
-        });
-        option.legend[0].selected[params.name] = true;
+    //     option.series[0].data = chartObj.value[params.name];
+    //   } else {
+    //     // eslint-disable-next-line array-callback-return
+    //     select_key.forEach((res) => {
+    //       option.legend[0].selected[res] = false;
+    //     });
+    //     option.legend[0].selected[params.name] = true;
 
-        option.series[0].data = chartObj.value[params.name];
-      }
-      myChart3.setOption(option);
-    });
+    //     option.series[0].data = chartObj.value[params.name];
+    //   }
+    //   myChart3.setOption(option);
+    // });
     getList();
   }, 1000);
 });
+// 赋值名称
+const setNameFun = (names: string[], i: number) => {
+  const res = Array.from({ length: names.length }, () => names[i]);
+  console.log("res", res);
+
+  return res;
+};
 
 /**
  * 获取警情趋势
  * @param code 组织机构code
  */
 const getList = (code?: string) => {
-  //   const url = `${$config.patrolApi}/statisticsManage/jqOverview`;
-  //   const params = {
-  //     orgCode: code,
-  //     // startTime: "2022-01-01 00:00:00",
-  //     // endTime: "2022-12-30 23:59:59",
-  //     startTime: `${times.startTime} 00:00:00`,
-  //     endTime: `${times.endTime} 23:59:59`,
-  //   };
-  //   axiosPost(url, params)
-  //     .then((result2) => {
-  const result2 = {
+  const result = {
     code: 200,
 
     data: [
@@ -212,14 +209,14 @@ const getList = (code?: string) => {
       },
     ],
   };
-  if (result2.code === 200) {
+  if (result.code === 200) {
     const names: any = []; // X轴坐标名称
     const zajq: any = [];
     const zajq1: any = [];
 
     totalCount.value = [];
     // eslint-disable-next-line array-callback-return
-    result2.data.map((item: chartListType) => {
+    result.data.map((item: chartListType) => {
       names.push(item.name);
       zajq.push(item.zfs);
       zajq1.push(item.zfs1);
@@ -230,13 +227,22 @@ const getList = (code?: string) => {
     };
 
     yjqkOption.xAxis.data = names;
+    console.log("names", names);
 
     yjqkOption.series[0].data = zajq;
+    const yjqkOption1 = yjqkOption;
+    const yjqkOption2 = yjqkOption;
+    const yjqkOption3 = yjqkOption;
+    const yjqkOption4 = yjqkOption;
 
-    if (myChart) myChart.setOption(yjqkOption, true);
-    if (myChart1) myChart1.setOption(yjqkOption, true);
-    if (myChart2) myChart2.setOption(yjqkOption, true);
-    if (myChart3) myChart3.setOption(yjqkOption, true);
+    yjqkOption1.xAxis.data = setNameFun(names, 0);
+    if (myChart) myChart.setOption(yjqkOption1, true);
+    yjqkOption2.xAxis.data = setNameFun(names, 1);
+    if (myChart1) myChart1.setOption(yjqkOption2, true);
+    yjqkOption3.xAxis.data = setNameFun(names, 2);
+    if (myChart2) myChart2.setOption(yjqkOption3, true);
+    yjqkOption4.xAxis.data = setNameFun(names, 3);
+    if (myChart3) myChart3.setOption(yjqkOption4, true);
   } else if (myChart) myChart.setOption(noDataOption, true);
   // })
   // .catch(() => {
