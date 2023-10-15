@@ -288,7 +288,7 @@ mainStore.$subscribe(
 );
 onMounted(() => {
   drawChart();
-  getYjListData(mainStore.setPageList?.zhsp);
+  getYjListData(mainStore.getPageList()?.zhsp);
 });
 </script>
 

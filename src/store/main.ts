@@ -10,7 +10,7 @@ export const useMain = defineStore("useMain", {
   }),
   actions: {
     setPageList(data: any) {
-      this.pageList = data;
+      this.pageList = { ...this.pageList, ...data };
     },
     getPageList() {
       return this.pageList;

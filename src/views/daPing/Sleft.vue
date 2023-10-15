@@ -52,7 +52,7 @@ const mainStore = useMain();
 //   { detached: false }
 // );
 
-const zhdjData = mainStore.setPageList?.zhdj;
+const zhdjData = mainStore.getPageList()?.zhdj;
 const form = ref({
   dyzrs: 78 || zhdjData?.dyzrs,
   cbdy: 15 || zhdjData?.cbdy,

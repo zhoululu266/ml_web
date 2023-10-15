@@ -36,7 +36,7 @@ const mainStore = useMain();
 // 监听数据变化
 mainStore.$subscribe(
   (_, state) => {
-    console.log("走访数量-------", state.pageList?.zfs);
+    // console.log("走访数量-------", state.pageList?.zfs);
 
     const zfs = state.pageList?.zfs;
     getList(zfs);
@@ -57,7 +57,7 @@ interface chartListType {
   zfs: number | string;
 }
 
-const title = ref<string>("法律顾问走访数");
+const title = ref<string>("辖区案件数");
 const yjqkBox = ref<ComponentPublicInstance<HTMLDivElement>>();
 const chartHeight = ref<string>();
 let myChart: echarts.ECharts;
@@ -149,7 +149,7 @@ const getList = (zfs) => {
       });
 
     chartObj.value = {
-      法律顾问走访数: zajq,
+      辖区案件数: zajq,
     };
 
     yjqkOption.xAxis.data = names;
@@ -239,7 +239,7 @@ const yjqkOption = {
   },
   series: [
     {
-      name: "法律顾问走访数",
+      name: "辖区案件数",
       type: "bar",
       barWidth: "14",
       stack: "total",
@@ -267,8 +267,9 @@ const yjqkOption = {
 </script>
 <style lang="scss" scoped>
 .title-circle {
-  background-size: 63% 100%;
+  background-size: 50% 100%;
   background-position: left;
+  margin-left: 20px;
 }
 .center-bt-box {
   width: 100%;
@@ -278,23 +279,23 @@ const yjqkOption = {
 }
 .yjqkContainer {
   height: 100%;
-  width: 78%;
+  width: 110%;
   font-family: Source Han Sans CN;
-  padding: 0 6px;
+  padding: 0 6px 0 0;
 }
 .pt-box {
   display: flex;
-  flex-direction: row;
-  width: 26%;
-  margin-top: 8%;
+  flex-direction: column;
+  width: 14%;
+  margin-top: 5%;
   align-items: center;
   > div {
     background-image: url("@/assets/images/pt-bg.png");
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 100% 100%;
-    width: 128px;
-    height: 140px;
+    background-size: 108px 120px;
+    width: 108px;
+    height: 120px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -322,7 +323,7 @@ const yjqkOption = {
     color: #ffffff;
     font-size: 12px;
     font-weight: 600;
-    margin-top: 8px;
+    margin-top: -11px;
   }
 }
 </style>

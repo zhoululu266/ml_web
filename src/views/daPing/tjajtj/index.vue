@@ -47,17 +47,20 @@ mainStore.$subscribe(
     const fgtj = state.pageList?.fgtj;
     // console.log(
     //   "调解案件统计---",
+    //   state.pageList,
     //   fgtj,
     //   JSON.stringify(fgtj) == JSON.stringify(flagData.value)
     // );
     if (JSON.stringify(fgtj) != JSON.stringify(flagData.value)) {
-      // getList(fgtj);
+      getList(fgtj);
     }
   },
   { detached: false }
 );
 onMounted(() => {
-  // getList(mainStore.setPageList?.fgtj);
+  // console.log("mainStore.setPageList?.fgtj", mainStore.getPageList()?.fgtj);
+
+  getList(mainStore.getPageList()?.fgtj);
 });
 
 /**

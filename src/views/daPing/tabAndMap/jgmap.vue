@@ -5,9 +5,7 @@
       v-if="flag == 'center'"
       class="back-btn"
       @click="() => changeShowFun(false)"
-    >
-      返 回
-    </div>
+    ></div>
     <div class="echars">
       <div class="time-box">
         <div class="time">{{}}</div>
@@ -81,15 +79,15 @@ const changeShowFun = (v) => {
 // 监听数据变化
 mainStore.$subscribe(
   (_, state) => {
-    console.log("map-state", state.pageList.dtsj, {
-      a1: flagArr.value[0].name,
-      a2: flagArr.value[0].time,
-      a3: flagArr.value[0].light,
-      b1: flagArr.value[1].name,
-      b2: flagArr.value[1].time,
-      b3: flagArr.value[1].light,
-    });
-    if (state.pageList.dtsj.data) {
+    // console.log("map-state", state.pageList.dtsj, {
+    //   a1: flagArr.value[0].name,
+    //   a2: flagArr.value[0].time,
+    //   a3: flagArr.value[0].light,
+    //   b1: flagArr.value[1].name,
+    //   b2: flagArr.value[1].time,
+    //   b3: flagArr.value[1].light,
+    // });
+    if (state.pageList?.dtsj?.data) {
       state.pageList.dtsj.data.forEach((item) => {
         flagArr.value.forEach((falg) => {
           if (falg.name == item) {
@@ -99,21 +97,21 @@ mainStore.$subscribe(
         });
       });
       setTimeout(() => {
-        console.log("setTimeout----");
+        // console.log("setTimeout----");
 
         const arr = flagArr.value;
         arr.forEach((item: any) => {
           if (item.time && nowTime.value - item.time >= 20000)
             item.light = false;
         });
-        console.log("arr", {
-          a1: arr[0].name,
-          a2: arr[0].time,
-          a3: arr[0].light,
-          b1: arr[1].name,
-          b2: arr[1].time,
-          b3: arr[1].light,
-        });
+        // console.log("arr", {
+        //   a1: arr[0].name,
+        //   a2: arr[0].time,
+        //   a3: arr[0].light,
+        //   b1: arr[1].name,
+        //   b2: arr[1].time,
+        //   b3: arr[1].light,
+        // });
         flagArr.value = arr;
       }, 20000);
     }
@@ -836,18 +834,18 @@ onUnmounted(() => {
     text-align: center;
   }
   .back-btn {
-    position: absolute;
-    top: 12%;
+    position: fixed;
+    bottom: 66px;
     z-index: 999;
-    right: 10%;
+    right: 62px;
     color: #ffffff;
     height: 36px;
     line-height: 36px;
     cursor: pointer;
     text-align: center;
-    width: 80px;
+    width: 36px;
     font-weight: 500;
-    background-image: url("@/assets/images/map-card-bg.png");
+    background-image: url("@/assets/images/home.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -944,8 +942,9 @@ onUnmounted(() => {
     }
   }
   .light-flag {
-    width: 30px;
-    height: 40px;
+    width: 40px;
+
+    height: 50px;
     position: absolute;
     background-image: url("@/assets/images/big-qi.png");
     background-position: center;

@@ -50,7 +50,7 @@ const columns = ref([
   { prop: "name", label: "姓名" },
   { prop: "department", label: "部门" },
   { prop: "area", label: "负责地区" },
-  { prop: "department", label: "调解数", class: "ttjs" },
+  { prop: "case_number", label: "调解数", class: "ttjs" },
 ]);
 const columns1 = ref([
   { prop: "name", label: "姓名" },
@@ -69,17 +69,17 @@ const tableDataAjlx = ref([]);
 // 监听数据变化
 mainStore.$subscribe(
   (_, state) => {
-    // console.log("法律顾问------------");
-    if (tableData.value != state.pageList?.flgw) {
-      tableData.value = state.pageList?.flgw;
-    }
-    if (tableDataTjy.value != state.pageList?.tjy) {
-      tableDataTjy.value = state.pageList?.tjy;
-    }
-    if (tableDataAjlx.value != state.pageList?.ajlxyjsl) {
-      tableDataAjlx.value = state.pageList?.ajlxyjsl;
-      getList(tableDataAjlx.value);
-    }
+    // console.log("法律顾问-----------调解员-", state.pageList);
+    // if (tableData.value != state.pageList?.flgw) {
+    //   tableData.value = state.pageList?.flgw;
+    // }
+    // if (tableDataTjy.value != state.pageList?.tjy) {
+    //   tableDataTjy.value = state.pageList?.tjy;
+    // }
+    // if (tableDataAjlx.value != state.pageList?.ajlxyjsl) {
+    //   tableDataAjlx.value = state.pageList?.ajlxyjsl;
+    //   getList(tableDataAjlx.value);
+    // }
   },
   { detached: false }
 );
@@ -138,10 +138,12 @@ const getList = (data) => {
   //   axiosPost(url, params)
   //     .then((result2) => {
   let tt = 0;
-  data.forEach((item) => {
-    item.value = item.case_number;
-    tt += item.case_number || 0;
-  });
+  data &&
+    data?.length > 0 &&
+    data.forEach((item) => {
+      item.value = item.case_number;
+      tt += item.case_number || 0;
+    });
   total.value = tt;
   const result2 = {
     code: 200,
@@ -213,10 +215,11 @@ const getList = (data) => {
     const zajq: any = [];
 
     // eslint-disable-next-line array-callback-return
-    result2.data.map((item: chartListType) => {
-      names.push(item.name);
-      zajq.push(item.case_number);
-    });
+    result2.data?.length > 0 &&
+      result2.data.map((item: chartListType) => {
+        names.push(item.name);
+        zajq.push(item.case_number);
+      });
     // console.log("option---------", names, option);
 
     option.angleAxis.data = names;
@@ -234,7 +237,13 @@ const getList = (data) => {
 onMounted(() => {
   chartHeight.value = `${yjqkBox.value!.offsetHeight - 40}px`;
   //console.log(" chartHeight.value ", chartHeight.value);
-
+  if (mainStoreData?.flgw) {
+    tableData.value = mainStoreData?.flgw;
+  }
+  if (mainStoreData?.tjy) {
+    tableDataTjy.value = mainStoreData?.tjy;
+  }
+  getList(mainStoreData?.ajlxyjsl);
   setTimeout(() => {
     const chartDom = document.getElementById("ajlxEchart")!;
     myChart = echarts.init(chartDom);
@@ -252,7 +261,6 @@ onMounted(() => {
     //   myChart.setOption(option);
     // });
     myChart.setOption(option);
-    getList(mainStoreData?.ajlxyjsl);
   }, 1000);
 });
 </script>

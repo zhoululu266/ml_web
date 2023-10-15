@@ -28,7 +28,7 @@ import ModelTitle from "./components/modelTitle.vue";
 import { useMain } from "@/store";
 
 const mainStore = useMain();
-
+const mainStoreData = mainStore.getPageList();
 const emit = defineEmits(["changeShow"]);
 const changeShowFun = () => {
   emit("changeShow");
@@ -48,24 +48,23 @@ const showTab = ref<boolean>(true);
 
 const columns = ref([
   { prop: "case_number", label: "案件号", width: "140" },
-  { prop: "client_name", label: "申请人姓名", width: "80" },
+  { prop: "client_name", label: "申请人姓名", width: "90" },
   { prop: "area_name", label: "纠纷发生地", class: "yichang", width: "180" },
   { prop: "case_type", label: "案件类型", width: "200" },
 
   { prop: "content", label: "申请内容" },
 ]);
-const tableData = ref(
-  new Array(11).fill({
-    case_number: "张玲立",
-    case_type: "刑事案件",
-    area_name: "2023-06-30 14:20",
-    content: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-  })
-);
+const tableData = ref([]);
 // 监听数据变化
 mainStore.$subscribe(
   (_, state) => {
     if (tableData.value != state.pageList?.sqajxx) {
+      // console.log(
+      //   "申请案件信息 state.pageList?.sqajxx",
+      //   state.pageList,
+      //   state.pageList?.sqajxx
+      // );
+
       tableData.value = state.pageList?.sqajxx;
     }
   },
@@ -116,6 +115,8 @@ const { pause, resume } = useIntervalFn(() => {
 onMounted(() => {
   // timer.value = setInterval(tspPolling, 60000);
   resume();
+
+  tableData.value = mainStoreData?.sqajxx;
 });
 
 const closeDateModel = () => {
@@ -167,7 +168,7 @@ onBeforeUnmount(() => {
     box-sizing: border-box;
     width: 100%;
     .title-circle {
-      background-size: 40% 100%;
+      background-size: 44% 100%;
       background-position: left;
     }
   }

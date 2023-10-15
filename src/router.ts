@@ -1,12 +1,17 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
-  { path: "/", redirect: "/dp" },
+  { path: "/", redirect: "/home" },
 
   {
-    path: "/dp",
-    name: "dp",
+    path: "/home",
+    name: "home",
     component: () => import("../src/views/daPing/index.vue"),
+  },
+  {
+    path: "/syzl",
+    name: "syzl",
+    component: () => import("../src/views/daPing/syzl.vue"),
   },
   {
     path: "/dj",
