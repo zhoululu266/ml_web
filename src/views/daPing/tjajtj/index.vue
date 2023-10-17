@@ -14,6 +14,7 @@ import CardBox from "./cardBox.vue";
 import moment from "moment";
 import { axiosPost } from "@/utils";
 import Empty from "../components/empty.vue";
+import _ from "lodash";
 
 interface configDataType {
   resource: string;
@@ -67,7 +68,8 @@ onMounted(() => {
  * 调解案件统计
  * @param code 组织机构code
  */
-const getList = (fgtj) => {
+const getList = (fgtj1) => {
+  const fgtj = _.clone(fgtj1);
   flagData.value = fgtj;
   const result = {
     code: 200,

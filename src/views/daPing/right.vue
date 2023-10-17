@@ -10,7 +10,7 @@
           :class="'content' + (i + 1)"
         >
           <p class="name">{{ item.name }}</p>
-          <span class="val"> {{ item.val }}{{ item.dw }}</span>
+          <span class="val"> {{ item.val }}{{ item.val ? item.dw : "" }}</span>
         </div>
       </div>
     </div>
@@ -65,23 +65,23 @@ const listData = ref([
   {
     name: "诉源治理案件数",
     key: "",
-    val: "97259",
+    val: "",
   },
   {
     name: "诉调对接数",
     key: "",
-    val: "858999",
+    val: "",
   },
   {
     name: "诉调对接分流率",
     key: "",
-    val: "84",
+    val: "",
     dw: "%",
   },
   {
     name: "执前案件和解数",
     key: "",
-    val: "84598",
+    val: "",
   },
   {
     name: "法官面对面总数",

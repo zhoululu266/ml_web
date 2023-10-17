@@ -3,7 +3,7 @@
     v-model="dialogShow"
     title="Tips"
     width="30%"
-    class="info-modal"
+    class="info-modal load"
     :modal="false"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
@@ -20,6 +20,8 @@
         </el-icon>
       </div>
     </template>
+    <!-- <div> -->
+    <div v-if="loading" class="load">加载中...</div>
     <template v-if="formData?.length > 0">
       <div v-for="(item, i) in formData">
         <div v-show="checkIndex == i" class="form-box">
@@ -113,9 +115,9 @@
         </div>
       </div>
     </template>
-    <div v-else class="empty">暂无数据</div>
-
-    <template #footer>
+    <div v-else-if="!loading" class="empty">暂无数据</div>
+    <!-- </div> -->
+    <!-- <template #footer>
       <span class="dialog-footer" v-if="formData?.length">
         <el-button v-if="checkIndex !== 0" type="primary" @click="before">
           上一个
@@ -124,7 +126,7 @@
           >下一个</el-button
         >
       </span>
-    </template>
+    </template> -->
   </el-dialog>
 </template>
 
@@ -133,6 +135,7 @@ import { ref } from "vue";
 import { ElMessageBox } from "element-plus";
 import { axiosFormData } from "@/utils";
 
+const loading = ref(true);
 const carouselRef = ref(null);
 const previewData = ref([]);
 const returnData = ref();
@@ -201,192 +204,48 @@ const getDataSource = (data) => {
 };
 const formData = ref([]);
 //案件详情
-const getInfo = async () => {
+const getInfo = async (parames) => {
+  loading.value = true;
   try {
     const api =
       "http://app.mdjmlcourt.gov.cn/api/screen/newCaseNoticeFist" +
-      "?area_id=" +
-      props?.infoData?.info?.area?.parent_area?.id;
+      "?area_name=" +
+      parames?.name;
     axiosFormData(api).then((res: any) => {
-      // const res = {
-      //   code: 200,
-      //   data: [
-      //     {
-      //       client_name: "林旭东",
-      //       accused_client_name: "徐",
-      //       case_type_name: "家事纠纷",
-      //       parent_area_name: "八面通镇",
-      //       area_name: "太和村",
-      //       created_date: "2023-10-14 14:42:26",
-      //       mediators_name: "王翠花",
-      //       client_remark: "123123123",
-      //       files: [
-      //         {
-      //           id: 198,
-      //           file_name: "穆法通_官方微博.jpg",
-      //           file_type: "jpg",
-      //           file_size: "36173",
-      //           url: "images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
-      //           created_at: "2023-10-14 14:42:26",
-      //           case_id: 50,
-      //           updated_at: "2023-10-14 14:42:26",
-      //           upload_author: "当事人",
-      //           web_url:
-      //             "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
-      //         },
-      //         {
-      //           id: 198,
-      //           file_name: "穆法通_官方微博.jpg",
-      //           file_type: "jpg",
-      //           file_size: "36173",
-      //           url: "images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
-      //           created_at: "2023-10-14 14:42:26",
-      //           case_id: 50,
-      //           updated_at: "2023-10-14 14:42:26",
-      //           upload_author: "当事人",
-      //           web_url:
-      //             "https://img.mp.itc.cn/upload/20170612/72d37f9f668549839d8cdb5d787f7ec3_th.jpg",
-      //         },
-      //         {
-      //           id: 198,
-      //           file_name: "穆法通_官方微博.jpg",
-      //           file_type: "jpg",
-      //           file_size: "36173",
-      //           url: "images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
-      //           created_at: "2023-10-14 14:42:26",
-      //           case_id: 50,
-      //           updated_at: "2023-10-14 14:42:26",
-      //           upload_author: "当事人",
-      //           web_url:
-      //             "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
-      //         },
-      //         {
-      //           id: 198,
-      //           file_name: "穆法通_官方微博.jpg",
-      //           file_type: "jpg",
-      //           file_size: "36173",
-      //           url: "images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
-      //           created_at: "2023-10-14 14:42:26",
-      //           case_id: 50,
-      //           updated_at: "2023-10-14 14:42:26",
-      //           upload_author: "当事人",
-      //           web_url:
-      //             "https://img.mp.itc.cn/upload/20170612/72d37f9f668549839d8cdb5d787f7ec3_th.jpg",
-      //         },
-      //         {
-      //           id: 198,
-      //           file_name: "穆法通_官方微博.jpg",
-      //           file_type: "jpg",
-      //           file_size: "36173",
-      //           url: "images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
-      //           created_at: "2023-10-14 14:42:26",
-      //           case_id: 50,
-      //           updated_at: "2023-10-14 14:42:26",
-      //           upload_author: "当事人",
-      //           web_url:
-      //             "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       client_name: "林旭东",
-      //       accused_client_name: "徐",
-      //       case_type_name: "家事纠纷",
-      //       parent_area_name: "八面通镇",
-      //       area_name: "太和村",
-      //       created_date: "2023-10-14 07:00:08",
-      //       mediators_name: "王翠花",
-      //       client_remark: "12321312312321",
-      //       files: [
-      //         {
-      //           id: 196,
-      //           file_name: "穆法通_官方抖音.jpg",
-      //           file_type: "jpg",
-      //           file_size: "28588",
-      //           url: "images/2023-10-14/L02Gdtn2iyX6gpJPSb93LmOHJUTK6fnLE47SgVTv.jpg",
-      //           created_at: "2023-10-14 07:00:07",
-      //           case_id: 49,
-      //           updated_at: "2023-10-14 07:00:08",
-      //           upload_author: "当事人",
-      //           web_url:
-      //             "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-14/L02Gdtn2iyX6gpJPSb93LmOHJUTK6fnLE47SgVTv.jpg",
-      //         },
-      //         {
-      //           id: 197,
-      //           file_name: "穆法通_官方微博.jpg",
-      //           file_type: "jpg",
-      //           file_size: "36173",
-      //           url: "images/2023-10-14/62qwRerIsqkkVzX9Q3szZ9f9DRhfuAA3BAuGGZ0L.jpg",
-      //           created_at: "2023-10-14 07:01:25",
-      //           case_id: 49,
-      //           updated_at: "2023-10-14 07:01:25",
-      //           upload_author: "调解员",
-      //           web_url:
-      //             "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-14/62qwRerIsqkkVzX9Q3szZ9f9DRhfuAA3BAuGGZ0L.jpg",
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       client_name: "林旭东",
-      //       accused_client_name: "徐",
-      //       case_type_name: "侵权纠纷",
-      //       parent_area_name: "八面通镇",
-      //       area_name: "太和村",
-      //       created_date: "2023-10-10 06:29:32",
-      //       mediators_name: "李狗蛋",
-      //       client_remark: "1111111",
-      //       files: [
-      //         {
-      //           id: 178,
-      //           file_name: "穆法通_官方微博.jpg",
-      //           file_type: "jpg",
-      //           file_size: "36173",
-      //           url: "images/2023-10-10/wFwDwcQETo4aCXIOdYzuNciPql05YgEm1HCbuH6p.jpg",
-      //           created_at: "2023-10-10 06:29:31",
-      //           case_id: 43,
-      //           updated_at: "2023-10-10 06:29:32",
-      //           upload_author: "当事人",
-      //           web_url:
-      //             "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-10/wFwDwcQETo4aCXIOdYzuNciPql05YgEm1HCbuH6p.jpg",
-      //         },
-      //         {
-      //           id: 179,
-      //           file_name: "穆法通_官方抖音.jpg",
-      //           file_type: "jpg",
-      //           file_size: "28588",
-      //           url: "images/2023-10-10/xrXSdRJkKCifpI38VoFlzycddVPICYVRxJwYlMvg.jpg",
-      //           created_at: "2023-10-10 06:30:05",
-      //           case_id: 43,
-      //           updated_at: "2023-10-10 06:30:05",
-      //           upload_author: "调解员",
-      //           web_url:
-      //             "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-10/xrXSdRJkKCifpI38VoFlzycddVPICYVRxJwYlMvg.jpg",
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // };
+      loading.value = false;
       if (res.code === 200) {
         formData.value = res.data;
         // 将数组处理成嵌套数组的形式
         getDataSource(res.data[0].files);
       }
-      // console.log("res", res);
+
+      console.log("res", res);
     });
   } catch (error) {
     console.error(error);
+    loading.value = false;
   }
 };
+watch(
+  () => props?.infoData,
+  (newValue: any) => {
+    console.log("newValue--", newValue);
 
+    getInfo(newValue);
+  },
+  {
+    deep: true,
+  }
+);
 onMounted(() => {
-  getInfo();
+  props?.infoData && getInfo(props?.infoData);
   //   console.log("modal", props.show, props.infoData.info.area.parent_area.id);
 });
 </script>
 <style lan="scss">
 .info-modal {
   width: 600px;
-  height: 640px;
+  height: 540px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -403,6 +262,15 @@ onMounted(() => {
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  .load {
+    height: 423px;
+    width: 100%;
+    font-size: 20px;
+    color: #ffffff;
+    margin: 0 auto;
+    line-height: 380px;
+    text-align: center;
+  }
   .el-icon svg {
     color: #01e4ff;
     margin-top: 8px;
@@ -490,7 +358,7 @@ onMounted(() => {
 }
 .el-carousel {
   width: 100%;
-  height: 100px;
+  height: 120px;
 }
 
 .el-carousel__indicators {

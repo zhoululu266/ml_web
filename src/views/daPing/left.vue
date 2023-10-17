@@ -72,29 +72,29 @@ const tableDataAjlx = ref([]);
 mainStore.$subscribe(
   (_, state) => {
     // console.log("法律顾问-----------调解员-", state.pageList);
-    // if (tableData.value != state.pageList?.flgw) {
-    //   tableData.value = state.pageList?.flgw;
-    // }
-    // if (tableDataTjy.value != state.pageList?.tjy) {
-    //   tableDataTjy.value = state.pageList?.tjy;
-    // }
-    // if (tableDataAjlx.value != state.pageList?.ajlxyjsl) {
-    //   tableDataAjlx.value = state.pageList?.ajlxyjsl;
-    //   getList(tableDataAjlx.value);
-    // }
+    if (tableData.value != state.pageList?.flgw) {
+      tableData.value = state.pageList?.flgw;
+    }
+    if (tableDataTjy.value != state.pageList?.tjy) {
+      tableDataTjy.value = state.pageList?.tjy;
+    }
+    if (tableDataAjlx.value != state.pageList?.ajlxyjsl) {
+      tableDataAjlx.value = state.pageList?.ajlxyjsl;
+      getList(tableDataAjlx.value);
+    }
   },
   { detached: false }
 );
 
 const yjqkBox = ref<ComponentPublicInstance<HTMLDivElement>>();
-const chartHeight = ref<string>("300px");
+const chartHeight = ref<string>("360px");
 let myChart: echarts.ECharts;
 
 /**
  * 获取警情趋势
  * @param code 组织机构code
  */
-const getList = (data) => {
+const getList = (data1) => {
   //   const url = `${$config.patrolApi}/statisticsManage/jqOverview`;
   //   const params = {
   //     orgCode: code,
@@ -106,77 +106,26 @@ const getList = (data) => {
   //   axiosPost(url, params)
   //     .then((result2) => {
   let tt = 0;
+
+  const data = _.clone(data1);
+  const newData = [];
   data &&
     data?.length > 0 &&
-    data.forEach((item) => {
-      item.value = item.case_number;
+    data.map((item) => {
+      newData.push({
+        value: item.case_number,
+        name: item.name,
+        case_number: item.case_number,
+        area: item.area,
+      });
+      // item.value = item.case_number;
       tt += item.case_number || 0;
     });
   total.value = tt;
   const result2 = {
     code: 200,
-    // data: [
-    //   {
-    //     name: "家事纠纷",
-    //     case_number: 9,
-    //   },
-    //   {
-    //     name: "物业服务合同纠纷",
-    //     case_number: 2,
-    //   },
-    //   {
-    //     name: "合同纠纷",
-    //     case_number: 2,
-    //   },
-    //   {
-    //     name: "侵权纠纷",
-    //     case_number: 2,
-    //   },
-    //   {
-    //     name: "土地和相邻关系纠纷",
-    //     case_number: 0,
-    //   },
-    //   {
-    //     name: "劳动争议纠纷",
-    //     case_number: 0,
-    //   },
-    //   {
-    //     name: "涉企纠纷",
-    //     case_number: 0,
-    //   },
-    //   {
-    //     name: "涉未成年人校园纠纷",
-    //     case_number: 0,
-    //   },
-    //   {
-    //     name: "消费者权益保护纠纷",
-    //     case_number: 0,
-    //   },
-    //   {
-    //     name: "其他适宜前置调解的民商事纠纷",
-    //     case_number: 0,
-    //   },
-    // ],
-    data,
-    // [
-    //   {
-    //     value: 100,
-    //     name: "民事案件",
-    //   },
-    //   {
-    //     value: 70,
-    //     name: "行政案件",
-    //   },
 
-    //   {
-    //     value: 150,
-    //     name: "经济案件",
-    //   },
-    //   {
-    //     value: 50,
-    //     name: "刑事案件",
-    //   },
-    // ],
+    data: newData,
   };
   if (result2.code === 200) {
     const names: any = []; // X轴坐标名称
@@ -203,7 +152,7 @@ const getList = (data) => {
   // });
 };
 onMounted(() => {
-  chartHeight.value = `${yjqkBox.value!.offsetHeight - 40}px`;
+  chartHeight.value = `${yjqkBox.value!.offsetHeight + 30}px`;
   //console.log(" chartHeight.value ", chartHeight.value);
   if (mainStoreData?.flgw) {
     tableData.value = mainStoreData?.flgw;
@@ -312,7 +261,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   background-image: url("@/assets/images/card-bg.png");
-  overflow: hidden;
+  // overflow: hidden;
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;

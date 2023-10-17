@@ -44,7 +44,7 @@ const getZxqhjsData = async () => {
   const api = `${url}/homePage/case/执前案件和解数`;
   try {
     axiosFormData(api).then((res: any) => {
-      mainStore.setPageList({ ...mainStoreData, zxqhjs: res.number });
+      mainStore.setPageList({ zxqhjs: res.number });
     });
   } catch (error) {
     console.error(error);
@@ -56,7 +56,7 @@ const getSsdjflData = async () => {
   // baseFun(api, "syzl");
   try {
     axiosFormData(api).then((res: any) => {
-      mainStore.setPageList({ ...mainStoreData, ssdjfl: res.number });
+      mainStore.setPageList({ ssdjfl: res.number });
     });
   } catch (error) {
     console.error(error);
@@ -68,7 +68,7 @@ const getSsdjslData = async () => {
   // baseFun(api, "syzl");
   try {
     axiosFormData(api).then((res: any) => {
-      mainStore.setPageList({ ...mainStoreData, ssdjs: res.number });
+      mainStore.setPageList({ ssdjs: res.number });
     });
   } catch (error) {
     console.error(error);
@@ -80,7 +80,7 @@ const getSyzlData = async () => {
   // baseFun(api, "syzl");
   try {
     axiosFormData(api).then((res: any) => {
-      mainStore.setPageList({ ...mainStoreData, syzl: res.number });
+      mainStore.setPageList({ syzl: res.number });
     });
   } catch (error) {
     console.error(error);
@@ -92,7 +92,7 @@ const getFgtjData = async () => {
   // baseFun(api, "fgtj");
   try {
     axiosFormData(api).then((res: any) => {
-      mainStore.setPageList({ ...mainStoreData, fgtj: res.data });
+      mainStore.setPageList({ fgtj: res.data });
     });
   } catch (error) {
     console.error(error);
@@ -103,7 +103,7 @@ const getFgzfsData = async () => {
   try {
     const api = `${url}/homePage/judge/area/number`;
     axiosFormData(api).then((res: any) => {
-      mainStore.setPageList({ ...mainStoreData, zfs: res.data });
+      mainStore.setPageList({ zfs: res.data });
     });
   } catch (error) {
     console.error(error);
@@ -115,7 +115,9 @@ const getAjlxyjslData = async () => {
   try {
     const api = `${url}/homePage/caseType/number`;
     axiosFormData(api).then((res: any) => {
-      mainStore.setPageList({ ...mainStoreData, ajlxyjsl: res });
+      mainStore.setPageList({
+        ajlxyjsl: res,
+      });
     });
   } catch (error) {
     console.error(error);
@@ -127,7 +129,7 @@ const getTjyData = async () => {
   try {
     const api = `${url}/homePage/mediators/list`;
     axiosFormData(api).then((res: any) => {
-      mainStore.setPageList({ ...mainStoreData, tjy: res });
+      mainStore.setPageList({ tjy: res });
     });
   } catch (error) {
     console.error(error);
@@ -141,7 +143,7 @@ const getFlgwData = async () => {
     axiosFormData(api, {
       token: "GNVDKar7VfmDPejiXmpOnQerxUmlpQJMS5rZk=",
     }).then((res: any) => {
-      mainStore.setPageList({ ...mainStoreData, flgw: res.data });
+      mainStore.setPageList({ flgw: res.data });
     });
   } catch (error) {
     console.error(error);
@@ -160,329 +162,59 @@ const getMapData = async () => {
   try {
     const api = `${url}/newCaseNotice`;
     axiosFormData(api).then((res: any) => {
-      const timestamp = new Date().getTime();
       // const res = {
       //   code: 200,
       //   data: [
       //     {
-      //       id: 37,
-      //       case_number: "202310100002",
-      //       client_id: 22,
-      //       accused_client_id: 28,
-      //       case_type_id: 3,
-      //       area_id: 31,
-      //       mediators_id: 2,
-      //       judge_id: 1,
-      //       client_remark: "当事人描述",
-      //       mediators_remark: "",
-      //       judge_remark: "",
-      //       state: "0",
-      //       created_at: "2023-10-10 00:53:31",
-      //       updated_at: "2023-10-15 22:17:27",
-      //       deleted_at: null,
-      //       judge_remark_1: null,
-      //       mediators_remark_1: null,
-      //       notice_state: "true",
-      //       client: {
-      //         id: 22,
-      //         name: "林旭东",
-      //         password:
-      //           "$2y$10$1rG.ssmWrSjyFAudnpyC/uN9RwD28rAXElccKccMh.GC8ZD10fRfO",
-      //         mobile: "18646330633",
-      //         idcard: "230281199403180417",
-      //         identity: "个人",
-      //         created_at: "2023-10-03 21:09:41",
-      //         updated_at: "2023-10-14 17:39:53",
-      //         deleted_at: null,
-      //         api_token: "1a1c258d-0dd3-4592-b803-b574eb7537eb",
-      //         company_card: "",
-      //         area_id: 31,
-      //       },
-      //       accused_client: {
-      //         id: 28,
-      //         name: "徐",
-      //         password:
-      //           "$2y$10$Nd4CupBZcamObrFrJmd0DO9lPw3WFokQgaf1oe1jrop.jpCfuJzau",
-      //         mobile: "13384515545",
-      //         idcard: "230107198712041513",
-      //         identity: "个人",
-      //         created_at: "2023-10-09 18:51:35",
-      //         updated_at: "2023-10-10 07:09:06",
-      //         deleted_at: null,
-      //         api_token: "0c07b6e6-846d-4121-ba16-ae44d8c922db",
-      //         company_card: "",
-      //         area_id: 127,
-      //       },
-      //       case_type: {
-      //         id: 3,
-      //         name: "合同纠纷",
-      //         created_at: "2023-10-09 01:50:37",
-      //         updated_at: "2023-10-12 03:27:38",
-      //         deleted_at: null,
-      //       },
-      //       area: {
-      //         id: 31,
-      //         parent_id: 25,
-      //         name: "太和村",
-      //         created_at: "2023-10-09 07:22:42",
-      //         updated_at: "2023-10-09 07:22:42",
-      //         deleted_at: null,
-      //         parent_area: {
-      //           id: 25,
-      //           parent_id: 0,
-      //           name: "八面通镇",
-      //           created_at: "2023-10-09 07:21:00",
-      //           updated_at: "2023-10-09 07:21:00",
-      //           deleted_at: null,
-      //           parent_area: null,
-      //         },
-      //       },
-      //       mediators: {
-      //         id: 2,
-      //         area_id: 31,
-      //         comprehensiveness: true,
-      //         name: "王翠花",
-      //         password:
-      //           "$2y$10$4PTc/bo538fGGQ0FJBfTc.ra.S.8QlJ4/AGU4UrcarliG1m6VIvM6",
-      //         mobile: "13300000001",
-      //         idcard: "123123",
-      //         created_at: "2023-10-04 07:50:01",
-      //         updated_at: "2023-10-14 12:09:57",
-      //         deleted_at: null,
-      //         api_token: "9bb46db4-400a-48b6-ac2c-c873a99665d8",
-      //       },
-      //       judge: {
-      //         id: 1,
-      //         area_id: '["31","38","39","41","40"]',
-      //         department_id: 1,
-      //         department_job_id: 34,
-      //         party_id: 1,
-      //         party_job_id: 1,
-      //         name: "胡蕾",
-      //         password:
-      //           "$2y$10$4PTc/bo538fGGQ0FJBfTc.ra.S.8QlJ4/AGU4UrcarliG1m6VIvM6",
-      //         mobile: "18800000001",
-      //         age: 18,
-      //         created_at: "2023-10-04 06:44:17",
-      //         updated_at: "2023-10-14 08:31:52",
-      //         deleted_at: null,
-      //         api_token: "c87caa78-700b-4e6b-97ab-d424db6fe0b9",
-      //         phone: "8888888",
-      //       },
-      //       files: [
-      //         {
-      //           id: 165,
-      //           file_name: "穆法通_官方微博.jpg",
-      //           file_type: "jpg",
-      //           file_size: "36173",
-      //           url: "images/2023-10-10/vDQlDfyl5VGiWyW55a11faUZqTYd3VL2SONs5h17.jpg",
-      //           created_at: "2023-10-10 00:53:31",
-      //           case_id: 37,
-      //           updated_at: "2023-10-10 00:53:31",
-      //           upload_author: "当事人",
-      //           web_url:
-      //             "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-10/vDQlDfyl5VGiWyW55a11faUZqTYd3VL2SONs5h17.jpg",
-      //         },
-      //       ],
-      //       chat_room: {
-      //         id: 16,
-      //         case_id: 37,
-      //         room_number: "ML202310100002",
-      //         created_at: "2023-10-10 00:53:49",
-      //         updated_at: "2023-10-10 00:53:49",
-      //         deleted_at: null,
-      //       },
-      //     },
-      //     {
-      //       id: 49,
-      //       case_number: "202310140001",
-      //       client_id: 22,
-      //       accused_client_id: 28,
+      //       id: 86,
+      //       case_number: "202310180003",
+      //       client_id: 46,
+      //       accused_client_id: 52,
       //       case_type_id: 1,
       //       area_id: 31,
-      //       mediators_id: 2,
-      //       judge_id: 1,
-      //       client_remark: "12321312312321",
-      //       mediators_remark: "2312312312",
-      //       judge_remark: "",
-      //       state: "0",
-      //       created_at: "2023-10-14 07:00:08",
-      //       updated_at: "2023-10-15 22:17:27",
-      //       deleted_at: null,
-      //       judge_remark_1: null,
-      //       mediators_remark_1: null,
-      //       notice_state: "true",
-      //       client: {
-      //         id: 22,
-      //         name: "林旭东",
-      //         password:
-      //           "$2y$10$1rG.ssmWrSjyFAudnpyC/uN9RwD28rAXElccKccMh.GC8ZD10fRfO",
-      //         mobile: "18646330633",
-      //         idcard: "230281199403180417",
-      //         identity: "个人",
-      //         created_at: "2023-10-03 21:09:41",
-      //         updated_at: "2023-10-14 17:39:53",
-      //         deleted_at: null,
-      //         api_token: "1a1c258d-0dd3-4592-b803-b574eb7537eb",
-      //         company_card: "",
-      //         area_id: 31,
-      //       },
-      //       accused_client: {
-      //         id: 28,
-      //         name: "徐",
-      //         password:
-      //           "$2y$10$Nd4CupBZcamObrFrJmd0DO9lPw3WFokQgaf1oe1jrop.jpCfuJzau",
-      //         mobile: "13384515545",
-      //         idcard: "230107198712041513",
-      //         identity: "个人",
-      //         created_at: "2023-10-09 18:51:35",
-      //         updated_at: "2023-10-10 07:09:06",
-      //         deleted_at: null,
-      //         api_token: "0c07b6e6-846d-4121-ba16-ae44d8c922db",
-      //         company_card: "",
-      //         area_id: 127,
-      //       },
-      //       case_type: {
-      //         id: 1,
-      //         name: "家事纠纷",
-      //         created_at: "2023-10-04 06:38:46",
-      //         updated_at: "2023-10-12 03:27:18",
-      //         deleted_at: null,
-      //       },
-      //       area: {
-      //         id: 31,
-      //         parent_id: 25,
-      //         name: "太和村",
-      //         created_at: "2023-10-09 07:22:42",
-      //         updated_at: "2023-10-09 07:22:42",
-      //         deleted_at: null,
-      //         parent_area: {
-      //           id: 25,
-      //           parent_id: 0,
-      //           name: "八面通镇",
-      //           created_at: "2023-10-09 07:21:00",
-      //           updated_at: "2023-10-09 07:21:00",
-      //           deleted_at: null,
-      //           parent_area: null,
-      //         },
-      //       },
-      //       mediators: {
-      //         id: 2,
-      //         area_id: 31,
-      //         comprehensiveness: true,
-      //         name: "王翠花",
-      //         password:
-      //           "$2y$10$4PTc/bo538fGGQ0FJBfTc.ra.S.8QlJ4/AGU4UrcarliG1m6VIvM6",
-      //         mobile: "13300000001",
-      //         idcard: "123123",
-      //         created_at: "2023-10-04 07:50:01",
-      //         updated_at: "2023-10-14 12:09:57",
-      //         deleted_at: null,
-      //         api_token: "9bb46db4-400a-48b6-ac2c-c873a99665d8",
-      //       },
-      //       judge: {
-      //         id: 1,
-      //         area_id: '["31","38","39","41","40"]',
-      //         department_id: 1,
-      //         department_job_id: 34,
-      //         party_id: 1,
-      //         party_job_id: 1,
-      //         name: "胡蕾",
-      //         password:
-      //           "$2y$10$4PTc/bo538fGGQ0FJBfTc.ra.S.8QlJ4/AGU4UrcarliG1m6VIvM6",
-      //         mobile: "18800000001",
-      //         age: 18,
-      //         created_at: "2023-10-04 06:44:17",
-      //         updated_at: "2023-10-14 08:31:52",
-      //         deleted_at: null,
-      //         api_token: "c87caa78-700b-4e6b-97ab-d424db6fe0b9",
-      //         phone: "8888888",
-      //       },
-      //       files: [
-      //         {
-      //           id: 196,
-      //           file_name: "穆法通_官方抖音.jpg",
-      //           file_type: "jpg",
-      //           file_size: "28588",
-      //           url: "images/2023-10-14/L02Gdtn2iyX6gpJPSb93LmOHJUTK6fnLE47SgVTv.jpg",
-      //           created_at: "2023-10-14 07:00:07",
-      //           case_id: 49,
-      //           updated_at: "2023-10-14 07:00:08",
-      //           upload_author: "当事人",
-      //           web_url:
-      //             "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-14/L02Gdtn2iyX6gpJPSb93LmOHJUTK6fnLE47SgVTv.jpg",
-      //         },
-      //         {
-      //           id: 197,
-      //           file_name: "穆法通_官方微博.jpg",
-      //           file_type: "jpg",
-      //           file_size: "36173",
-      //           url: "images/2023-10-14/62qwRerIsqkkVzX9Q3szZ9f9DRhfuAA3BAuGGZ0L.jpg",
-      //           created_at: "2023-10-14 07:01:25",
-      //           case_id: 49,
-      //           updated_at: "2023-10-14 07:01:25",
-      //           upload_author: "调解员",
-      //           web_url:
-      //             "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-14/62qwRerIsqkkVzX9Q3szZ9f9DRhfuAA3BAuGGZ0L.jpg",
-      //         },
-      //       ],
-      //       chat_room: {
-      //         id: 28,
-      //         case_id: 49,
-      //         room_number: "ML202310140001",
-      //         created_at: "2023-10-14 07:00:19",
-      //         updated_at: "2023-10-14 07:00:19",
-      //         deleted_at: null,
-      //       },
-      //     },
-      //     {
-      //       id: 50,
-      //       case_number: "202310140002",
-      //       client_id: 22,
-      //       accused_client_id: 28,
-      //       case_type_id: 1,
-      //       area_id: 31,
-      //       mediators_id: 2,
+      //       mediators_id: 8,
       //       judge_id: 0,
-      //       client_remark: "123123123",
+      //       client_remark: "123456",
       //       mediators_remark: "",
       //       judge_remark: "",
       //       state: "4",
-      //       created_at: "2023-10-14 14:42:26",
-      //       updated_at: "2023-10-15 22:17:27",
+      //       created_at: "2023-10-18 00:24:57",
+      //       updated_at: "2023-10-18 00:54:31",
       //       deleted_at: null,
       //       judge_remark_1: null,
       //       mediators_remark_1: null,
       //       notice_state: "true",
+      //       accused_client_name: "林",
+      //       accused_client_mobile: "17610240567",
       //       client: {
-      //         id: 22,
-      //         name: "林旭东",
+      //         id: 46,
+      //         name: "6哥",
       //         password:
-      //           "$2y$10$1rG.ssmWrSjyFAudnpyC/uN9RwD28rAXElccKccMh.GC8ZD10fRfO",
-      //         mobile: "18646330633",
-      //         idcard: "230281199403180417",
+      //           "$2y$10$o84qQWf3mehIKelcwXX4Quj3r8M7Crn9Bg/9JFMv5IP0dzekSmEuG",
+      //         mobile: "18545806662",
+      //         idcard: "111111111111111111",
       //         identity: "个人",
-      //         created_at: "2023-10-03 21:09:41",
-      //         updated_at: "2023-10-14 17:39:53",
+      //         created_at: "2023-10-17 04:39:07",
+      //         updated_at: "2023-10-18 00:15:36",
       //         deleted_at: null,
-      //         api_token: "1a1c258d-0dd3-4592-b803-b574eb7537eb",
+      //         api_token: "e53c752b-95e4-4e1c-acd5-c6408a652d3e",
       //         company_card: "",
       //         area_id: 31,
       //       },
       //       accused_client: {
-      //         id: 28,
-      //         name: "徐",
+      //         id: 52,
+      //         name: "林",
       //         password:
-      //           "$2y$10$Nd4CupBZcamObrFrJmd0DO9lPw3WFokQgaf1oe1jrop.jpCfuJzau",
-      //         mobile: "13384515545",
-      //         idcard: "230107198712041513",
+      //           "$2y$10$pA8ey5Alna1uN7u/OrF7veam//bn30eyNx1qeq2u.WDSIAANYrGT.",
+      //         mobile: "17610240567",
+      //         idcard: "111111221212121212",
       //         identity: "个人",
-      //         created_at: "2023-10-09 18:51:35",
-      //         updated_at: "2023-10-10 07:09:06",
+      //         created_at: "2023-10-17 22:05:29",
+      //         updated_at: "2023-10-17 23:20:32",
       //         deleted_at: null,
-      //         api_token: "0c07b6e6-846d-4121-ba16-ae44d8c922db",
+      //         api_token: "9bfb560f-0355-49c4-95ec-219f1238b42e",
       //         company_card: "",
-      //         area_id: 127,
+      //         area_id: 31,
       //       },
       //       case_type: {
       //         id: 1,
@@ -509,39 +241,40 @@ const getMapData = async () => {
       //         },
       //       },
       //       mediators: {
-      //         id: 2,
+      //         id: 8,
       //         area_id: 31,
       //         comprehensiveness: true,
-      //         name: "王翠花",
+      //         name: "调解员（测试）",
       //         password:
-      //           "$2y$10$4PTc/bo538fGGQ0FJBfTc.ra.S.8QlJ4/AGU4UrcarliG1m6VIvM6",
-      //         mobile: "13300000001",
-      //         idcard: "123123",
-      //         created_at: "2023-10-04 07:50:01",
-      //         updated_at: "2023-10-14 12:09:57",
+      //           "$2y$10$DZVWBnrFRk/JEtB0y5Ee4emY2U3iV0WaO2R5BqcWSI7NbBDbdpDtq",
+      //         mobile: "13384515545",
+      //         idcard: "20106199304090832",
+      //         created_at: "2023-10-17 13:50:14",
+      //         updated_at: "2023-10-17 14:31:01",
       //         deleted_at: null,
-      //         api_token: "9bb46db4-400a-48b6-ac2c-c873a99665d8",
+      //         api_token: null,
       //       },
       //       judge: null,
       //       files: [
       //         {
-      //           id: 198,
-      //           file_name: "穆法通_官方微博.jpg",
+      //           id: 268,
+      //           file_name: "1697559889826453.jpeg",
       //           file_type: "jpg",
-      //           file_size: "36173",
-      //           url: "images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
-      //           created_at: "2023-10-14 14:42:26",
-      //           case_id: 50,
-      //           updated_at: "2023-10-14 14:42:26",
+      //           file_size: "28257",
+      //           url: "images/2023-10-18/xHccpuSHxNOyX1T4sArkBpcZc6MbmZft8gBVe55W.jpg",
+      //           created_at: "2023-10-18 00:24:56",
+      //           case_id: 86,
+      //           updated_at: "2023-10-18 00:24:57",
       //           upload_author: "当事人",
       //           web_url:
-      //             "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
+      //             "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-18/xHccpuSHxNOyX1T4sArkBpcZc6MbmZft8gBVe55W.jpg",
       //         },
       //       ],
       //       chat_room: null,
       //     },
       //   ],
       // };
+      const timestamp = new Date().getTime();
       const timestamp1 = moment().valueOf();
       // console.log("setPageList", ddd.value, timestamp, timestamp1);
       const arr = [];
@@ -555,9 +288,9 @@ const getMapData = async () => {
       //   arr,
       //   res?.data?.area?.parent_area?.id
       // );
+      console.log("res.data", res.data);
 
       mainStore.setPageList({
-        ...mainStoreData,
         dtsj: {
           data: arr,
           info: res.data,
@@ -673,11 +406,12 @@ onUnmounted(() => {
   }
   .container {
     width: 100%;
-    flex: 1;
+    // flex: 1;
+    height: calc(100% - 236px);
     display: flex;
     flex-direction: row;
     justify-content: center;
-    overflow: hidden;
+    // overflow: hidden;
     // margin-bottom:70px;
   }
   .mainItem {

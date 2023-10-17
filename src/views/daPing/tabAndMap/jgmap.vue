@@ -57,7 +57,7 @@
         class="flag"
         :class="[{ 'light-flag': item.light }]"
         :style="{ top: item.top + 'px', left: item.left + 'px' }"
-        @click="() => item.light && flagClickFun(item)"
+        @click="() => flagClickFun(item)"
       >
         <template v-if="item.light">
           <!-- <span class="num">{{ item.value }}</span> -->
@@ -78,16 +78,8 @@ import * as echarts from "echarts";
 import { axiosPost } from "@/utils";
 import InfoModal from "./info-modal.vue";
 import mapJson from "./mapJson.json";
-import jtImg from "@/assets/images/gjtb.png";
-import ptjtImg from "@/assets/images/tstb.png";
-import higHlight from "@/assets/images/higHlight.png";
 import Yxjq from "@/assets/images/yxjq.png";
-import Lamp from "@/assets/images/policelamp.png";
-import RedIcon from "@/assets/images/red-bg.png";
-import GreenIcon from "@/assets/images/green-bg.png";
-import BlueIcon from "@/assets/images/blue-bg.png";
-import StartIcon from "@/assets/images/start.png";
-import BigFlag from "@/assets/images/big-flag.png";
+
 import { useMain } from "@/store";
 import moment from "moment";
 const showTooltip = ref<boolean>(false);
@@ -109,25 +101,19 @@ const changeShowFun = (v) => {
 // 监听数据变化
 mainStore.$subscribe(
   (_, state) => {
-    // console.log("map-state", state.pageList.dtsj, {
-    //   a1: flagArr.value[0].name,
-    //   a2: flagArr.value[0].time,
-    //   a3: flagArr.value[0].light,
-    //   b1: flagArr.value[1].name,
-    //   b2: flagArr.value[1].time,
-    //   b3: flagArr.value[1].light,
-    // });
-    // console.log("state.pageList?.dtsj.info", state.pageList?.dtsj.info);
 
-    if (state.pageList?.dtsj?.data) {
-      state.pageList.dtsj.data.forEach((item) => {
-        flagArr.value.forEach((falg, i) => {
+    if (state.pageList?.dtsj?.data && state.pageList.dtsj.data?.length > 0) {
+      state.pageList.dtsj.data.forEach((item, i) => {
+        const newArr = flagArr.value;
+        newArr.forEach((falg) => {
           if (falg.name == item) {
             falg.time = state.pageList.dtsj.time;
             falg.light = true;
             falg.info = state.pageList?.dtsj.info[i];
           }
         });
+
+        flagArr.value = newArr;
       });
       setTimeout(() => {
         // console.log("setTimeout----");
@@ -138,14 +124,7 @@ mainStore.$subscribe(
           if (item.time && nowTime.value - item.time >= 600000)
             item.light = false;
         });
-        // console.log("arr", {
-        //   a1: arr[0].name,
-        //   a2: arr[0].time,
-        //   a3: arr[0].light,
-        //   b1: arr[1].name,
-        //   b2: arr[1].time,
-        //   b3: arr[1].light,
-        // });
+
         flagArr.value = arr;
       }, 20000);
     }
@@ -162,7 +141,7 @@ const flagArr = ref([
     left: 378,
     light: false,
     value: 1,
-    name: "河西乡",
+    name: "河西镇",
   },
   {
     top: 153,
@@ -822,7 +801,7 @@ onUnmounted(() => {
     width: 446px;
     margin-left: 24px;
     height: max-content;
-    background: rgba(25, 69, 116, 0.82);
+    background: rgba(25, 69, 116, 0.8);
     border: 1px solid #0196ff;
     border-radius: 8px;
   }
@@ -844,6 +823,7 @@ onUnmounted(() => {
     height: 30px;
     position: absolute;
     z-index: 99;
+    cursor: pointer;
   }
   .light-flag {
     width: 40px;

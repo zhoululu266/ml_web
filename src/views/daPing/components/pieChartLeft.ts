@@ -4,13 +4,14 @@ let pieColors = [
   "#258CFF",
   "#01E4FF",
   "#96F159",
-  "#8ae308",
-  "#fb9a55",
-  "#ee3e3e",
-  "#FF7B00",
-  "#5FA7A4",
-  "#FFDC7B",
-  "#E37C3E",
+  "#fac858",
+  "#73c0de",
+  "#fc8452",
+  "#ea7ccc",
+  "#F8BBD0",
+  "#C8E6C9",
+  "#FFE0B2",
+  "#FFFFFF",
 ];
 let richColor = {};
 let legendRich = {};
@@ -39,6 +40,36 @@ export function getRich(pieColors, size) {
 }
 export const option = {
   color: pieColors,
+  tooltip: {
+    backgroundColor: "rgba(25, 69, 116, 0.8)",
+    borderColor: "#0196ff",
+    textStyle: {
+      color: "#DFEEFF",
+    },
+    formatter: function (params) {
+      console.log("params", params);
+      let htmlStr = "";
+      const transparent = { 1: "一", 2: "二", 3: "三" };
+      for (let i = 0; i < params.data.area.length; i++) {
+        const param = params.data.area[i];
+        const name = param.name;
+        const value = param.case_number;
+        const minName = param.parent_area.name;
+
+        htmlStr += "<val>" + (i + 1) + "." + "</val>  ";
+        htmlStr += "<val>" + name + "-" + minName + "</val>  ";
+        htmlStr += "<val>" + "( " + value + " )" + "</val></br>";
+      }
+      return htmlStr;
+    },
+    rich: {
+      val: {
+        fontSize: 12,
+        fontWeight: "bolder",
+        color: "#fff",
+      },
+    },
+  },
   grid: {
     left: 0,
     top: 0,
@@ -48,7 +79,7 @@ export const option = {
   },
   polar: {},
   angleAxis: {
-    interval: 1,
+    interval: 0,
     type: "category",
     data: ["普招", "提前批", "体育生", "专升本"],
     z: 10,
@@ -77,6 +108,7 @@ export const option = {
     axisTick: false,
     axisLabel: {
       formatter: "{value} %",
+      interval: 0,
       show: false,
       padding: [0, 0, 10, 0],
       color: "#0B3E5E",
@@ -96,7 +128,7 @@ export const option = {
       name: "",
       type: "pie",
       radius: ["10%", "11%"],
-      center: ["50%", "50%"],
+      // center: ["50%", "30%"],
       roseType: "radius",
       label: {
         show: false,
@@ -187,7 +219,7 @@ export const option = {
       data: [0],
     },
     {
-      name: "a",
+      name: "案件类型",
       type: "pie",
       radius: ["20%", "40%"],
       center: ["50%", "50%"],
@@ -195,7 +227,7 @@ export const option = {
       zlevel: 10,
       label: {
         show: true,
-        fontSize: 12,
+        // fontSize: 12,
         align: "center",
         interval: 0,
         formatter: function (params: any) {
@@ -204,12 +236,13 @@ export const option = {
           const index = params.dataIndex || 0;
           return [`{a${index}|${name}}\n{b${index}|${percent}}`];
         },
-        rich: getRich(pieColors, 14),
+        rich: getRich(pieColors, 12),
       },
       data: [],
+
       labelLine: {
-        length: 20,
-        length2: 20,
+        length: 40,
+        length2: 30,
         lineStyle: {
           angle: 0, // 设置线的角度为 45 度
         },
@@ -218,7 +251,8 @@ export const option = {
         },
       },
       startAngle: 90,
-      minAngle: 5,
+      minAngle: 0,
+      avoidLabelOverlap: true, // 是否启用防止标签重叠策略
       z: 2,
     },
   ],

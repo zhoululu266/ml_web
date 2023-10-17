@@ -27,7 +27,7 @@ let formatNumber = function (num: number) {
   let reg = /(?=(\B)(\d{3})+$)/g;
   return num ? num.toString().replace(reg, ",") : 0;
 };
-const config = computed(() => [
+const config = ref([
   {
     name: "法律顾问",
     data: [
@@ -63,6 +63,50 @@ const config = computed(() => [
     ],
   },
 ]);
+watch(
+  () => props.configData,
+  (newVal) => {
+    config.value = [
+      {
+        name: "法律顾问",
+        data: [
+          {
+            name: "调解案件成功数",
+            img: "",
+            val: newVal ? newVal?.["flgw_cgs"] : props.configData["flgw_cgs"],
+            num: true,
+          },
+          {
+            name: "成功率",
+            img: "",
+            val: newVal ? newVal?.["flgw_cgl"] : props.configData["flgw_cgl"],
+            dw: "%",
+          },
+        ],
+      },
+      {
+        name: "调解员",
+        data: [
+          {
+            name: "调解案件成功数",
+            img: "",
+            val: newVal ? newVal?.["tjy_cgs"] : props.configData["tjy_cgs"],
+            num: true,
+          },
+          {
+            name: "成功率",
+            img: "",
+            val: newVal ? newVal?.["tjy_cgl"] : props.configData["tjy_cgl"],
+            dw: "%",
+          },
+        ],
+      },
+    ];
+  },
+  {
+    deep: true,
+  }
+);
 const props = withDefaults(defineProps<Props>(), {
   configData: () => {
     return {};
