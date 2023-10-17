@@ -18,7 +18,7 @@
           <div id="mapEchart" class="map-chart"></div>
         </div>
         <div class="min-map"></div>
-        <div class="min-map-title">八面通镇</div>
+        <!-- <div class="min-map-title">八面通镇</div> -->
         <div class="card">
           <div
             @mouseover="showTooltip = true"
@@ -822,7 +822,7 @@ onUnmounted(() => {
     width: 446px;
     margin-left: 24px;
     height: max-content;
-    background: #194574eb;
+    background: rgba(25, 69, 116, 0.82);
     border: 1px solid #0196ff;
     border-radius: 8px;
   }
@@ -931,10 +931,10 @@ onUnmounted(() => {
     background-repeat: no-repeat;
     background-size: 100% 100%;
     width: 21%;
-    height: 42%;
+    height: 48%;
     position: absolute;
     right: 12%;
-    bottom: -3%;
+    bottom: -6%;
   }
   .min-map-title {
     width: 21%;
