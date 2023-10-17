@@ -27,7 +27,10 @@
             <div class="flag-icon"></div>
             <div>党员天平工作站</div>
             <div v-if="showTooltip" class="tooltip">
-              <p>党员天平工作站</p>
+              <p>
+                &nbsp;&nbsp;&nbsp;
+                &nbsp;在全市8个乡镇、7个社区、127个村屯挂牌成立“党员天平工作站”，全院干警化身“法律顾问”，包村入户上门服务，与538名“法律明白人”协同调解纠纷，打造了“一村一特色”服务项目。少年法庭延伸触角，将工作站入驻校园，构建起“法官+政协委员+人民调解员”的驻站工作模式，为青少年健康成长营造了良好法治环境；班子成员定期入驻工作站，面对面接待群众，实现了从“坐班接待”到“上门问需”的转变。
+              </p>
             </div>
           </div>
 
@@ -38,7 +41,10 @@
             <div class="start"></div>
             <div>共享法庭</div>
             <div v-if="showTooltipFt" class="tooltip tooltip-ft">
-              <p>共享法庭</p>
+              <p>
+                &nbsp;&nbsp;&nbsp;
+                &nbsp;目前共有实体共享法庭4个，分别是下城子镇、穆棱镇滨湖新村、民主社区、和平社区。同时，APP“穆法通”面向使用人员均具有“共享法庭”功能。“共享法庭”专有设备融合了调解指导、纠纷化解、线上诉讼、普法宣传等司法服务功能，成为一站式诉讼服务、一站式基层治理的最小支点，通过引入行业协会、调解组织、社会团体，真正实现穆棱法院服务保障、促进基层治理法治化的阵地集群。
+              </p>
             </div>
           </div>
         </div>
@@ -813,9 +819,9 @@ onUnmounted(() => {
     font-weight: 400;
     padding: 12px 24px;
     color: #ffffff;
-    width: 246px;
+    width: 446px;
     margin-left: 24px;
-    height: 152px;
+    height: max-content;
     background: #194574eb;
     border: 1px solid #0196ff;
     border-radius: 8px;

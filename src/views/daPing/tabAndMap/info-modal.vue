@@ -11,56 +11,68 @@
   >
     <template #header="{ close, titleId, titleClass }">
       <div class="my-header">
-        <p id="titleId" :class="titleClass">案件详情</p>
+        <p id="titleId" :class="titleClass">
+          <span class="sj"></span>案件详情<span class="dd"></span>
+        </p>
 
         <el-icon class="el-icon--left" @click="emits('closeModal')"
-          ><CircleCloseFilled
-        /></el-icon>
+          ><CloseBold />
+        </el-icon>
       </div>
     </template>
     <template v-if="formData?.length > 0">
       <div v-for="(item, i) in formData">
         <div v-show="checkIndex == i" class="form-box">
-          <div>
-            <span>调节对象</span>
-            <p>{{ item?.accused_client_name || "--" }}</p>
+          <div class="row">
+            <div>
+              <div><i class="dot"></i><span>调节对象</span></div>
+              <p>{{ item?.accused_client_name || "--" }}</p>
+            </div>
+            <div>
+              <div><i class="dot"></i><span>被调节对象</span></div>
+              <p>{{ item?.client_name || "--" }}</p>
+            </div>
           </div>
-          <div>
-            <span>被调节对象</span>
-            <p>{{ item?.client_name || "--" }}</p>
+          <div class="row">
+            <div>
+              <i class="dot"></i><span>纠纷类型</span>
+              <p>{{ item?.case_type_name || "--" }}</p>
+            </div>
+            <div>
+              <i class="dot"></i> <span>调解时间</span>
+              <p>{{ item?.created_date || "--" }}</p>
+            </div>
           </div>
-          <div>
-            <span>纠纷类型</span>
-            <p>{{ item?.case_type_name || "--" }}</p>
+          <div class="row">
+            <div>
+              <i class="dot"></i><span>纠纷发生地(乡、镇)</span>
+              <p>{{ item?.parent_area_name || "--" }}</p>
+            </div>
+            <div>
+              <i class="dot"></i><span>纠纷发生地村</span>
+              <p>{{ item?.area_name || "--" }}</p>
+            </div>
           </div>
-          <div>
-            <span>调解时间</span>
-            <p>{{ item?.created_date || "--" }}</p>
+          <div class="row">
+            <div>
+              <i class="dot"></i> <span>调解员</span>
+              <p>{{ item?.mediators_name || "--" }}</p>
+            </div>
+            <div>
+              <i class="dot"></i> <span>纠纷内容</span>
+              <p>{{ item?.client_remark || "--" }}</p>
+            </div>
           </div>
-          <div>
-            <span>纠纷发生地(乡、镇)</span>
-            <p>{{ item?.parent_area_name || "--" }}</p>
-          </div>
-          <div>
-            <span>纠纷发生地村</span>
-            <p>{{ item?.area_name || "--" }}</p>
-          </div>
-          <div>
-            <span>调解员</span>
-            <p>{{ item?.mediators_name || "--" }}</p>
-          </div>
-          <div>
-            <span>纠纷内容</span>
-            <p>{{ item?.client_remark || "--" }}</p>
-          </div>
-          <div>
-            <span>纠纷材料</span>
+          <div class="img-box">
+            <div class="top">
+              <i class="dot"></i> <span class="jf">纠纷材料</span>
+            </div>
             <div class="demo-image">
               <el-carousel
                 :loop="false"
                 ref="carouselRef"
                 :autoplay="false"
-                height="100px"
+                height="120px"
                 width="100%"
                 arrow="always"
               >
@@ -76,7 +88,7 @@
 
                   <el-image
                     v-for="imgList in list"
-                    style="width: 140px; height: 100px"
+                    style="width: 140px; height: 120px"
                     :src="imgList?.web_url"
                     :preview-src-list="previewData"
                     :fit="fit"
@@ -171,7 +183,7 @@ const getDataSource = (data) => {
     for (let i = 0; i <= data.length - 1; i++) {
       ylArr.push(data[i].web_url);
       data[i].img = data[i].web_url;
-      if (i % 3 !== 0 || i === 0) {
+      if (i % 4 !== 0 || i === 0) {
         if (!newDataList[current]) {
           newDataList.push([data[i]]);
         } else {
@@ -196,170 +208,170 @@ const getInfo = async () => {
       "?area_id=" +
       props?.infoData?.info?.area?.parent_area?.id;
     axiosFormData(api).then((res: any) => {
-      //   res = {
-      //     code: 200,
-      //     data: [
-      //       {
-      //         client_name: "林旭东",
-      //         accused_client_name: "徐",
-      //         case_type_name: "家事纠纷",
-      //         parent_area_name: "八面通镇",
-      //         area_name: "太和村",
-      //         created_date: "2023-10-14 14:42:26",
-      //         mediators_name: "王翠花",
-      //         client_remark: "123123123",
-      //         files: [
-      //           {
-      //             id: 198,
-      //             file_name: "穆法通_官方微博.jpg",
-      //             file_type: "jpg",
-      //             file_size: "36173",
-      //             url: "images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
-      //             created_at: "2023-10-14 14:42:26",
-      //             case_id: 50,
-      //             updated_at: "2023-10-14 14:42:26",
-      //             upload_author: "当事人",
-      //             web_url:
-      //               "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
-      //           },
-      //           {
-      //             id: 198,
-      //             file_name: "穆法通_官方微博.jpg",
-      //             file_type: "jpg",
-      //             file_size: "36173",
-      //             url: "images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
-      //             created_at: "2023-10-14 14:42:26",
-      //             case_id: 50,
-      //             updated_at: "2023-10-14 14:42:26",
-      //             upload_author: "当事人",
-      //             web_url:
-      //               "https://img.mp.itc.cn/upload/20170612/72d37f9f668549839d8cdb5d787f7ec3_th.jpg",
-      //           },
-      //           {
-      //             id: 198,
-      //             file_name: "穆法通_官方微博.jpg",
-      //             file_type: "jpg",
-      //             file_size: "36173",
-      //             url: "images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
-      //             created_at: "2023-10-14 14:42:26",
-      //             case_id: 50,
-      //             updated_at: "2023-10-14 14:42:26",
-      //             upload_author: "当事人",
-      //             web_url:
-      //               "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
-      //           },
-      //           {
-      //             id: 198,
-      //             file_name: "穆法通_官方微博.jpg",
-      //             file_type: "jpg",
-      //             file_size: "36173",
-      //             url: "images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
-      //             created_at: "2023-10-14 14:42:26",
-      //             case_id: 50,
-      //             updated_at: "2023-10-14 14:42:26",
-      //             upload_author: "当事人",
-      //             web_url:
-      //               "https://img.mp.itc.cn/upload/20170612/72d37f9f668549839d8cdb5d787f7ec3_th.jpg",
-      //           },
-      //           {
-      //             id: 198,
-      //             file_name: "穆法通_官方微博.jpg",
-      //             file_type: "jpg",
-      //             file_size: "36173",
-      //             url: "images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
-      //             created_at: "2023-10-14 14:42:26",
-      //             case_id: 50,
-      //             updated_at: "2023-10-14 14:42:26",
-      //             upload_author: "当事人",
-      //             web_url:
-      //               "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
-      //           },
-      //         ],
-      //       },
-      //       {
-      //         client_name: "林旭东",
-      //         accused_client_name: "徐",
-      //         case_type_name: "家事纠纷",
-      //         parent_area_name: "八面通镇",
-      //         area_name: "太和村",
-      //         created_date: "2023-10-14 07:00:08",
-      //         mediators_name: "王翠花",
-      //         client_remark: "12321312312321",
-      //         files: [
-      //           {
-      //             id: 196,
-      //             file_name: "穆法通_官方抖音.jpg",
-      //             file_type: "jpg",
-      //             file_size: "28588",
-      //             url: "images/2023-10-14/L02Gdtn2iyX6gpJPSb93LmOHJUTK6fnLE47SgVTv.jpg",
-      //             created_at: "2023-10-14 07:00:07",
-      //             case_id: 49,
-      //             updated_at: "2023-10-14 07:00:08",
-      //             upload_author: "当事人",
-      //             web_url:
-      //               "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-14/L02Gdtn2iyX6gpJPSb93LmOHJUTK6fnLE47SgVTv.jpg",
-      //           },
-      //           {
-      //             id: 197,
-      //             file_name: "穆法通_官方微博.jpg",
-      //             file_type: "jpg",
-      //             file_size: "36173",
-      //             url: "images/2023-10-14/62qwRerIsqkkVzX9Q3szZ9f9DRhfuAA3BAuGGZ0L.jpg",
-      //             created_at: "2023-10-14 07:01:25",
-      //             case_id: 49,
-      //             updated_at: "2023-10-14 07:01:25",
-      //             upload_author: "调解员",
-      //             web_url:
-      //               "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-14/62qwRerIsqkkVzX9Q3szZ9f9DRhfuAA3BAuGGZ0L.jpg",
-      //           },
-      //         ],
-      //       },
-      //       {
-      //         client_name: "林旭东",
-      //         accused_client_name: "徐",
-      //         case_type_name: "侵权纠纷",
-      //         parent_area_name: "八面通镇",
-      //         area_name: "太和村",
-      //         created_date: "2023-10-10 06:29:32",
-      //         mediators_name: "李狗蛋",
-      //         client_remark: "1111111",
-      //         files: [
-      //           {
-      //             id: 178,
-      //             file_name: "穆法通_官方微博.jpg",
-      //             file_type: "jpg",
-      //             file_size: "36173",
-      //             url: "images/2023-10-10/wFwDwcQETo4aCXIOdYzuNciPql05YgEm1HCbuH6p.jpg",
-      //             created_at: "2023-10-10 06:29:31",
-      //             case_id: 43,
-      //             updated_at: "2023-10-10 06:29:32",
-      //             upload_author: "当事人",
-      //             web_url:
-      //               "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-10/wFwDwcQETo4aCXIOdYzuNciPql05YgEm1HCbuH6p.jpg",
-      //           },
-      //           {
-      //             id: 179,
-      //             file_name: "穆法通_官方抖音.jpg",
-      //             file_type: "jpg",
-      //             file_size: "28588",
-      //             url: "images/2023-10-10/xrXSdRJkKCifpI38VoFlzycddVPICYVRxJwYlMvg.jpg",
-      //             created_at: "2023-10-10 06:30:05",
-      //             case_id: 43,
-      //             updated_at: "2023-10-10 06:30:05",
-      //             upload_author: "调解员",
-      //             web_url:
-      //               "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-10/xrXSdRJkKCifpI38VoFlzycddVPICYVRxJwYlMvg.jpg",
-      //           },
-      //         ],
-      //       },
-      //     ],
-      //   };
+      // const res = {
+      //   code: 200,
+      //   data: [
+      //     {
+      //       client_name: "林旭东",
+      //       accused_client_name: "徐",
+      //       case_type_name: "家事纠纷",
+      //       parent_area_name: "八面通镇",
+      //       area_name: "太和村",
+      //       created_date: "2023-10-14 14:42:26",
+      //       mediators_name: "王翠花",
+      //       client_remark: "123123123",
+      //       files: [
+      //         {
+      //           id: 198,
+      //           file_name: "穆法通_官方微博.jpg",
+      //           file_type: "jpg",
+      //           file_size: "36173",
+      //           url: "images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
+      //           created_at: "2023-10-14 14:42:26",
+      //           case_id: 50,
+      //           updated_at: "2023-10-14 14:42:26",
+      //           upload_author: "当事人",
+      //           web_url:
+      //             "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
+      //         },
+      //         {
+      //           id: 198,
+      //           file_name: "穆法通_官方微博.jpg",
+      //           file_type: "jpg",
+      //           file_size: "36173",
+      //           url: "images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
+      //           created_at: "2023-10-14 14:42:26",
+      //           case_id: 50,
+      //           updated_at: "2023-10-14 14:42:26",
+      //           upload_author: "当事人",
+      //           web_url:
+      //             "https://img.mp.itc.cn/upload/20170612/72d37f9f668549839d8cdb5d787f7ec3_th.jpg",
+      //         },
+      //         {
+      //           id: 198,
+      //           file_name: "穆法通_官方微博.jpg",
+      //           file_type: "jpg",
+      //           file_size: "36173",
+      //           url: "images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
+      //           created_at: "2023-10-14 14:42:26",
+      //           case_id: 50,
+      //           updated_at: "2023-10-14 14:42:26",
+      //           upload_author: "当事人",
+      //           web_url:
+      //             "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
+      //         },
+      //         {
+      //           id: 198,
+      //           file_name: "穆法通_官方微博.jpg",
+      //           file_type: "jpg",
+      //           file_size: "36173",
+      //           url: "images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
+      //           created_at: "2023-10-14 14:42:26",
+      //           case_id: 50,
+      //           updated_at: "2023-10-14 14:42:26",
+      //           upload_author: "当事人",
+      //           web_url:
+      //             "https://img.mp.itc.cn/upload/20170612/72d37f9f668549839d8cdb5d787f7ec3_th.jpg",
+      //         },
+      //         {
+      //           id: 198,
+      //           file_name: "穆法通_官方微博.jpg",
+      //           file_type: "jpg",
+      //           file_size: "36173",
+      //           url: "images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
+      //           created_at: "2023-10-14 14:42:26",
+      //           case_id: 50,
+      //           updated_at: "2023-10-14 14:42:26",
+      //           upload_author: "当事人",
+      //           web_url:
+      //             "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-14/TPcIzhi0MuMGLyAp24RXwt05ZUtOnnIRTMOXON2w.jpg",
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       client_name: "林旭东",
+      //       accused_client_name: "徐",
+      //       case_type_name: "家事纠纷",
+      //       parent_area_name: "八面通镇",
+      //       area_name: "太和村",
+      //       created_date: "2023-10-14 07:00:08",
+      //       mediators_name: "王翠花",
+      //       client_remark: "12321312312321",
+      //       files: [
+      //         {
+      //           id: 196,
+      //           file_name: "穆法通_官方抖音.jpg",
+      //           file_type: "jpg",
+      //           file_size: "28588",
+      //           url: "images/2023-10-14/L02Gdtn2iyX6gpJPSb93LmOHJUTK6fnLE47SgVTv.jpg",
+      //           created_at: "2023-10-14 07:00:07",
+      //           case_id: 49,
+      //           updated_at: "2023-10-14 07:00:08",
+      //           upload_author: "当事人",
+      //           web_url:
+      //             "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-14/L02Gdtn2iyX6gpJPSb93LmOHJUTK6fnLE47SgVTv.jpg",
+      //         },
+      //         {
+      //           id: 197,
+      //           file_name: "穆法通_官方微博.jpg",
+      //           file_type: "jpg",
+      //           file_size: "36173",
+      //           url: "images/2023-10-14/62qwRerIsqkkVzX9Q3szZ9f9DRhfuAA3BAuGGZ0L.jpg",
+      //           created_at: "2023-10-14 07:01:25",
+      //           case_id: 49,
+      //           updated_at: "2023-10-14 07:01:25",
+      //           upload_author: "调解员",
+      //           web_url:
+      //             "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-14/62qwRerIsqkkVzX9Q3szZ9f9DRhfuAA3BAuGGZ0L.jpg",
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       client_name: "林旭东",
+      //       accused_client_name: "徐",
+      //       case_type_name: "侵权纠纷",
+      //       parent_area_name: "八面通镇",
+      //       area_name: "太和村",
+      //       created_date: "2023-10-10 06:29:32",
+      //       mediators_name: "李狗蛋",
+      //       client_remark: "1111111",
+      //       files: [
+      //         {
+      //           id: 178,
+      //           file_name: "穆法通_官方微博.jpg",
+      //           file_type: "jpg",
+      //           file_size: "36173",
+      //           url: "images/2023-10-10/wFwDwcQETo4aCXIOdYzuNciPql05YgEm1HCbuH6p.jpg",
+      //           created_at: "2023-10-10 06:29:31",
+      //           case_id: 43,
+      //           updated_at: "2023-10-10 06:29:32",
+      //           upload_author: "当事人",
+      //           web_url:
+      //             "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-10/wFwDwcQETo4aCXIOdYzuNciPql05YgEm1HCbuH6p.jpg",
+      //         },
+      //         {
+      //           id: 179,
+      //           file_name: "穆法通_官方抖音.jpg",
+      //           file_type: "jpg",
+      //           file_size: "28588",
+      //           url: "images/2023-10-10/xrXSdRJkKCifpI38VoFlzycddVPICYVRxJwYlMvg.jpg",
+      //           created_at: "2023-10-10 06:30:05",
+      //           case_id: 43,
+      //           updated_at: "2023-10-10 06:30:05",
+      //           upload_author: "调解员",
+      //           web_url:
+      //             "http://app.mdjmlcourt.gov.cn/uploads/images/2023-10-10/xrXSdRJkKCifpI38VoFlzycddVPICYVRxJwYlMvg.jpg",
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // };
       if (res.code === 200) {
         formData.value = res.data;
         // 将数组处理成嵌套数组的形式
         getDataSource(res.data[0].files);
       }
-      console.log("res", res);
+      // console.log("res", res);
     });
   } catch (error) {
     console.error(error);
@@ -374,26 +386,98 @@ onMounted(() => {
 <style lan="scss">
 .info-modal {
   width: 600px;
-  height: 600px;
+  height: 640px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   font-size: 18px;
   font-family: Source Han Sans CN;
   font-weight: 400;
-  padding: 24px;
+  padding: 24px 0;
   color: #ffffff;
   background: #194574eb;
-  border: 1px solid #0196ff;
-  border-radius: 8px;
+  /* border: 1px solid #0196ff; */
+  /* border-radius: 8px; */
   position: relative;
+  background-image: url(/src/assets/images/info-bg.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  .el-icon svg {
+    color: #01e4ff;
+    margin-top: 8px;
+  }
   .el-carousel__indicators {
     display: none;
     visibility: hidden;
   }
+  .el-dialog__footer {
+    padding-right: 28px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  .el-button {
+    color: #1f4770;
+    background-color: #ffffff;
+    border-color: #1f4770;
+  }
+  .el-button--primary {
+    background-color: #1f4770;
+    color: #ffffff;
+  }
+
+  .form-box {
+    padding-left: 20px;
+    margin-top: 20px;
+  }
   .form-box .el-carousel__item,
   .form-box .el-carousel__item:nth-child(2n + 1) {
     background: none;
+  }
+  .row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+
+    > div {
+      width: 50%;
+      > div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+      }
+      .dot {
+        width: 5px;
+        height: 5px;
+        background: #97abbf;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 10px;
+      }
+    }
+  }
+}
+.img-box {
+  display: flex;
+  flex-direction: column !important;
+  align-items: start !important;
+  .top {
+    display: block;
+    margin-bottom: 10px;
+  }
+  .dot {
+    width: 5px;
+    height: 5px;
+    background: #97abbf;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  span.jf {
+    display: block;
   }
 }
 </style>
@@ -461,13 +545,36 @@ onMounted(() => {
     font-size: 20px;
     padding: 0;
     margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .sj {
+      background-image: url(/src/assets/images/sj-icon.png);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      width: 20px;
+      height: 19px;
+      display: inline-block;
+      margin-right: 6px;
+    }
+    .dd {
+      background-image: url(/src/assets/images/dd-icon.png);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      width: 242px;
+      height: 8px;
+      display: inline-block;
+      margin-left: 6px;
+    }
   }
 }
 .form-box {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: -24px;
+  margin-top: -14px;
   .el-carousel__item {
     background-color: transparent !important;
   }
@@ -476,24 +583,31 @@ onMounted(() => {
     display: flex;
     flex-direction: row;
     justify-content: start;
-    align-items: center;
+    align-items: baseline;
     > span,
     p {
-      display: flex;
-      flex-direction: row;
-      justify-content: start;
-      align-items: center;
+      // display: flex;
+      // flex-direction: row;
+      // justify-content: start;
+      // align-items: center;
       font-size: 16px;
       color: #ffffff;
       padding: 8px 0;
       margin: 0;
-      width: calc(100% - 124px);
+      height: 100%;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      width: 100%;
+      // width: calc(100% - 124px);
     }
     span {
       width: 100px;
       justify-content: end;
       margin-right: 24px;
-      text-align: right;
+
+      color: #97abbf;
+      font-size: 16px;
+      text-align: left;
     }
   }
   .imgs {
@@ -547,7 +661,7 @@ onMounted(() => {
     }
   }
   .demo-image {
-    width: calc(100% - 124px);
+    width: 100%;
   }
   .el-carousel__item h3 {
     color: #475669;
