@@ -34,6 +34,7 @@ const mainStore = useMain();
 const router = useRouter();
 const pageInterval = ref<string | number | NodeJS.Timeout | undefined>();
 const mapInterval = ref<string | number | NodeJS.Timeout | undefined>();
+const mapJjInterval = ref<string | number | NodeJS.Timeout | undefined>();
 
 const sy = ref(true);
 const mainStoreData = mainStore.getPageList();
@@ -480,7 +481,19 @@ const getMapData = async () => {
     console.error(error);
   }
 };
-
+//【首页】地图简介
+const getJjData = async () => {
+  try {
+    const api = `${url}/homePage/case/area/info`;
+    axiosFormData(api).then((res: any) => {
+      mainStore.setPageList({
+        jj: res.data,
+      });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
 const desFun = () => {
   getSqtjyData();
 };
@@ -488,14 +501,17 @@ onMounted(() => {
   // setTimeout(() => {
   desFun();
   getMapData();
+  getJjData();
   // }, 6000);
 
   pageInterval.value = setInterval(desFun, 30000);
   mapInterval.value = setInterval(getMapData, 10000);
+  mapJjInterval.value = setInterval(getJjData, 10000000000);
 });
 onUnmounted(() => {
   clearInterval(mapInterval.value);
   clearInterval(pageInterval.value);
+  clearInterval(mapJjInterval.value);
 });
 </script>
 <style lang="scss" scoped>

@@ -115,6 +115,7 @@ const changeShowFun = (v) => {
   emit("changeShowFun", v);
 };
 const JJData = ref();
+const jjSave = ref();
 //乡镇简介显示
 const setTooltipJJFun = (flag: boolean, item: { name: string }) => {
   JJData.value = item.name;
@@ -147,10 +148,25 @@ mainStore.$subscribe(
         flagArr.value = arr;
       }, 20000);
     }
+    if (state.pageList?.jj !== jjSave.value) {
+      jjSave.value = state.pageList?.jj;
+      tranJJData(state.pageList?.jj);
+    }
   },
   { detached: false }
 );
-
+const tranJJData = (data) => {
+  const newData = jjArr.value;
+  data?.length > 0 &&
+    data.forEach((item) => {
+      newData.forEach((jj) => {
+        if (item.name == jj.name) {
+          jj.info = item.content;
+        }
+      });
+    });
+  jjArr.value = newData;
+};
 const mapInterval = ref<string | number | undefined>();
 const container = ref<ComponentPublicInstance<HTMLDivElement>>(); // 容器Ref
 // 红旗默认设置
@@ -220,7 +236,6 @@ const jjArr = ref([
     light: false,
     value: 1,
     name: "河西镇",
-    info: "河西镇，行政区域面积860平方千米，辖19个行政村，户籍人口为2.3万人。穆棱法院在八面通镇建立了19个党员天平工作站点，包村干警深入村屯发展了64名“法律明白人”，打造了“一村一特色”服务项目19个。",
   },
   {
     top: 126,
@@ -228,7 +243,6 @@ const jjArr = ref([
     light: false,
     value: 5,
     name: "八面通镇",
-    info: "八面通镇位于穆棱市北部，是穆棱市委、市政府所在地，全镇行政区域面积199.7平方公里，户籍人口数6.8万人，辖区包含和平、民主、曙光、沿河、头雁、富家、红旗7个社区。穆棱法院在八面通镇共建立7个党员天平工作站点，包区干警13名，深入发展118名网格员为“法律明白人”，打造了“头雁领航、雁阵起飞”、“和平花开暖千家”、“解家事、成佳事”等3个特色品牌服务项目。",
   },
   {
     top: 92,
@@ -236,7 +250,6 @@ const jjArr = ref([
     light: false,
     value: 5,
     name: "福禄乡",
-    info: "福禄朝鲜族满族乡，行政区域面积475.91平方千米， 户籍人口1.7万人，辖16个行政村。穆棱法院在福禄乡建立了16个党员天平工作站点，包村干警深入村屯发展了48名“法律明白人”，打造了“一村一特色”服务项目16个。",
   },
   {
     top: 157,
@@ -244,7 +257,6 @@ const jjArr = ref([
     light: false,
     value: 5,
     name: "马桥河镇",
-    info: "马桥河镇，行政区域面积560平方千米，户籍人口2.5万人。辖5个社区、16个行政村。穆棱法院在马桥河镇建立了16个“党员天平工作站”，发展了62名“法律明白人”，包村干警打造了“一村一特色”服务项目16个。",
   },
   {
     top: 140,
@@ -252,7 +264,6 @@ const jjArr = ref([
     light: false,
     value: 5,
     name: "下城子镇",
-    info: "下城子镇位于黑龙江省穆棱市中部，是东北亚大通道上的“小金三角”，是对俄贸易的“黄金通道”。全镇区域面积391平方公里，下辖17个行政村、4个居民委，总人口3.2万。穆棱法院在下城子镇建立了17个“党员天平工作站”，发展了57名“法律明白人”，包村干警打造了“一村一特色”服务项目17个。",
   },
   {
     top: 162,
@@ -260,7 +271,6 @@ const jjArr = ref([
     light: false,
     value: 5,
     name: "兴源镇",
-    info: "兴源镇，原名“上城子”，与北部下城子相对应而得名。行政区域面积597平方千米，户籍人口1.8万人，辖3个社区、14个行政村。穆棱法院在兴源镇建立了14个“党员天平工作站”，发展了43名“法律明白人”，包村干警打造了“一村一特色”服务项目14个。",
   },
   {
     top: 274,
@@ -268,7 +278,6 @@ const jjArr = ref([
     light: false,
     value: 5,
     name: "穆棱镇",
-    info: "穆棱镇位于黑龙江省穆棱市东南部，是穆棱市东南部经济、文化、交通、商贸第一重镇，镇域面积1419平方公里，人口9.6万。下辖20个行政村，56个自然屯，18个居民委。穆棱法院在穆棱镇建立了20个“党员天平工作站”，发展了62名“法律明白人”，包村干警打造了“一村一特色”服务项目20个。",
   },
   {
     top: 394,
@@ -276,7 +285,6 @@ const jjArr = ref([
     light: false,
     value: 5,
     name: "共和乡",
-    info: "共和乡地处穆棱市最南部、老爷岭山脉分布区，行政区域面积77.31平方千米，户籍人口为8000余人，辖11个行政村。穆棱法院在共和乡建立了11个党员天平工作站点，包村干警深入村屯发展了32名“法律明白人”，打造了“一村一特色”服务项目11个。",
   },
 ]);
 let myChart;

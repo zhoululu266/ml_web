@@ -16,13 +16,18 @@
         :tableData="tableData"
         :indexSet="{ label: ' ' }"
       />
+      <ScrollTable1
+        :columns="columns"
+        :tableData="tableData"
+        :indexSet="{ label: ' ' }"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import jgmap from "./tabAndMap/jgmap.vue";
-import ScrollTable from "./components/scrollTable.vue";
+import ScrollTable from "./components/scrollTable1.vue";
 import moment from "moment";
 import ModelTitle from "./components/modelTitle.vue";
 import { useMain } from "@/store";
@@ -47,12 +52,18 @@ const tabRef = ref();
 const showTab = ref<boolean>(true);
 
 const columns = ref([
-  { prop: "case_number", label: "案件号", width: "140" },
-  { prop: "client_name", label: "申请人姓名", width: "90" },
-  { prop: "area_name", label: "纠纷发生地", class: "yichang", width: "180" },
-  { prop: "case_type", label: "案件类型", width: "200" },
+  { prop: "case_number", label: "案件号", width: "110", span: 3 },
+  { prop: "client_name", label: "申请人姓名", width: "190", span: 5 },
+  {
+    prop: "area_name",
+    label: "纠纷发生地",
+    class: "yichang",
+    width: "150",
+    span: 4,
+  },
+  { prop: "case_type", label: "案件类型", width: "120", span: 3 },
 
-  { prop: "content", label: "申请内容" },
+  { prop: "content", label: "申请内容", span: 5 },
 ]);
 const tableData = ref([]);
 // 监听数据变化

@@ -10,6 +10,11 @@ export const useMain = defineStore("useMain", {
   }),
   actions: {
     setPageList(data: any) {
+      // console.log("store赋值", {
+      //   ...this.pageList,
+      //   ...data,
+      // });
+
       this.pageList = { ...this.pageList, ...data };
     },
     getPageList() {
