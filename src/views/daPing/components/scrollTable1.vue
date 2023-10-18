@@ -49,6 +49,7 @@
         </el-col>
         <el-col
           v-for="o_item in Object.keys(columnsObj)"
+          :class="columnsObj[o_item].class || ''"
           :span="columnsObj[o_item].span"
         >
           <TextTooltip
@@ -56,23 +57,7 @@
             ref-name="1"
             style="width: 100%"
           ></TextTooltip>
-          <!-- <TextTooltip :text="item[o_item]"></TextTooltip> -->
         </el-col>
-        <!-- <el-col :span="4">
-          <p class="digit">{{ columns["prop"] }}</p>
-        </el-col>
-        <el-col :span="4">
-          <p class="digit">{{ item.client_name }}</p>
-        </el-col>
-        <el-col :span="4">
-          <p class="digit">{{ item.area_name }}</p>
-        </el-col>
-        <el-col :span="4">
-          <p class="digit">{{ item.case_type }}</p>
-        </el-col>
-        <el-col :span="3">
-          <p class="digit">{{ item.content }}</p>
-        </el-col> -->
       </el-row>
     </vue3-seamless-scroll>
   </div>
@@ -252,6 +237,13 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+.el-col.ttjs {
+  font-size: 14px;
+  font-family: PangMenZhengDao;
+  font-weight: 600;
+  color: #ffffff;
+  padding-left: 4px;
 }
 .no-text {
   line-height: 22px;

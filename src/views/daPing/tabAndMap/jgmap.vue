@@ -56,7 +56,10 @@
         :key="i"
         class="flag"
         :class="[{ 'light-flag': item.light }]"
-        :style="{ top: item.top + 'px', left: item.left + 'px' }"
+        :style="{
+          top: (flag == 'center' ? item.Ctop : item.top) + 'px',
+          left: item.left + 'px',
+        }"
         @click="() => flagClickFun(item)"
       >
         <template v-if="item.light">
@@ -67,7 +70,10 @@
         v-for="(item, i) in jjArr"
         :key="i"
         class="jj"
-        :style="{ top: item.top + 'px', left: item.left + 'px' }"
+        :style="{
+          top: (flag == 'center' ? item.Ctop : item.top) + 'px',
+          left: item.left + 'px',
+        }"
       >
         <div
           class="jj-div"
@@ -173,6 +179,7 @@ const container = ref<ComponentPublicInstance<HTMLDivElement>>(); // 容器Ref
 const flagArr = ref([
   {
     top: 132,
+    Ctop: 132,
     left: 368,
     light: false,
     value: 1,
@@ -180,6 +187,7 @@ const flagArr = ref([
   },
   {
     top: 170,
+    Ctop: 160,
     left: 499,
     light: false,
     value: 5,
@@ -187,6 +195,7 @@ const flagArr = ref([
   },
   {
     top: 176,
+    Ctop: 160,
     left: 600,
     light: false,
     value: 5,
@@ -194,6 +203,7 @@ const flagArr = ref([
   },
   {
     top: 238,
+    Ctop: 218,
     left: 511,
     light: false,
     value: 5,
@@ -201,6 +211,7 @@ const flagArr = ref([
   },
   {
     top: 245,
+    Ctop: 238,
     left: 444,
     light: false,
     value: 5,
@@ -208,6 +219,7 @@ const flagArr = ref([
   },
   {
     top: 278,
+    Ctop: 268,
     left: 404,
     light: false,
     value: 5,
@@ -215,6 +227,7 @@ const flagArr = ref([
   },
   {
     top: 390,
+    Ctop: 380,
     left: 336,
     light: false,
     value: 5,
@@ -222,6 +235,7 @@ const flagArr = ref([
   },
   {
     top: 484,
+    Ctop: 484,
     left: 391,
     light: false,
     value: 5,
@@ -232,6 +246,7 @@ const flagArr = ref([
 const jjArr = ref([
   {
     top: 98,
+    Ctop: 88,
     left: 394,
     light: false,
     value: 1,
@@ -239,6 +254,7 @@ const jjArr = ref([
   },
   {
     top: 126,
+    Ctop: 116,
     left: 476,
     light: false,
     value: 5,
@@ -246,6 +262,7 @@ const jjArr = ref([
   },
   {
     top: 92,
+    Ctop: 82,
     left: 561,
     light: false,
     value: 5,
@@ -253,6 +270,7 @@ const jjArr = ref([
   },
   {
     top: 157,
+    Ctop: 145,
     left: 510,
     light: false,
     value: 5,
@@ -260,6 +278,7 @@ const jjArr = ref([
   },
   {
     top: 140,
+    Ctop: 128,
     left: 411,
     light: false,
     value: 5,
@@ -267,6 +286,7 @@ const jjArr = ref([
   },
   {
     top: 162,
+    Ctop: 150,
     left: 364,
     light: false,
     value: 5,
@@ -274,6 +294,7 @@ const jjArr = ref([
   },
   {
     top: 274,
+    Ctop: 254,
     left: 375,
     light: false,
     value: 5,
@@ -281,6 +302,7 @@ const jjArr = ref([
   },
   {
     top: 394,
+    Ctop: 364,
     left: 339,
     light: false,
     value: 5,

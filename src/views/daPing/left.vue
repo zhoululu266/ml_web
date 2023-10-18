@@ -6,7 +6,7 @@
         :columns="columns"
         :tableData="tableData"
         :trHeight="36"
-        :indexSet="{ label: '序号', width: '60px' }"
+        :indexSet="{ label: '序号', width: '58px', span: 4 }"
       />
     </div>
     <div class="table-box">
@@ -15,7 +15,7 @@
         :columns="columns1"
         :tableData="tableDataTjy"
         :trHeight="36"
-        :indexSet="{ label: '序号', width: '60px' }"
+        :indexSet="{ label: '序号', width: '58px', span: 4 }"
       />
     </div>
     <div class="aj-box" ref="yjqkBox">
@@ -39,7 +39,8 @@ import { ComponentPublicInstance } from "vue";
 import ModelTitle from "./components/modelTitle.vue";
 import * as echarts from "echarts";
 import { noDataOption } from "./components/noDataOption";
-import ScrollTable from "./components/scrollTable.vue";
+
+import ScrollTable from "./components/scrollTable1.vue";
 import { option } from "./components/pieChartLeft";
 import { useMain } from "@/store";
 import _ from "lodash";
@@ -49,31 +50,48 @@ const mainStore = useMain();
 const mainStoreData = mainStore.getPageList();
 const total = ref();
 const columns = ref([
-  { prop: "name", label: "姓名" },
-  { prop: "department", label: "部门" },
-  { prop: "area", label: "负责地区" },
-  { prop: "case_number", label: "调解数", class: "ttjs" },
+  { prop: "name", label: "姓名", width: 70, span: 5 },
+  { prop: "department", label: "部门", width: 80, span: 5 },
+  { prop: "dq", label: "负责地区", width: 100, span: 7 },
+  { prop: "case_number", label: "调解数", width: 100, class: "ttjs", span: 3 },
 ]);
 const columns1 = ref([
-  { prop: "name", label: "姓名" },
-  { prop: "area", label: "负责地区" },
-  { prop: "case_number", label: "调解数", class: "ttjs" },
+  { prop: "name", label: "姓名", width: 86, span: 6 },
+  { prop: "area", label: "负责地区", width: 140, span: 9 },
+  { prop: "case_number", label: "调解数", width: 100, class: "ttjs", span: 3 },
 ]);
 const tableData = ref([]);
 const tableDataTjy = ref([]);
+
 const tableDataAjlx = ref([]);
-//   new Array(11).fill({
-//   xm: "张琳描",
-//   bm: "反腐一社",
-//   fzdq: ["穆棱镇", "磨刀石镇"],
-//   tjs: "2587",
-// });
+
+const getArea = (data) => {
+  let dd;
+  if (typeof data === "string") {
+    dd = data;
+  } else {
+    const array = [];
+    data &&
+      data?.length > 0 &&
+      data.forEach((item) => {
+        array.push(item.parent_area.name + "-" + item.name);
+      });
+    dd = array.toString();
+  }
+  return dd;
+};
+const tranData = (data) => {
+  data.forEach((item) => {
+    item.dq = getArea(item.area);
+  });
+};
+
 // 监听数据变化
 mainStore.$subscribe(
   (_, state) => {
-    // console.log("法律顾问-----------调解员-", state.pageList);
     if (tableData.value != state.pageList?.flgw) {
       tableData.value = state.pageList?.flgw;
+      tranData(tableData.value);
     }
     if (tableDataTjy.value != state.pageList?.tjy) {
       tableDataTjy.value = state.pageList?.tjy;
@@ -323,5 +341,8 @@ onMounted(() => {
       }
     }
   }
+}
+:deep(.v-s-s) {
+  margin-top: -190px;
 }
 </style>
