@@ -27,11 +27,11 @@
         <div v-show="checkIndex == i" class="form-box">
           <div class="row">
             <div>
-              <div><i class="dot"></i><span>调节对象</span></div>
+              <div><i class="dot"></i><span>调解对象</span></div>
               <p>{{ item?.accused_client_name || "--" }}</p>
             </div>
             <div>
-              <div><i class="dot"></i><span>被调节对象</span></div>
+              <div><i class="dot"></i><span>被调解对象</span></div>
               <p>{{ item?.client_name || "--" }}</p>
             </div>
           </div>
