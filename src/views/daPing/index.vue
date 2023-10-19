@@ -559,7 +559,7 @@ onUnmounted(() => {
 .jwts {
   width: 100%;
   height: 100vh;
-  background-image: url("@/assets/images/tsbg.png");
+  background-image: url("@/assets/images/home-bg.jpg");
   padding: 15px;
   box-sizing: border-box;
   overflow: hidden;
