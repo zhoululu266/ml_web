@@ -23,7 +23,7 @@
     <!-- <div> -->
     <div v-if="loading" class="load">加载中...</div>
     <template v-if="formData?.length > 0">
-      <el-scrollbar max-height="420px">
+      <el-scrollbar max-height="450px">
         <div v-for="(item, i) in formData">
           <div v-show="checkIndex == i" class="form-box">
             <div class="row">
@@ -264,6 +264,9 @@ onMounted(() => {
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  .el-dialog__body {
+    padding-top: 0;
+  }
   .load {
     height: 423px;
     width: 100%;
@@ -444,7 +447,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: -14px;
+  // margin-top: -14px;
   .el-carousel__item {
     background-color: transparent !important;
   }
