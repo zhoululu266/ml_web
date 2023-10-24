@@ -23,83 +23,84 @@
     <!-- <div> -->
     <div v-if="loading" class="load">加载中...</div>
     <template v-if="formData?.length > 0">
-      <div v-for="(item, i) in formData">
-        <div v-show="checkIndex == i" class="form-box">
-          <div class="row">
-            <div>
-              <div><i class="dot"></i><span>调解对象</span></div>
-              <p>{{ item?.accused_client_name || "--" }}</p>
+      <el-scrollbar max-height="420px">
+        <div v-for="(item, i) in formData">
+          <div v-show="checkIndex == i" class="form-box">
+            <div class="row">
+              <div>
+                <div><i class="dot"></i><span>调解对象</span></div>
+                <p>{{ item?.accused_client_name || "--" }}</p>
+              </div>
+              <div>
+                <div><i class="dot"></i><span>被调解对象</span></div>
+                <p>{{ item?.client_name || "--" }}</p>
+              </div>
             </div>
-            <div>
-              <div><i class="dot"></i><span>被调解对象</span></div>
-              <p>{{ item?.client_name || "--" }}</p>
+            <div class="row">
+              <div>
+                <i class="dot"></i><span>纠纷类型</span>
+                <p>{{ item?.case_type_name || "--" }}</p>
+              </div>
+              <div>
+                <i class="dot"></i> <span>调解时间</span>
+                <p>{{ item?.created_date || "--" }}</p>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div>
-              <i class="dot"></i><span>纠纷类型</span>
-              <p>{{ item?.case_type_name || "--" }}</p>
+            <div class="row">
+              <div>
+                <i class="dot"></i><span>纠纷发生地(乡、镇)</span>
+                <p>{{ item?.parent_area_name || "--" }}</p>
+              </div>
+              <div>
+                <i class="dot"></i><span>纠纷发生地村</span>
+                <p>{{ item?.area_name || "--" }}</p>
+              </div>
             </div>
-            <div>
-              <i class="dot"></i> <span>调解时间</span>
-              <p>{{ item?.created_date || "--" }}</p>
+            <div class="row">
+              <div>
+                <i class="dot"></i> <span>调解员</span>
+                <p>{{ item?.mediators_name || "--" }}</p>
+              </div>
+              <div>
+                <i class="dot"></i> <span>纠纷内容</span>
+                <p>{{ item?.client_remark || "--" }}</p>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div>
-              <i class="dot"></i><span>纠纷发生地(乡、镇)</span>
-              <p>{{ item?.parent_area_name || "--" }}</p>
-            </div>
-            <div>
-              <i class="dot"></i><span>纠纷发生地村</span>
-              <p>{{ item?.area_name || "--" }}</p>
-            </div>
-          </div>
-          <div class="row">
-            <div>
-              <i class="dot"></i> <span>调解员</span>
-              <p>{{ item?.mediators_name || "--" }}</p>
-            </div>
-            <div>
-              <i class="dot"></i> <span>纠纷内容</span>
-              <p>{{ item?.client_remark || "--" }}</p>
-            </div>
-          </div>
-          <div class="img-box">
-            <div class="top">
-              <i class="dot"></i> <span class="jf">纠纷材料</span>
-            </div>
-            <div class="demo-image">
-              <el-carousel
-                :loop="false"
-                ref="carouselRef"
-                :autoplay="false"
-                height="120px"
-                width="100%"
-                arrow="always"
-              >
-                <el-carousel-item
-                  class="el-car-item"
-                  v-for="(list, index) in returnData"
-                  :key="index"
+            <div class="img-box">
+              <div class="top">
+                <i class="dot"></i> <span class="jf">纠纷材料</span>
+              </div>
+              <div class="demo-image">
+                <el-carousel
+                  :loop="false"
+                  ref="carouselRef"
+                  :autoplay="false"
+                  height="120px"
+                  width="100%"
+                  arrow="always"
                 >
-                  <!-- --{{ index }} --{{ returnData?.length }}
+                  <el-carousel-item
+                    class="el-car-item"
+                    v-for="(list, index) in returnData"
+                    :key="index"
+                  >
+                    <!-- --{{ index }} --{{ returnData?.length }}
                 <div @click="() => index !== 0 && setActiveItem(index + 1)">
                   1212
                 </div> -->
 
-                  <el-image
-                    v-for="imgList in list"
-                    style="width: 140px; height: 120px"
-                    :src="imgList?.web_url"
-                    :preview-src-list="previewData"
-                    :fit="fit"
-                    :zoom-rate="1.2"
-                    :max-scale="7"
-                    :min-scale="0.2"
-                    :preview-teleported="true"
-                  />
-                  <!-- <div
+                    <el-image
+                      v-for="imgList in list"
+                      style="width: 140px; height: 120px"
+                      :src="imgList?.web_url"
+                      :preview-src-list="previewData"
+                      :fit="fit"
+                      :zoom-rate="1.2"
+                      :max-scale="7"
+                      :min-scale="0.2"
+                      :preview-teleported="true"
+                    />
+                    <!-- <div
                   @click="
                     () =>
                       index !== returnData?.length - 1 &&
@@ -108,12 +109,13 @@
                 >
                   1212
                 </div> -->
-                </el-carousel-item>
-              </el-carousel>
+                  </el-carousel-item>
+                </el-carousel>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </el-scrollbar>
     </template>
     <div v-else-if="!loading" class="empty">暂无数据</div>
     <!-- </div> -->
@@ -460,7 +462,8 @@ onMounted(() => {
       // align-items: center;
       font-size: 16px;
       color: #ffffff;
-      padding: 8px 0;
+      padding: 8px 8px 8px 0;
+      box-sizing: border-box;
       margin: 0;
       height: 100%;
       word-wrap: break-word;
