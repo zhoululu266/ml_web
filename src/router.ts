@@ -18,6 +18,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "dj",
     component: () => import("../src/views/dangJian/index.vue"),
   },
+  {
+    path: "/djyl",
+    name: "djyl",
+    component: () => import("../src/views/djyl/index.vue"),
+  },
 ];
 
 const router = createRouter({

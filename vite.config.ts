@@ -1,22 +1,27 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { resolve } from "path";
-import AutoImport from 'unplugin-auto-import/vite'
+import AutoImport from "unplugin-auto-import/vite";
 
 export default defineConfig({
   plugins: [
     vue(),
     AutoImport({
-      imports: ["vue", "vue-router", "pinia",
-        "@vueuse/core",],
+      imports: ["vue", "vue-router", "pinia", "@vueuse/core"],
+      include: [
+        /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
+        /\.vue$/,
+        /\.vue\?vue/, // .vue
+        /\.md$/, // .md
+      ],
       dts: "./src/auto-import.d.ts",
       eslintrc: {
         // 已存在文件设置默认 false，需要更新时再打开，防止每次更新都重新生成
         enabled: false,
         // 生成文件地址和名称
-        filepath: './src/auto-import.d.ts',
+        filepath: "./src/auto-import.d.ts",
         globalsPropValue: true,
-      }
+      },
     }),
   ],
   resolve: {
