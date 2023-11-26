@@ -18,6 +18,62 @@ import Right from "./right.vue";
 import Center from "./center.vue";
 import Bottom from "./bottom.vue";
 import TimeBox from "@/components/timeBox.vue";
+import { axiosFormData } from "@/utils";
+import { useMain } from "@/store";
+
+const mainStore = useMain();
+const url = `${$config.api}`;
+
+//平均审理天数
+const getPjsltsData = async () => {
+  const api = `${url}/homePage/case/successNumber`;
+  try {
+    axiosFormData(api).then((res: any) => {
+      mainStore.setPageList({ djPjslts: res.data });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+//诉源治理调解数
+const getSyzlData = async () => {
+  const api = `${url}/homePage/case/successNumber`;
+  try {
+    axiosFormData(api).then((res: any) => {
+      mainStore.setPageList({ djSyzl: res.data });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+//服判息诉率
+const getFpxslData = async () => {
+  const api = `${url}/homePage/case/successNumber`;
+  try {
+    axiosFormData(api).then((res: any) => {
+      mainStore.setPageList({ djfpxsl: res.data });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+//审批案件数
+const getSpajsData = async () => {
+  const api = `${url}/homePage/case/successNumber`;
+  try {
+    axiosFormData(api).then((res: any) => {
+      mainStore.setPageList({ djSpajs: res.data });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+onMounted(() => {
+  getPjsltsData();
+  getSyzlData();
+  getFpxslData();
+  getSpajsData();
+});
 </script>
 
 <style scoped lang="scss">
@@ -38,7 +94,7 @@ import TimeBox from "@/components/timeBox.vue";
   position: fixed;
   top: 0;
   left: 0;
-  padding: 0px 60px 0px 60px;
+  padding: 0px 60px 60px 60px;
 
   :deep(.title-circle) {
     background-image: url("@/assets/images/dj-title.png");
@@ -56,12 +112,24 @@ import TimeBox from "@/components/timeBox.vue";
   .dj-content {
     display: flex;
     flex-direction: row;
-    height: calc(100% - 367px);
+    height: 571px;
+    padding-top: 32px;
+    box-sizing: border-box;
   }
   .dj-bottom {
     display: flex;
     flex-direction: row;
-    height: 240px;
+    flex: 1;
+    background: linear-gradient(
+      to bottom,
+      rgba(11, 33, 59, 0.5),
+      rgba(11, 33, 59, 0.1)
+    );
+    border-radius: 4px;
+    padding: 22px 27px;
+    box-sizing: border-box;
+
+    // height: 240px;
   }
 }
 </style>

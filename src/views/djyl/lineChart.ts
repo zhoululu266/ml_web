@@ -12,24 +12,37 @@ export const option = {
     },
   },
   grid: {
-    top: "30%",
-    left: "2%",
-    right: "10%",
-    bottom: "5%",
-    containLabel: true,
+    left: "30",
+    right: "4",
+    top: "25",
   },
   legend: {
     icon: "circle",
-    right: "8%",
-    top: "20%",
-    itemWidth: 7, // 设置宽度
-    itemHeight: 7, // 设置高度
-    itemGap: 15, // 设置间距
     textStyle: {
-      //图例文字的样式
-      color: "#89BFE5",
-      fontSize: 12,
+      color: "#ffffff",
+      fontSize: 10,
+      fontFamily: "Source Han Sans CN",
     },
+    left: "right",
+    itemGap: 10,
+    itemWidth: 6,
+    itemHeight: 6,
+    data: [
+      {
+        name: "全院",
+        itemStyle: {
+          color: " #FDC81E",
+          borderWidth: 6,
+        },
+      },
+      {
+        name: "党员",
+        itemStyle: {
+          color: "#22C6FC",
+          borderWidth: 6,
+        },
+      },
+    ],
   },
   xAxis: {
     boundaryGap: true,
@@ -49,6 +62,11 @@ export const option = {
   yAxis: [
     {
       name: "单位(%)",
+      nameTextStyle: {
+        padding: [0, 0, -3, -8],
+        color: "#ECF0FF",
+        fontSize: 12,
+      },
       type: "value",
       inverse: false,
       splitLine: {
@@ -60,21 +78,17 @@ export const option = {
       axisLine: {
         show: false,
         lineStyle: {
-          color: "#0A5C95",
+          color: "#0D97EB",
         },
       },
       axisLabel: {
         formatter: "{value}",
         textStyle: {
-          color: "#89BFE5",
+          color: "#ECF0FF",
           fontSize: 12,
         },
       },
-      nameTextStyle: {
-        color: "#89BFE5",
-        padding: [0, 0, 0, 15],
-        fontSize: 12,
-      },
+
       axisTick: {
         show: false,
       },
@@ -91,10 +105,10 @@ export const option = {
       smooth: false,
       itemStyle: {
         normal: {
-          color: `#00CBFE`,
+          color: `#74FFFD`,
           lineStyle: {
             //线的颜色
-            color: `#00CBFE`,
+            color: `#74FFFD`,
             width: 2,
           },
           areaStyle: {
@@ -109,7 +123,7 @@ export const option = {
               [
                 {
                   offset: 0,
-                  color: "rgba(1, 180, 255, 0.2)",
+                  color: "RGBA(11, 74, 125, 0.8)",
                 },
                 {
                   offset: 1,
@@ -131,10 +145,10 @@ export const option = {
       smooth: false,
       itemStyle: {
         normal: {
-          color: `#FFDF04`,
+          color: `#FFFF00`,
           lineStyle: {
             //线的颜色
-            color: `#FFDF04`,
+            color: `#FFFF00`,
             width: 2,
           },
           areaStyle: {
@@ -149,7 +163,7 @@ export const option = {
               [
                 {
                   offset: 0,
-                  color: "rgba(255, 223, 4, 0.2)",
+                  color: "RGBA(46, 48, 122, 0.8)",
                 },
                 {
                   offset: 1,

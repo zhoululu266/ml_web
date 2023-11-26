@@ -18,7 +18,7 @@
       <div v-for="(item, i) in dyrs" :key="i">
         
         <span><div class="color-box" :style="[{ backgroundColor: item.color}]"></div> {{ item.name }}</span>
-        <p class="dy" :style="[{ color: item.color}]">{{ item.val||0 }}%
+        <p class="dy" :style="[{ color: item.color}]">{{ item.val||0 }}人
         </p>
         
       </div>
@@ -42,9 +42,9 @@ const dyNum = ref([
   { name: "退休党员", val: "21", dw: "人" },
 ]);
 const dyrs = ref([
-  { name: "机关党支部在职党员", val: "20", color: "rgba(56, 190, 187, 1)" },
-  { name: "法庭党支部在职党员", val: "22", color: "rgba(6, 170, 218, 1)"},
-  { name: "法警党支部在职党员", val: "9",  color: "rgba(218, 161, 6, 1)"},
+  { name: "机关党支部在职党员", val: "20", color: "#258CFF" },
+  { name: "法庭党支部在职党员", val: "22", color: "#FFEA59"},
+  { name: "法警党支部在职党员", val: "9",  color: "#01E4FF"},
 ]);
 
 
@@ -62,10 +62,10 @@ const getList = (code?: string) => {
   const result2 = {
     code: 200,
     data: [
-      { value: 6, name: "XXXXXX" },
-      { value: 6, name: "AAAAAA" },
-      { value: 6, name: "BBBBBB" },
-      { value: 10, name: "CCCCCC" },
+      { value: 24, name: "少数民族党员24人" },
+      { value: 29, name: "≤45周岁党员29人" },
+      { value: 57, name: "本科学历党员57人" },
+      { value: 24, name: "女性党员24人" },
     ],
   };
   if (result2.code === 200) {
@@ -132,9 +132,9 @@ onMounted(() => {
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  padding: 15px 16px 15px 9px;
+  padding: 15px 16px 27px 9px;
   box-sizing: border-box;
-  padding-bottom: 10px;
+
   width: 420px;
     overflow: hidden;
   .left-title {
@@ -210,20 +210,24 @@ onMounted(() => {
     }
   }
 .dyfl{
+  padding: 0  30px 0 26px;
+  box-sizing: border-box;
+  margin-top: -36px;
 
   >div{
   display: flex;
   flex-direction: row;
   justify-content:space-between;
   align-items: center;
+  height: 40px;
     span {
      display: flex;
       flex-direction: row;
       align-items: center;
       };
       .color-box{
-        width: 20px;
-        height: 20px;
+        width: 12px;
+height: 12px;
         margin-right: 20px;
         display: inline-block;
       }
@@ -234,7 +238,7 @@ onMounted(() => {
   }
 }
   .yjqk-chart {
-    width: 380px;
+    width: 400px;
     position: relative;
     height: 272px;
     margin-top: -20px;

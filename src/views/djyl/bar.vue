@@ -1,8 +1,8 @@
 <!-- 预警情况 -->
 <template>
   <div
-    id="jdDfEchart"
-    class="jdDf-chart"
+    id="djSpansEchart"
+    class="djSpans-chart"
     :style="{ height: chartHeight }"
   ></div>
 </template>
@@ -19,15 +19,15 @@ import { useMain } from "@/store";
 const mainStore = useMain();
 
 // 监听数据变化
-// mainStore.$subscribe(
-//   (_, state) => {
-//     console.log("走访数量-------", state.pageList?.zfs);
+mainStore.$subscribe(
+  (_, state) => {
+    console.log("走访数量-------", state.pageList?.djSpajs);
 
-//     const zfs = state.pageList?.zfs;
-//     getList(zfs);
-//   },
-//   { detached: false }
-// );
+    const djSpajs = state.pageList?.djSpajs;
+    getList(djSpajs);
+  },
+  { detached: false }
+);
 
 interface listType {
   [key: string]: number[];
@@ -42,8 +42,8 @@ interface chartListType {
   case_number: number | string;
 }
 
-const jdDfBox = ref<ComponentPublicInstance<HTMLDivElement>>();
-const chartHeight = ref<string>("160px");
+const djSpansBox = ref<ComponentPublicInstance<HTMLDivElement>>();
+const chartHeight = ref<string>("270px");
 let myChart: echarts.ECharts;
 
 const orgCode = ref<string>();
@@ -56,9 +56,9 @@ const chartObj = ref<listType>({});
 const pollingTime = ref<string>("");
 
 onMounted(() => {
-  // chartHeight.value = `${jdDfBox.value!.offsetHeight - 40}px`;
+  // chartHeight.value = `${djSpansBox.value!.offsetHeight - 40}px`;
   setTimeout(() => {
-    const chartDom = document.getElementById("jdDfEchart")!;
+    const chartDom = document.getElementById("djSpansEchart")!;
     myChart = echarts.init(chartDom);
     // 图例点击方法 点击哪个显示哪个 其他隐藏
     myChart.on("legendselectchanged", (params: any) => {
@@ -82,7 +82,7 @@ onMounted(() => {
       myChart.setOption(option);
     });
 
-    getList(mainStore.getPageList()?.zfs);
+    getList(mainStore.getPageList()?.djSpajs);
   }, 1000);
 });
 
@@ -90,70 +90,45 @@ onMounted(() => {
  * 获取警情趋势
  * @param code 组织机构code
  */
-const getList = (zfs) => {
+const getList = (djSpajs) => {
   const result2 = {
     code: 200,
 
     data: [
       {
-        name: "院领导",
-        zfs: "0",
-        zfs1: "50",
+        name: "1",
+        djSpajs: "0",
+        djSpajs1: "50",
       },
       {
-        name: "政治部",
-        zfs: "60",
-        zfs1: "80",
+        name: "2",
+        djSpajs: "60",
+        djSpajs1: "80",
       },
       {
-        name: "综合办公室",
-        zfs: "60",
-        zfs1: "50",
+        name: "3",
+        djSpajs: "60",
+        djSpajs1: "50",
       },
       {
-        name: "审判管理办公室",
-        zfs: "70",
-        zfs1: "30",
+        name: "4",
+        djSpajs: "70",
+        djSpajs1: "30",
       },
       {
-        name: "执行局",
-        zfs: "50",
-        zfs1: "70",
+        name: "5",
+        djSpajs: "50",
+        djSpajs1: "70",
       },
       {
-        name: "司法警察",
-        zfs: "60",
-        zfs1: "80",
+        name: "6",
+        djSpajs: "60",
+        djSpajs1: "80",
       },
       {
-        name: "诉讼服务中心",
-        zfs: "60",
-        zfs1: "40",
-      },
-      {
-        name: "形式审判",
-        zfs: "70",
-        zfs1: "50",
-      },
-      {
-        name: "民事审判",
-        zfs: "50",
-        zfs1: "60",
-      },
-      {
-        name: "综合审判",
-        zfs: "60",
-        zfs1: "50",
-      },
-      {
-        name: "下城子",
-        zfs: "50",
-        zfs1: "70",
-      },
-      {
-        name: "穆棱环境资源审判",
-        zfs: "60",
-        zfs1: "50",
+        name: "7",
+        djSpajs: "60",
+        djSpajs1: "40",
       },
     ],
   };
@@ -167,8 +142,8 @@ const getList = (zfs) => {
     result2.data?.length > 0 &&
       result2.data.map((item: chartListType) => {
         names.push(item.name);
-        zajq.push(item.zfs);
-        zajq1.push(item.zfs1);
+        zajq.push(item.djSpajs);
+        zajq1.push(item.djSpajs1);
       });
 
     chartObj.value = {
@@ -209,11 +184,12 @@ const yjqkOption = {
     backgroundColor: "rgba(187,230,245,0.19)",
     borderColor: "#7BC9FF",
     textStyle: {
-      color: "#DFEEFF",
+      color: "#SpansEEFF",
     },
   },
   color: ["#5BD2FF"],
   legend: {
+    icon: "circle",
     textStyle: {
       color: "#ffffff",
       fontSize: 10,
@@ -225,14 +201,14 @@ const yjqkOption = {
     itemHeight: 6,
     data: [
       {
-        name: "有报告",
+        name: "全院",
         itemStyle: {
           color: " #FDC81E",
           borderWidth: 6,
         },
       },
       {
-        name: "人均填报",
+        name: "党员",
         itemStyle: {
           color: "#22C6FC",
           borderWidth: 6,
@@ -254,6 +230,11 @@ const yjqkOption = {
       color: "#FFFFFF",
       // interval: 0,
     },
+    axisLine: {
+      lineStyle: {
+        color: "rgba(117, 168, 202, 0.4)",
+      },
+    },
     axisTick: { show: false },
     data: [],
   },
@@ -264,15 +245,13 @@ const yjqkOption = {
       color: "#BEE1FF",
     },
     axisLine: {
-      lineStyle: {
-        color: "rgba(13, 151, 235,0.33)", // 设置 x 轴线的颜色为红色
-      },
+      color: "#0D97EB",
     },
-    name: "单位: %",
+    name: "案件数",
     nameTextStyle: {
-      padding: [0, 0, 0, -20],
+      padding: [0, 0, -3, -10],
       color: "#ECF0FF",
-      fontSize: 10,
+      fontSize: 12,
     },
     max: (value: { max: number }) => {
       return value.max + Math.ceil(value.max / 6);
@@ -280,16 +259,16 @@ const yjqkOption = {
     splitLine: {
       show: true,
       lineStyle: {
-        type: "dashed",
+        // type: "dashed",
         color: "rgba(13, 151, 235,0.33)",
       },
     },
   },
   series: [
     {
-      name: "有报告",
+      name: "全院",
       type: "bar",
-      barWidth: "3",
+      barWidth: "8",
       // stack: "total",
       barGap: "1px", // 四个数字分别为上右下左与原位置距离
       showBackground: false,
@@ -311,9 +290,9 @@ const yjqkOption = {
       data: [],
     },
     {
-      name: "人均填报",
+      name: "党员",
       type: "bar",
-      barWidth: "3",
+      barWidth: "8",
       stack: "total",
       showBackground: false,
       //   backgroundStyle: {
@@ -340,10 +319,13 @@ const yjqkOption = {
   background-size: 40% 100%;
   background-position: left;
 }
-
-.jd-Df-Box {
-  height: 100%;
-  width: 74%;
+.djSpans-chart {
+  width: 370px;
+  margin-top: 30px;
+}
+.dj-Spans-Box {
+  height: 270px;
+  width: 370px;
   font-family: Source Han Sans CN;
   padding: 0 10px;
   margin-left: 4%;

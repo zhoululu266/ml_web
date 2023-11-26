@@ -27,9 +27,9 @@ import ModelTitle from "../daPing/components/modelTitle.vue";
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  padding: 15px 16px 15px 9px;
+  padding: 15px 16px 27px 9px;
   box-sizing: border-box;
-  padding-bottom: 10px;
+
   width: 420px;
   overflow: hidden;
   .pie-chart {
