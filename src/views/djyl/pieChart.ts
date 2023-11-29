@@ -161,7 +161,7 @@ export const option = {
         align: "center",
         interval: 0,
         color: "#ffffff",
-        fontSize: 14,
+        fontSize: 12,
         fontFamily: "Source Han Sans CN",
         fontWeight: 400,
       },

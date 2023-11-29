@@ -1,6 +1,6 @@
 <template>
   <div class="fpxsl-box">
-    <div ref="fpxslBox" class="yjqk-chart">
+    <div ref="fpxslBox" class="fpxsl-chart">
       <div id="fpxslEchart" :style="{ height: chartHeight }"></div>
     </div>
     <div class="fpxsl-right">
@@ -11,8 +11,8 @@
       </div>
       <div class="box yellow">
         <span></span>
-        <div class="title">党员</div>
-        <div class="num">20%</div>
+        <div class="title">全院</div>
+        <div class="num">30%</div>
       </div>
     </div>
   </div>
@@ -55,7 +55,7 @@ const getfpxslList = (data: any) => {
     { value: 6, name: "15%" },
     { value: 6, name: "30%" },
   ];
-  console.log("fpxslOption", fpxslOption);
+  console.log("fpxslOption-------------", fpxslOption);
 
   if (fpxslChart) fpxslChart.setOption(fpxslOption, true);
 };
@@ -66,7 +66,7 @@ const drawChart = () => {
       const chartDom = document.getElementById("fpxslEchart")!;
       fpxslChart = echarts.init(chartDom);
       fpxslChart.setOption(fpxslOption);
-      // getList();
+      getfpxslList();
       window.onresize = function () {
         if (fpxslBox.value) {
           chartHeight.value = `${fpxslBox.value!.offsetHeight}px`;
@@ -90,14 +90,14 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.yjqk-chart {
+.fpxsl-chart {
   width: 380px;
   position: relative;
   height: 272px;
-  margin-top: -20px;
+  margin-top: 5%;
   #fpxslEchart {
     position: absolute;
-    left: -8px;
+    left: -20px;
     width: 100%;
     height: 100%;
   }
@@ -107,7 +107,7 @@ onMounted(() => {
   flex-direction: column;
   margin-left: -60px;
   margin-right: 40px;
-  margin-top: 40px;
+  margin-top: 18%;
   .box {
     display: flex;
     flex-direction: row;

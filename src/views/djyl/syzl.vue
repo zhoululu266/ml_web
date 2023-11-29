@@ -1,5 +1,5 @@
 <template>
-  <div ref="syzlBox" class="yjqk-chart">
+  <div ref="syzlBox" class="syzl-chart">
     <div id="syzlEchart" :style="{ height: chartHeight }"></div>
   </div>
 </template>
@@ -36,13 +36,9 @@ const getSyzlList = (data: any) => {
   };
   console.log("syzlOption", syzlOption, syzlOption.series[4]);
 
-  //   syzlOption.series[4].data = [
-  //     { value: 6, name: "党员" },
-  //     { value: 6, name: "全院" },
-  //     ];
   syzlOption.series[4].data = [
-    { value: 6, name: "15%" },
-    { value: 6, name: "30%" },
+    { value: djSyzl?.data || 0, name: (djSyzl?.data || 0) + "个" },
+    { value: djSyzl?.anjian || 0, name: djSyzl?.anjian + "个" },
   ];
   console.log("nnn", syzlOption);
 
@@ -79,11 +75,11 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.yjqk-chart {
+.syzl-chart {
   width: 380px;
   position: relative;
   height: 270px;
-  margin-top: -20px;
+  margin-top: 5%;
   #syzlEchart {
     position: absolute;
     left: -8px;

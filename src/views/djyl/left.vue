@@ -4,8 +4,8 @@
     <div class="left-dy-num">
       <div v-for="(item, i) in dyNum" :key="i">
         <span> {{ item.name }}</span>
-        <p class="dy" >{{ item.val }}
-        <div>{{ item.dw }}</div>
+        <p class="dy" >{{ item.val||0 }}
+        <div>{{ item.dw||'人' }}</div>
         </p>
          <p class="ybdy" ><template v-if="i!==2">含预备党员{{ item.ybdy||0 }}名</template></p>
       </div>
@@ -32,48 +32,49 @@
 import * as echarts from "echarts";
 import { noDataOption } from "../daPing/components/noDataOption";
 import { option } from "./pieChart";
+import { useMain } from "@/store";
+import _ from "lodash";
+
 const dyLeftBox = ref<ComponentPublicInstance<HTMLDivElement>>();
 const chartHeight = ref<string>();
 let myChart: echarts.ECharts;
+const mainStore = useMain();
+const flagData = ref();
+// 监听数据变化
+mainStore.$subscribe(
+  (_, state) => {
+    const djDyrs = state.pageList?.djDyrs;
+    console.log("djDyrsslsubscribe", djDyrs);
+    if (JSON.stringify(djDyrs) != JSON.stringify(flagData.value?.djDyrs)) {
+      getSyzlList(djDyrs);
+    }
+  },
+  { detached: false }
+);
+//溯源治理
+const getSyzlList = (data?: any) => {
+  const djDyrs = _.clone(data) ;
+  flagData.value = {
+    ...flagData.value,
+    ...djDyrs,
+  };
+console.log(' flagData.value', flagData.value);
 
-const dyNum = ref([
-  { name: "全员共有党员", val: "72", dw: "人" ,ybdy:"3"},
-  { name: "在职党员", val: "51", dw: "人",ybdy:"3" },
-  { name: "退休党员", val: "21", dw: "人" },
-]);
-const dyrs = ref([
-  { name: "机关党支部在职党员", val: "20", color: "#258CFF" },
-  { name: "法庭党支部在职党员", val: "22", color: "#FFEA59"},
-  { name: "法警党支部在职党员", val: "9",  color: "#01E4FF"},
-]);
-
-
-const getList = (code?: string) => {
-  //   const url = `${$config.patrolApi}/statisticsManage/jqOverview`;
-  //   const params = {
-  //     orgCode: code,
-  //     // startTime: "2022-01-01 00:00:00",
-  //     // endTime: "2022-12-30 23:59:59",
-  //     startTime: `${times.startTime} 00:00:00`,
-  //     endTime: `${times.endTime} 23:59:59`,
-  //   };
-  //   axiosPost(url, params)
-  //     .then((result2) => {
   const result2 = {
-    code: 200,
+
     data: [
-      { value: 24, name: "少数民族党员24人" },
-      { value: 29, name: "≤45周岁党员29人" },
-      { value: 57, name: "本科学历党员57人" },
-      { value: 24, name: "女性党员24人" },
+      { value: data?.shaoshu_cases||0, name: "少数民族党员"+(data?.shaoshu_cases||0)+"人" },
+      { value: data?.zhiqian_success||0, name: "≤45周岁党员"+(data?.zhiqian_success||0)+"人" },
+      { value: data?.benke__cases||0, name: "本科学历党员"+(data?.benke__cases||0)+"人" },
+      { value: data?.female_cases||0, name: "女性党员"+(data?.female_cases||0)+"人" },
     ],
   };
-  if (result2.code === 200) {
+  
     const names: any = []; // X轴坐标名称
     const zajq: any = [];
 
     // eslint-disable-next-line array-callback-return
-    result2.data.map((item: any) => {
+    result2.data?.map((item: any) => {
       names.push(item.name);
       zajq.push(item.value);
     });
@@ -84,9 +85,25 @@ const getList = (code?: string) => {
     option.series[4].data = result2.data;
 
     if (myChart) myChart.setOption(option, true);
-  } else if (myChart) myChart.setOption(noDataOption, true);
+ 
 
 };
+
+const dyNum = computed(() => { 
+return [
+  { name: "全员共有党员", val: flagData.value?.gentle, dw: "人" ,ybdy:flagData.value?.prepare},
+  { name: "在职党员\u3000\u3000", val: flagData.value?.job, dw: "人",ybdy:flagData.value?.prepare },
+  { name: "退休党员\u3000\u3000", val: flagData.value?.tuixiu_cases, dw: "人" },
+]
+});
+const dyrs = computed(() => {return [
+  { name: "机关党支部在职党员", val: flagData.value?.organ, color: "#258CFF" },
+  { name: "法庭党支部在职党员", val: flagData.value?.court, color: "#FFEA59"},
+  { name: "法警党支部在职党员", val: flagData.value?.bailiff,  color: "#01E4FF"},
+]
+});
+
+
 
 const drawChart = () => {
   if (document.getElementById("dyLeftEchart")) {
@@ -94,7 +111,7 @@ const drawChart = () => {
       const chartDom = document.getElementById("dyLeftEchart")!;
       myChart = echarts.init(chartDom);
       myChart.setOption(option);
-      getList();
+      getSyzlList();
       window.onresize = function () {
 
         if (dyLeftBox.value) {
@@ -145,10 +162,11 @@ onMounted(() => {
     height: 32px;
     width: 100%;
     div{
-    font-size: 19px;
+    font-size: 21px;
     font-family: PingFang SC;
     font-weight: bold;
-    color: #f6f9fe;
+    color: #F6F9FE;
+    text-shadow: 1px 2px 0px rgba(22,22,19,0.27);
     letter-spacing: 3px;
     background: linear-gradient(0deg, #e6f0c1 0%, #fdfff6 50%, #f6f9fe 100%);
     -webkit-background-clip: text;

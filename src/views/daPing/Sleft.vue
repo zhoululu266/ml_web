@@ -1,7 +1,7 @@
 <template>
   <div class="cl">
     <div class="aj-box" ref="yjqkBox">
-      <ModelTitle model-title="智慧党建" />
+      <ModelTitle model-title="智慧党建" @click="jumpDj" class="jump" />
       <div class="aj-box-content">
         <div class="aj-box-left">
           <div>
@@ -37,7 +37,9 @@ import Center from "./center.vue";
 import Zhsp from "./leftChart/zhsp.vue";
 import Zhzx from "./leftChart/zhzx.vue";
 import { useMain } from "@/store";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const mainStore = useMain();
 
 // // 监听数据变化
@@ -115,6 +117,12 @@ const drawChart = () => {
       });
     }, 1000);
   }
+};
+// 跳转到党建
+const jumpDj = () => {
+  router.replace({
+    path: "/djyl",
+  });
 };
 onMounted(() => {
   drawChart();
@@ -204,5 +212,8 @@ onMounted(() => {
       }
     }
   }
+}
+.jump {
+  cursor: pointer;
 }
 </style>

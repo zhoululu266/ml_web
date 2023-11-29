@@ -167,8 +167,8 @@ export const option = {
       },
       data: [],
       labelLine: {
-        length: 26,
-        length2: 16,
+        length: 30,
+        length2: 20,
         lineStyle: {
           angle: 0, // 设置线的角度为 45 度
         },

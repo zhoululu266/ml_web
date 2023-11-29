@@ -12,8 +12,7 @@
 import ModelTitle from "../components/modelTitle.vue";
 import CardBox from "./cardBox.vue";
 import moment from "moment";
-import { axiosPost } from "@/utils";
-import Empty from "../components/empty.vue";
+
 import _ from "lodash";
 
 interface configDataType {

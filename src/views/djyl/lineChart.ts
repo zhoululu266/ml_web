@@ -1,7 +1,7 @@
 let legendData = ["全院", "党员"];
 let xAxisData = Array.from({ length: 7 }, (_, i) => i + 1 + "");
-let seriesData = [1, 2, 3, 5, 5, 1];
-let seriesData1 = [1, 2, 4, 3, 6, 5];
+let seriesData = [45, 78, 90, 100, 70, 90, 70];
+let seriesData1 = [49, 60, 64, 120, 60, 40, 80];
 import * as echarts from "echarts";
 export const option = {
   // backgroundColor: "#064965",
@@ -45,7 +45,7 @@ export const option = {
     ],
   },
   xAxis: {
-    boundaryGap: true,
+    boundaryGap: false,
     data: xAxisData,
     axisLine: {
       lineStyle: {
@@ -126,6 +126,10 @@ export const option = {
                   color: "RGBA(11, 74, 125, 0.8)",
                 },
                 {
+                  offset: 0.5,
+                  color: "RGBA(11, 74, 125, 0.3)",
+                },
+                {
                   offset: 1,
                   color: "rgba(1, 180, 255, 0)",
                 },
@@ -166,8 +170,12 @@ export const option = {
                   color: "RGBA(46, 48, 122, 0.8)",
                 },
                 {
+                  offset: 0.5,
+                  color: "RGBA(46, 48, 122, 0.3)",
+                },
+                {
                   offset: 1,
-                  color: "rgba(255, 223, 4, 0)",
+                  color: "RGBA(46, 48, 122, 0)",
                 },
               ]
             ),

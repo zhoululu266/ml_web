@@ -19,6 +19,7 @@
       </div>
     </div>
   </div>
+  <div class="back-btn" @click="() => changeShowFun()"></div>
 </template>
 
 <script setup lang="ts">
@@ -30,9 +31,17 @@ import Syzl from "./syzl.vue";
 import Fpxsl from "./fpxsl.vue";
 import { useMain } from "@/store";
 import _ from "lodash";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const mainStore = useMain();
 const flagData = ref();
+// 跳转到党建
+const changeShowFun = () => {
+  router.replace({
+    path: "/home",
+  });
+};
 // 监听数据变化
 mainStore.$subscribe(
   (_, state) => {
@@ -120,6 +129,9 @@ onMounted(() => {
   height: 310px;
 }
 .chart-title {
+  font-size: 19px;
+  font-family: PingFang SC;
+  font-weight: bold;
   color: #ffffff;
 }
 .pie-chart {
@@ -139,5 +151,22 @@ onMounted(() => {
 }
 .fpdxl-block {
   margin-right: 20px;
+}
+.back-btn {
+  position: fixed;
+  bottom: 66px;
+  z-index: 999;
+  right: 62px;
+  color: #ffffff;
+  height: 36px;
+  line-height: 36px;
+  cursor: pointer;
+  text-align: center;
+  width: 36px;
+  font-weight: 500;
+  background-image: url("@/assets/images/home.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 </style>

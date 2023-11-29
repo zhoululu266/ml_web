@@ -179,17 +179,17 @@ const yjqkOption = {
           text += `${item.marker}${item.seriesName}：${item.value}<br/>`;
         }
       });
-      return `${title}<br/>${text}`;
+      return `<br/>${text}`;
     },
     backgroundColor: "rgba(187,230,245,0.19)",
     borderColor: "#7BC9FF",
     textStyle: {
-      color: "#SpansEEFF",
+      color: "#ffffff",
     },
   },
   color: ["#5BD2FF"],
   legend: {
-    icon: "circle",
+    icon: "square",
     textStyle: {
       color: "#ffffff",
       fontSize: 10,

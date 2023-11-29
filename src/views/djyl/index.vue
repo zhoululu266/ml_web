@@ -36,16 +36,16 @@ const getPjsltsData = async () => {
   }
 };
 //诉源治理调解数
-const getSyzlData = async () => {
-  const api = `${url}/homePage/case/successNumber`;
-  try {
-    axiosFormData(api).then((res: any) => {
-      mainStore.setPageList({ djSyzl: res.data });
-    });
-  } catch (error) {
-    console.error(error);
-  }
-};
+// const getSyzlData = async () => {
+//   const api = `${url}/homePage/case/successNumber`;
+//   try {
+//     axiosFormData(api).then((res: any) => {
+//       mainStore.setPageList({ djSyzl: res.data });
+//     });
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 //服判息诉率
 const getFpxslData = async () => {
   const api = `${url}/homePage/case/successNumber`;
@@ -68,17 +68,52 @@ const getSpajsData = async () => {
     console.error(error);
   }
 };
+// 党员人数
+const getLeftDyrsData = async () => {
+  const api = `${url}/partyBuilding/info`;
+  try {
+    axiosFormData(api).then((res: any) => {
+      mainStore.setPageList({ djDyrs: res });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+// 文章
+const getRightNewsData = async () => {
+  const api = `${url}/partyBuilding/news`;
+  try {
+    axiosFormData(api).then((res: any) => {
+      mainStore.setPageList({ djNews: res });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+// 党员案件数 溯源治理
+const getSyzlData = async () => {
+  const api = `${url}/partyBuilding/cont`;
+  try {
+    axiosFormData(api).then((res: any) => {
+      mainStore.setPageList({ djSyzl: res });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
 onMounted(() => {
-  getPjsltsData();
+  // getPjsltsData();
   getSyzlData();
-  getFpxslData();
-  getSpajsData();
+  // getFpxslData();
+  // getSpajsData();
+  getLeftDyrsData();
+  getRightNewsData();
 });
 </script>
 
 <style scoped lang="scss">
 .dj-page {
-  background: url("@/assets/images/tsbg.png") no-repeat;
+  background: url("@/assets/images/djyl-bg.jpg") no-repeat;
   background-color: #081e34c9;
   background-size: 100% 100%;
   width: 100%;
