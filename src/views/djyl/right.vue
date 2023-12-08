@@ -1,25 +1,41 @@
 <template plate>
   <div class="dj-right">
     <ModelTitle model-title="荣誉表彰" />
-
     <div class="content">
-      <div v-for="item in flagData?.rongyu" @click="() => flagClickFun(item)">
-        {{ item.title }}
-      </div>
+      <el-scrollbar height="130px">
+        <div
+          class="des"
+          v-for="item in flagData?.rongyu"
+          @click="() => flagClickFun(item)"
+        >
+          {{ item.title }}
+        </div>
+      </el-scrollbar>
     </div>
-
     <ModelTitle model-title="主题党日" />
-    <div class="content">
-      <div v-for="item in flagData?.zhuti" @click="() => flagClickFun(item)">
-        {{ item.title }}
+    <el-scrollbar height="130px">
+      <div class="content">
+        <div
+          class="des"
+          v-for="item in flagData?.zhuti"
+          @click="() => flagClickFun(item)"
+        >
+          {{ item.title }}
+        </div>
       </div>
-    </div>
+    </el-scrollbar>
     <ModelTitle model-title="三会一课" />
-    <div class="content">
-      <div v-for="item in flagData?.sanhui" @click="() => flagClickFun(item)">
-        {{ item.title }}
+    <el-scrollbar height="130px">
+      <div class="content">
+        <div
+          class="des"
+          v-for="item in flagData?.sanhui"
+          @click="() => flagClickFun(item)"
+        >
+          {{ item.title }}
+        </div>
       </div>
-    </div>
+    </el-scrollbar>
   </div>
   <InfoModal
     v-if="isShowModal"
@@ -77,6 +93,7 @@ const closeModal = () => {
 
   width: 420px;
   overflow: hidden;
+
   .pie-chart {
     width: 400px;
     position: relative;
@@ -88,11 +105,15 @@ const closeModal = () => {
       height: 100%;
     }
   }
+  :deep(.el-scrollbar) {
+    height: 130px;
+  }
   .content {
-    min-height: 140px;
+    min-height: 130px;
     padding: 0 20px;
     box-sizing: border-box;
-    div {
+
+    .des {
       font-size: 18px;
       font-family: PingFang SC;
       font-weight: 500;

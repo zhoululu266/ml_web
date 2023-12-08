@@ -91,7 +91,7 @@ console.log(' flagData.value', flagData.value);
 
 const dyNum = computed(() => { 
 return [
-  { name: "全员共有党员", val: flagData.value?.gentle, dw: "人" ,ybdy:flagData.value?.prepare},
+  { name: "全院共有党员", val: flagData.value?.gentle, dw: "人" ,ybdy:flagData.value?.prepare},
   { name: "在职党员\u3000\u3000", val: flagData.value?.job, dw: "人",ybdy:flagData.value?.prepare },
   { name: "退休党员\u3000\u3000", val: flagData.value?.tuixiu_cases, dw: "人" },
 ]
