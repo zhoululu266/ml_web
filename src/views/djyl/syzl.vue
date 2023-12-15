@@ -9,7 +9,9 @@ import { option } from "./pieChartMin";
 import { useMain } from "@/store";
 import _ from "lodash";
 import * as echarts from "echarts";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const chartHeight = ref<string>();
 const syzlOption = option;
 let syzlChart: echarts.ECharts;
@@ -52,6 +54,9 @@ const drawChart = () => {
       syzlChart = echarts.init(chartDom);
       syzlChart.setOption(syzlOption);
       // getList();
+      syzlChart.on("click", () => {
+        changeShow();
+      });
       window.onresize = function () {
         if (syzlBox.value) {
           chartHeight.value = `${syzlBox.value!.offsetHeight}px`;
@@ -67,6 +72,12 @@ const drawChart = () => {
       });
     }, 1000);
   }
+};
+//跳转溯源治理
+const changeShow = () => {
+  router.replace({
+    path: "/syzl",
+  });
 };
 onMounted(() => {
   drawChart();
