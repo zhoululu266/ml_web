@@ -81,9 +81,11 @@ const getArea = (data) => {
   return dd;
 };
 const tranData = (data) => {
-  data.forEach((item) => {
-    item.dq = getArea(item.area);
-  });
+  data &&
+    data?.length > 0 &&
+    data.forEach((item) => {
+      item.dq = getArea(item.area);
+    });
 };
 
 // 监听数据变化

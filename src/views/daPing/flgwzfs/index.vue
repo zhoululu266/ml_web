@@ -10,7 +10,7 @@
       ></div>
     </div>
     <div class="pt-box">
-      <div>
+      <div @click="jumpRmtj">
         <div class="tj"></div>
         <p>人民调解平台链接</p>
       </div>
@@ -27,7 +27,6 @@ import ModelTitle from "../components/modelTitle.vue";
 import * as echarts from "echarts";
 
 import moment from "moment";
-import { axiosPost } from "@/utils";
 import { noDataOption } from "../components/noDataOption";
 import { useMain } from "@/store";
 
@@ -43,7 +42,9 @@ mainStore.$subscribe(
   },
   { detached: false }
 );
-
+const jumpRmtj = () => {
+  window.open("http://tiaojie.court.gov.cn/", "_blank");
+};
 interface listType {
   [key: string]: number[];
 }
@@ -62,14 +63,8 @@ const yjqkBox = ref<ComponentPublicInstance<HTMLDivElement>>();
 const chartHeight = ref<string>();
 let myChart: echarts.ECharts;
 
-const orgCode = ref<string>();
-let times: timeType = {
-  startTime: moment().format("YYYY-MM-DD"),
-  endTime: moment().format("YYYY-MM-DD"),
-};
 const totalCount = ref<number[] | any>([]);
 const chartObj = ref<listType>({});
-const pollingTime = ref<string>("");
 
 onMounted(() => {
   chartHeight.value = `${yjqkBox.value!.offsetHeight - 40}px`;
@@ -121,16 +116,6 @@ onMounted(() => {
  * @param code 组织机构code
  */
 const getList = (zfs) => {
-  //   const url = `${$config.patrolApi}/statisticsManage/jqOverview`;
-  //   const params = {
-  //     orgCode: code,
-  //     // startTime: "2022-01-01 00:00:00",
-  //     // endTime: "2022-12-30 23:59:59",
-  //     startTime: `${times.startTime} 00:00:00`,
-  //     endTime: `${times.endTime} 23:59:59`,
-  //   };
-  //   axiosPost(url, params)
-  //     .then((result2) => {
   const result2 = {
     code: 200,
     data: zfs,
@@ -289,7 +274,9 @@ const yjqkOption = {
   width: 14%;
   margin-top: 5%;
   align-items: center;
+
   > div {
+    cursor: pointer;
     background-image: url("@/assets/images/pt-bg.png");
     background-position: center;
     background-repeat: no-repeat;
