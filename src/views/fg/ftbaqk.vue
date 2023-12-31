@@ -1,10 +1,6 @@
 <template>
-  <div class="zhzx-box" ref="jqysBox">
-    <ModelTitle
-      model-title="智慧执行"
-      @click="jump"
-      class="pointer"
-    ></ModelTitle>
+  <div class="ftbaqk-box" ref="ftbaqkBox">
+    <ModelTitle model-title="法庭办案情况"></ModelTitle>
     <div class="legend-box">
       <div v-for="(item, i) in option.legend?.data" :key="i">
         <span class="legend" :class="'legend' + i"></span>
@@ -12,86 +8,61 @@
       </div>
     </div>
     <div
-      id="zhzxEchart"
+      id="ftbaqkEchart"
       :style="{ height: chartHeight1 }"
       class="qwyc-chart"
     ></div>
-    <div class="xAxis-box">
-      <div v-for="(item, i) in xAxisData" :key="i">
-        {{ item.name }} :<span class="num">{{ item.value }}%</span>
-      </div>
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ComponentPublicInstance } from "vue";
-import ModelTitle from "../components/modelTitle.vue";
+import ModelTitle from "@/views/daPing/components/modelTitle.vue";
 import * as echarts from "echarts";
-import { noDataOption } from "../components/noDataOption";
+import { noDataOption } from "@/views/daPing/components/noDataOption";
 import { useMain } from "@/store";
-import { useRouter } from "vue-router";
 
-const router = useRouter();
-const jump = () => {
-  router.replace({
-    path: "/zbhz",
-  });
-};
 const mainStore = useMain();
-const zhzx = mainStore.getPageList()?.zhzx;
-
+const ftbaqk = mainStore.getPageList()?.ftbaqk;
+const xAxisData = ref([]);
 // 监听数据变化
 mainStore.$subscribe(
   (_, state) => {
-    const zhzx = state.pageList?.zhzx;
-    tableData.value = zhzx;
+    const ftbaqk = state.pageList?.ftbaqk;
+    tableData.value = ftbaqk;
 
     xAxisData.value = [
       {
-        name: "执行完毕率",
-        value: zhzx?.zxwbl || 0,
+        name: "收案数",
+        value: ftbaqk?.zxwbl || 0,
       },
       {
-        name: "首执案件终本率",
-        value: zhzx?.szajzbl || 0,
+        name: "法庭办案情况结案数",
+        value: ftbaqk?.szajzbl || 0,
       },
       {
-        name: "执行的到位率",
-        value: zhzx?.zxdwl || 0,
+        name: "结案率",
+        value: ftbaqk?.zxdwl || 0,
       },
     ];
-    getYjListData([zhzx?.sas, zhzx?.jas, zhzx?.jsl]);
+    getYjListData([ftbaqk?.sas, ftbaqk?.jas, ftbaqk?.jsl]);
   },
   { detached: false }
 );
 
-const chartHeight1 = ref<string>("250px");
-const jqysBox = ref<ComponentPublicInstance<HTMLDivElement>>();
+const chartHeight1 = ref<string>("390px");
+const ftbaqkBox = ref<ComponentPublicInstance<HTMLDivElement>>();
 let myChart1: echarts.ECharts;
 let myChart2: echarts.ECharts;
 let myChart: echarts.ECharts;
 const bfbArr = ref([]);
 
 const tableData = ref({
-  sas: zhzx?.sas || [],
-  jas: zhzx?.jas || [],
-  jsl: zhzx?.jsl || [],
+  sas: ftbaqk?.sas || [],
+  jas: ftbaqk?.jas || [],
+  jsl: ftbaqk?.jsl || [],
 });
-const xAxisData = ref([
-  {
-    name: "执行完毕率",
-    value: zhzx?.zxwbl || 0,
-  },
-  {
-    name: "首执案件终本率",
-    value: zhzx?.szajzbl || 0,
-  },
-  {
-    name: "执行的到位率",
-    value: zhzx?.zxdwl || 0,
-  },
-]);
+
 let option = {
   tooltip: {
     trigger: "axis",
@@ -108,19 +79,19 @@ let option = {
     confine: true,
   },
   grid: {
-    top: "25%",
+    top: "15%",
     left: "5%",
     right: "5%",
     bottom: "8%",
     containLabel: true,
   },
   legend: {
-    data: ["收案数", "结案数", "结案率"],
+    data: ["收案数", "法庭办案情况结案数", "结案率"],
     show: false,
   },
   xAxis: {
     type: "category",
-    data: [],
+    data: ["下城子法庭", "环资审判庭"],
     axisLine: {
       show: true,
       lineStyle: {
@@ -134,7 +105,7 @@ let option = {
       show: true,
       textStyle: {
         fontFamily: "Microsoft YaHei",
-        color: "transparent",
+        color: "#ffffff",
       },
     },
   },
@@ -175,7 +146,9 @@ let option = {
     {
       name: "收案数",
       type: "bar",
-      barWidth: "9",
+      barWidth: "15",
+      barCategoryGap: "10%", // 类目间的柱形距离
+      barGap: 0.5, // 同一类目下柱子的间距
       color: "#258CFF",
       data: [3000, 2000, 1500, 2500] || tableData.value.sal,
     },
@@ -183,7 +156,9 @@ let option = {
     {
       name: "结案数",
       type: "bar",
-      barWidth: "9",
+      barWidth: "15",
+      barCategoryGap: "10%", // 类目间的柱形距离
+      barGap: 0.5, // 同一类目下柱子的间距
       color: "#FFEA59",
       data: [4000, 3800, 4200, 3800] || tableData.value.jas,
     },
@@ -191,7 +166,9 @@ let option = {
     {
       name: "结案率",
       type: "bar",
-      barWidth: "9",
+      barWidth: "15",
+      barCategoryGap: "10%", // 类目间的柱形距离
+      barGap: 0.5, // 同一类目下柱子的间距
       color: "#59E2CB",
       data: [2200, 2800, 3800, 2900] || tableData.value.jal,
     },
@@ -201,43 +178,22 @@ const getYjListData = () => {
   // console.log("getYjListData", data);
 
   const data = [
-    [61, 61, 61, 61],
-    [83, 83, 83, 83],
-    [58, 58, 58, 58],
+    [61, 61, 61],
+    [83, 83, 83],
   ];
   let arr = [];
   if (data && data?.length > 0) {
     const newSeries = option.series;
-
-    const total = data.reduce(
-      (acc, curr) => acc + curr.reduce((a, b) => a + b, 0),
-      0
-    );
-
-    // xAxisData
-    const xAxisDataNew = xAxisData.value;
-    data.forEach((item, i) => {
-      newSeries[i].data = item;
-      arr = new Array(item.length).fill("智慧执行");
-      const sum = item.reduce(
-        (accumulator, currentValue) => accumulator + currentValue,
-        0
-      );
-
-      xAxisDataNew[i].value = ((sum / total) * 100).toFixed(2);
-    });
-    //console.log("item", xAxisDataNew);
-    xAxisData.value = xAxisDataNew;
     option.series = newSeries;
-    option.xAxis.data = arr;
+
     if (myChart1) myChart1.setOption(option, true);
   }
 };
 
 const drawChart = () => {
-  if (document.getElementById("zhzxEchart")) {
+  if (document.getElementById("ftbaqkEchart")) {
     setTimeout(() => {
-      const chartDom = document.getElementById("zhzxEchart")!;
+      const chartDom = document.getElementById("ftbaqkEchart")!;
       myChart1 = echarts.init(chartDom);
       // option.xAxis[0].data = sevenDay.value;
       myChart1.setOption(option, true);
@@ -246,16 +202,16 @@ const drawChart = () => {
         //console.log("legendselectchanged", params); // params 中包含选中的图例信息
       });
       window.onresize = function () {
-        //console.log("jqysBox.value1", jqysBox.value);
+        //console.log("ftbaqkBox.value1", ftbaqkBox.value);
 
-        if (jqysBox.value)
-          chartHeight1.value = `${jqysBox.value!.offsetHeight / 3 - 90}px`;
+        if (ftbaqkBox.value)
+          chartHeight1.value = `${ftbaqkBox.value!.offsetHeight}px`;
         myChart1.resize();
       };
       window.addEventListener("resize", () => {
-        //console.log("jqysBox.value", jqysBox.value);
-        if (jqysBox.value)
-          chartHeight1.value = `${jqysBox.value!.offsetHeight / 3 - 90}px`;
+        //console.log("ftbaqkBox.value", ftbaqkBox.value);
+        if (ftbaqkBox.value)
+          chartHeight1.value = `${ftbaqkBox.value!.offsetHeight}px`;
         if (myChart1) {
           myChart1.resize();
         }
@@ -265,24 +221,27 @@ const drawChart = () => {
 };
 onMounted(() => {
   drawChart();
-  getYjListData(zhzx ? [zhzx?.sas, zhzx?.jas, zhzx?.jsl] : []);
+  getYjListData(ftbaqk ? [ftbaqk?.sas, ftbaqk?.jas, ftbaqk?.jsl] : []);
 });
 </script>
 
 <style scoped lan="scss">
-.zhzx-box {
+.ftbaqk-box {
+  height: 100%;
+  display: block;
+  min-height: 400px;
   .legend-box {
     display: flex;
     flex-direction: row;
-    justify-content: end;
+    justify-content: start;
     margin-top: 26px;
-    margin-bottom: -47px;
+    margin-bottom: 16px;
     > div {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
-      font-size: 10px;
+      font-size: 12px;
       font-family: Source Han Sans CN;
       font-weight: 400;
       color: #ecf0ff;
@@ -307,27 +266,5 @@ onMounted(() => {
       }
     }
   }
-  .xAxis-box {
-    width: 108%;
-    font-size: 10px;
-    margin-left: -1%;
-    margin-top: -30px;
-    transform: scale(0.8);
-    font-family: PingFang SC;
-    font-weight: bold;
-    color: #ecf0ff;
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    justify-content: space-evenly;
-    flex-wrap: nowrap;
-    .num {
-      display: inline-block;
-      margin-left: 10px;
-    }
-  }
-}
-.pointer {
-  cursor: pointer;
 }
 </style>

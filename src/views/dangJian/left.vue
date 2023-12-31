@@ -168,14 +168,12 @@ const drawChart = () => {
       myBarChart.setOption(barOption);
       getBarList();
       window.onresize = function () {
-
         if (dyLeftBarBox.value) {
           chartBarHeight.value = `${dyLeftBarBox.value!.offsetHeight}px`;
         }
         myBarChart.resize();
       };
       window.addEventListener("resize", () => {
-        
         if (dyLeftBox.value)
           chartBarHeight.value = `${dyLeftBarBox.value!.offsetHeight}px`;
         if (myBarChart) {

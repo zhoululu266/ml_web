@@ -1,128 +1,61 @@
 <template>
   <div class="zhsp-box">
-    <ModelTitle model-title="智慧审判" @click="jump" class="pointer" />
-    <div ref="jqysBox" class="line-box">
-      <template v-if="bfbArr?.length > 0">
-        <div
-          v-for="(item, i) in bfbArr"
-          :key="i"
-          :style="`height:${(bfbArr?.length - i) * 18 + 'px'}; width:${
-            27.5 + (i + 1) * 1 + 'px'
-          }; margin-left: -${15 + (i + 1) * 2 + 'px'}`"
-        >
-          <span class="bfb">{{ item.bfb }}</span>
-        </div>
-      </template>
+    <div class="ajxg">
+      <ModelTitle model-title="案件效果" />
+      <div ref="jqysBox" class="line-box">
+        <template v-if="bfbArr?.length > 0">
+          <div
+            v-for="(item, i) in bfbArr"
+            :key="i"
+            :style="`height:${(bfbArr?.length - i) * 18 + 'px'}; width:${
+              27.5 + (i + 1) * 1 + 'px'
+            }; margin-left: -${6 + (i + 1) * 1 + 'px'}`"
+          >
+            <span class="bfb">{{ item.bfb }}</span>
+          </div>
+        </template>
+      </div>
+      <div
+        id="qwycEchart"
+        :style="{ height: chartHeight1 }"
+        class="qwyc-chart"
+      ></div>
     </div>
-    <div
-      id="qwycEchart"
-      :style="{ height: chartHeight1 }"
-      class="qwyc-chart"
-    ></div>
+    <div class="ftbaqk">
+      <Ftbaqk />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ComponentPublicInstance } from "vue";
-import ModelTitle from "../components/modelTitle.vue";
+import ModelTitle from "@/views/daPing/components/modelTitle.vue";
 import * as echarts from "echarts";
-import { noDataOption } from "../components/noDataOption";
+import { noDataOption } from "@/views/daPing/components/noDataOption";
 import upImg from "@/assets/images/up-icon.png";
 import downImg from "@/assets/images/down-icon.png";
 import { useMain } from "@/store";
-import { useRouter } from "vue-router";
+import Ftbaqk from "./ftbaqk.vue";
 
-const router = useRouter();
-const jump = () => {
-  router.replace({
-    path: "/fg",
-  });
-};
 const mainStore = useMain();
 //智慧审批
-const chartHeight1 = ref<string>("297px");
+const chartHeight1 = ref<string>("340px");
 const jqysBox = ref<ComponentPublicInstance<HTMLDivElement>>();
 let myChart1: echarts.ECharts;
 const bfbArr = ref([]);
 
 const optionData = ref([]); //图表数据
 const qwycOption = {
-  tooltip: {
-    show: true,
-    axisPointer: {
-      type: "shadow",
-    },
-    formatter: (
-      val: { marker: string; name: string; value: number; name: string }[]
-    ) => {
-      let text = "";
-      // eslint-disable-next-line @typescript-eslint/no-shadow
-      let title = "";
-
-      let flag = val.name == "总收案数" || val.name == "收案数 ";
-      if (flag) {
-        let arr = [];
-        if (val.name == "总收案数") {
-          arr = [
-            { name: "民事案件", value: 10 },
-            { name: "邢事案件", value: 5 },
-          ];
-        } else {
-          arr = [
-            { name: "民事案件", value: 5 },
-            { name: "邢事案件", value: 5 },
-            { name: "执行案件", value: 10 },
-          ];
-        }
-
-        arr.forEach((item) => {
-          // "" 为背景柱子 提示款里不显示
-
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          title = val.name;
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          text += `${val.marker}${item.name}：${item.value}<br/>`;
-        });
-
-        return `${title}<br/>${text}`;
-      } else {
-        return;
-      }
-    },
-    backgroundColor: "rgba(187,230,245,0.19)",
-    borderColor: "#7BC9FF",
-    textStyle: {
-      color: "#DFEEFF",
-    },
-  },
-  // 2.图例组件
   legend: {
-    orient: "vertical",
-    left: "-10px",
-    top: "81",
+    left: "center",
+    bottom: "-30",
     itemWidth: 13,
     itemHeight: 10,
-    // padding: [0, 0, 0, 2],
-    itemGap: 21,
+    itemGap: 20,
+    padding: [60, 60],
     borderRadius: 1,
     itemStyle: {
       borderWidth: 2,
-    },
-    formatter: function (name) {
-      let target, percent, arr;
-      for (let i = 0; i < optionData.value.length; i++) {
-        if (optionData.value[i].name === name) {
-          target = optionData.value[i].name;
-          percent = optionData.value[i].num;
-          if (optionData.value[i].up === true) {
-            arr = [" {blue|" + name + "}{up|} {white|" + percent + "%}"];
-          } else {
-            arr = [" {blue|" + name + "}{down|} {white|" + percent + "%}"];
-          }
-        }
-      }
-
-      return arr;
     },
     textStyle: {
       rich: {
@@ -166,11 +99,22 @@ const seriesPieSet = {
   type: "pie",
   hoverAnimation: false, //鼠标移入变大,
   startAngle: 180,
-  left: 280,
-  top: "20",
-  radius: ["50%", "67%"],
-  center: ["50%", "80%"],
-  layoutSize: "50%",
+  left: 140,
+  top: -124,
+  progress: {
+    show: true,
+    width: 20,
+    roundCap: true,
+  },
+  axisLine: {
+    roundCap: true,
+    lineStyle: {
+      width: 10,
+    },
+  },
+  //   radius: ["50%", "67%"],
+  //   center: ["50%", "60%"],
+  // layoutSize: "50%",
   label: {
     normal: {
       show: false,
@@ -193,11 +137,13 @@ const seriesPieSet = {
 };
 const getYjListData = (zhsp: any) => {
   const data = [
-    { name: "收案数", value: 30 || zhsp?.sal || 0, up: true, num: 1.2 },
-    { name: "结案数", value: 70 || zhsp?.jal || 0, up: true, num: 2.4 },
-    { name: "总收案数", value: 80 || zhsp?.zsal || 0, up: false, num: 2.1 },
-    { name: "总结案数", value: 100 || zhsp?.zjal || 0, up: true, num: 2.3 },
-    { name: "综合结案率", value: 190 || zhsp?.zhjal || 0, up: false, num: 0.6 },
+    { name: "案访比       ", value: 300 },
+    { name: "调解率    ", value: 70 || 0 },
+    { name: "总收案同比", value: 80 || 0 },
+    {
+      name: "民事裁判申请执行率",
+      value: 100 || 0,
+    },
   ];
   let total = 0;
   data.forEach((item) => {
@@ -218,7 +164,7 @@ const getYjListData = (zhsp: any) => {
       ...seriesPieSet,
       ...{
         // name: item.name,
-        radius: [`${30 + index * 20}%`, `${37 + index * 20}%`],
+        radius: [`${30 + index * 20}%`, `${34 + index * 20}%`],
         center: ["10%", "50%"],
         data: [
           {
@@ -256,6 +202,8 @@ const getYjListData = (zhsp: any) => {
     });
   });
   bfbArr.value = data.reverse();
+  console.log("data", data);
+  console.log("newArr", newArr);
 
   optionData.value = data;
   qwycOption.series = newArr;
@@ -303,8 +251,29 @@ onMounted(() => {
 .zhsp-box {
   position: relative;
   height: 360px;
-  width: 100%;
+  /* width: 100%; */
+  width: 389px;
   display: block;
+  color: #fff;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-image: url(/src/assets/images/card-bg.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  padding: 15px 16px 27px 9px;
+  box-sizing: border-box;
+
+  width: 420px;
+  overflow: hidden;
+  .ajxg {
+    height: 45%;
+  }
+  .ftbaqk {
+    height: 55%;
+  }
   #qwycEchart {
     width: 420px;
     height: 400px;
@@ -312,7 +281,7 @@ onMounted(() => {
   .line-box {
     position: absolute;
     width: 150px;
-    height: 200px;
+    height: 150px;
     z-index: 999;
     display: flex;
     flex-direction: row;
@@ -320,9 +289,9 @@ onMounted(() => {
     margin-top: 20px;
     border-bottom: 1px solid rgb(53, 115, 252, 0.64);
     padding-left: 30px;
-    left: 55%;
-    top: -28px;
-    margin-left: -18px;
+    left: 12%;
+    top: -14px;
+    margin-left: -24px;
     > div {
       border-left: 1px solid rgb(53, 115, 252, 0.64);
       border-top: 1px solid rgb(53, 115, 252, 0.64);
@@ -339,8 +308,5 @@ onMounted(() => {
       }
     }
   }
-}
-.pointer {
-  cursor: pointer;
 }
 </style>

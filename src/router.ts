@@ -23,6 +23,21 @@ const routes: Array<RouteRecordRaw> = [
     name: "djyl",
     component: () => import("../src/views/djyl/index.vue"),
   },
+  {
+    path: "/fg",
+    name: "fg",
+    component: () => import("../src/views/fg/index.vue"),
+  },
+  {
+    path: "/zbhz",
+    name: "zbhz",
+    component: () => import("../src/views/zbhz/index.vue"),
+  },
+  {
+    path: "/fgxx",
+    name: "fgxx",
+    component: () => import("../src/views/fgxx/index.vue"),
+  },
 ];
 
 const router = createRouter({

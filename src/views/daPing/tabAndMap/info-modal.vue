@@ -66,7 +66,7 @@
                 <p>{{ item?.client_remark || "--" }}</p>
               </div>
             </div>
-            <div class="img-box">
+            <div class="info-img-box">
               <div class="top">
                 <i class="dot"></i> <span class="jf">纠纷材料</span>
               </div>
@@ -333,7 +333,7 @@ onMounted(() => {
     }
   }
 }
-.img-box {
+.info-img-box {
   display: flex;
   flex-direction: column !important;
   align-items: start !important;
