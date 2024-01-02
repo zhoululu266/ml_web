@@ -163,7 +163,7 @@ const contentArr = ref([
 
 <style scoped lang="scss">
 .zbhz-box {
-  background-image: url(/src/assets/images/djyl-bg.jpg);
+  background-image: url(/src/assets/images/zb-bg.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;

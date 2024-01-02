@@ -110,7 +110,7 @@ const arr = ref([
 .gryj {
   width: 100%;
   height: 100%;
-  background-image: url(/src/assets/images/info-bg.png);
+  background-image: url(/src/assets/images/fgxx-zb.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;

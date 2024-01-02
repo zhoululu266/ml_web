@@ -2,6 +2,7 @@
   <div class="fgjj-box">
     <div class="top">
       <div class="fgxx">
+        <div class="fgxx-title">人员简介</div>
         <div class="xx-top">
           <img :src="FgImg" />
           <div>
@@ -83,20 +84,36 @@ const ryxx = ref({
     display: flex;
     flex-direction: row;
     .fgxx {
-      width: 561px;
+      width: 568px;
       height: 413px;
-      background-image: url(/src/assets/images/info-bg.png);
+      background-image: url(/src/assets/images/fgxx-card-bg.png);
       background-position: center;
       background-repeat: no-repeat;
       background-size: 100% 100%;
       padding-left: 42px;
       padding-top: 70px;
-      margin-right: 34px;
+      margin-right: 25px;
       box-sizing: border-box;
+      position: relative;
+
+      .fgxx-title {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 40px;
+        line-height: 48px;
+        padding-left: 20px;
+        font-size: 26px;
+        font-family: YouSheBiaoTiHei;
+        font-weight: 400;
+        color: #ffffff;
+        letter-spacing: 2px;
+      }
       .xx-top {
         display: flex;
         flex-direction: row;
         align-items: center;
+
         img {
           width: 154px;
           height: 162px;

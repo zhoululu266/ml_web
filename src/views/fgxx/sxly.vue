@@ -19,7 +19,7 @@ const arr = ref(Array.from({ length: 8 }, () => "商事审判"));
 .gryj {
   width: 100%;
   height: 207px;
-  background-image: url(/src/assets/images/info-bg.png);
+  background-image: url(/src/assets/images/fgxx.card2.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;

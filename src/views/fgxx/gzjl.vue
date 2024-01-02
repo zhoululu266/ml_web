@@ -33,7 +33,7 @@ const activities = ref([
   height: 50%;
   margin-bottom: 18px;
   box-sizing: border-box;
-  background-image: url(/src/assets/images/info-bg.png);
+  background-image: url(/src/assets/images/fgxx.card2.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;

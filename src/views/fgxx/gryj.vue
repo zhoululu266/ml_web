@@ -27,7 +27,7 @@ const arr = ref([
 .gryj {
   width: 600px;
   height: 413px;
-  background-image: url(/src/assets/images/info-bg.png);
+  background-image: url(/src/assets/images/fgxx.card1.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
